@@ -133,6 +133,8 @@ dmypy.json
 benchmark_old.py
 app.py
 data_generator_temp.py
-benchmark.py
-ui_backend.py
+.DS_Store
 Dockerfile
+
+*.bat
+Makefile
