@@ -233,7 +233,7 @@ const CausalAI = () => {
 
     var config = {
 			method: 'post',
-			url: 'http://35.225.159.243:5000/has_undirected_edges',
+			url: 'http://127.0.0.1:5000/has_undirected_edges',
 			headers: { 
 				'Content-Type': 'application/json'
 			},
@@ -259,7 +259,7 @@ const CausalAI = () => {
 
     var config = {
 			method: 'post',
-			url: 'http://35.225.159.243:5000/undirected_edges',
+			url: 'http://127.0.0.1:5000/undirected_edges',
 			headers: { 
 				'Content-Type': 'application/json'
 			},
@@ -285,7 +285,7 @@ const CausalAI = () => {
 
     var config = {
 			method: 'post',
-			url: 'http://35.225.159.243:5000/check_causal_graph_format',
+			url: 'http://127.0.0.1:5000/check_causal_graph_format',
 			headers: { 
 				'Content-Type': 'application/json'
 			},
@@ -320,7 +320,7 @@ const CausalAI = () => {
 
     var config = {
 			method: 'post',
-			url: 'http://35.225.159.243:5000/generate_data',
+			url: 'http://127.0.0.1:5000/generate_data',
 			headers: { 
 				'Content-Type': 'application/json'
 			},

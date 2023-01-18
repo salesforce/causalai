@@ -166,7 +166,7 @@ const PerformCausalDiscovery = (props) => {
 
     var config = {
       method: 'post',
-      url: 'http://35.225.159.243:5000/is_latest_link_valid',
+      url: 'http://127.0.0.1:5000/is_latest_link_valid',
       headers: { 
         'Content-Type': 'application/json'
       },
@@ -238,7 +238,7 @@ const PerformCausalDiscovery = (props) => {
      
       var config = {
         method: 'post',
-        url: 'http://35.225.159.243:5000/perform_causal_discovery',
+        url: 'http://127.0.0.1:5000/perform_causal_discovery',
         headers: { 
           'Content-Type': 'application/json'
         },
