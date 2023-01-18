@@ -221,7 +221,7 @@ const PerformCausalInference = (props) => {
 
     var config = {
 			method: 'post',
-			url: 'http://35.225.159.243:5000/ate',
+			url: 'http://127.0.0.1:5000/ate',
 			headers: { 
 				'Content-Type': 'application/json'
 			},
@@ -276,7 +276,7 @@ const PerformCausalInference = (props) => {
 
     var config = {
 			method: 'post',
-			url: 'http://35.225.159.243:5000/cate',
+			url: 'http://127.0.0.1:5000/cate',
 			headers: { 
 				'Content-Type': 'application/json'
 			},
@@ -303,7 +303,7 @@ const PerformCausalInference = (props) => {
 
     var config = {
 			method: 'post',
-			url: 'http://35.225.159.243:5000/find_discrete_data_max_state',
+			url: 'http://127.0.0.1:5000/find_discrete_data_max_state',
 			headers: { 
 				'Content-Type': 'application/json'
 			},

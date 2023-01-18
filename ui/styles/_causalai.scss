@@ -42,13 +42,13 @@ input[type=radio] {
   display:flex;
   gap:20px;
 }
-.radio-buttons input{
+.radio-button input{
   margin-right:8px;
 }
-.radio-buttons label{
+.radio-button label{
   font-weight:normal;
 }
-.radio-buttons div{
+.radio-button div{
   display:flex;
   min-width:95px; 
 }
