@@ -10,6 +10,7 @@ nav{
 }
 #input-page{
   display:flex;
+  // justify-content: space-between;
   gap:80px;
 }
 .inputs .btn{
@@ -41,26 +42,26 @@ input[type=radio] {
 .radio-button{
   display:flex;
   gap:20px;
-}
-.radio-button input{
-  margin-right:8px;
-}
-.radio-button label{
-  font-weight:normal;
-}
-.radio-button div{
-  display:flex;
-  min-width:95px; 
+  input{
+    margin-right:8px;
+  }
+  label{
+    font-weight:normal;
+  }
+  div{
+    display:flex;
+    min-width:95px; 
+  }
 }
 .tabs{
   display:flex;
   margin-bottom:30px;
-}
-.tabs button{
-  border:none;
-  background-color:white;
-  margin:0 40px 0 0;
-  font-size: 20px;
+  button{
+    border:none;
+    background-color:white;
+    margin:0 40px 0 0;
+    font-size: 20px;
+  }
 }
 .buttons{
   display:flex;
@@ -85,7 +86,10 @@ option{
   display:flex;
   justify-content: space-between;
 }
-
+// canvas{
+//   width: 700px !important;
+//   height: 400px !important;
+// }
 .btn{
    /*width: inherit;*/
    display: block;
@@ -128,6 +132,9 @@ option{
   margin: 0 auto 30px;
 }
 
+// input{
+//   width:50px; 
+// }
 p{
   display: inline-block;
 }
@@ -143,6 +150,10 @@ p{
   margin-bottom:30px;
 }
 
+
+
+
+
 .main-menu-buttons{
   display:flex;
   flex-direction: column;
@@ -150,15 +161,25 @@ p{
   align-items: center;
 }
 input[type=file] {
+  // width: 350px;
+  // max-width: 100%;
+  // color: #444;
+  // padding: 5px;
+  // background: #fff;
+  // border-radius: 10px;
+  // border: 1px solid #555;
+  // margin: 0 0 30px 0;
+  // font-size: 14px;
   position: absolute;
   inset: 0px; 
   opacity: 0;
   margin-bottom:0;
+  // pointer-events: none;
 }
-
 input[type=file]:hover{
   cursor: pointer;
 }
+
 
 input[type=file]::file-selector-button:hover {
   background: #0d45a5;
@@ -167,9 +188,6 @@ input[type=file]::file-selector-button:hover {
 .active{
   border-bottom:2px solid black !important;
 }
-select::after{
-  grid-area: select;
-}
 select {
   display: grid;
   grid-template-areas: "select";
@@ -177,10 +195,10 @@ select {
   position: relative;
   width:250px;
 
-  /* select,
+  select,
   &::after {
     grid-area: select;
-  } */
+  }
 
   min-width: 15ch;
   max-width: 30ch;
@@ -193,28 +211,50 @@ select {
   cursor: pointer;
   line-height: 1.1;
 
+  // Optional styles
+  // remove for transparency
   background-color: #fff;
   background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
 
-  /* // &:not(.select--multiple)::after {
+  // Custom arrow
+  // &:not(.select--multiple)::after {
   //   content: "";
   //   justify-self: end;
   //   width: 0.8em;
   //   height: 0.5em;
   //   background-color: var(--select-arrow);
   //   clip-path: polygon(100% 0%, 0 0%, 50% 100%);
-  // } */
+  // }
 }
-select::after{
-  grid-area: select;
-}
-
 #var-name-selects{
   display:flex;
   gap: 30px;
   justify-content: center;
 }
-
+// button:hover{
+//   background-color: var(--blue-20);
+// }
+// button:disabled{
+//   background-color: var(--neutral-80);
+//   cursor: not-allowed;
+// }
+// .btn-variant{
+//   background-color: var(--white-100);
+//   color: var(--blue-50);
+//   border: 2px solid var(--blue-50);
+// }
+// .btn-variant:hover{
+//   background-color: var(--blue-90);
+// }
+// .btn-variant:disabled{
+//   background-color: var(--white-100);
+//   color:var(--neutral-80);
+//   border:2px solid var(--neutral-80);
+//   cursor: not-allowed;
+// }
+// #perform-discovery-button{
+//   margin-top:30px;
+// }
 #download-graph-button{
   display:block;
 }
@@ -225,10 +265,10 @@ input{
   position: relative;
   width:250px;
 
-  /* select,
+  select,
   &::after {
     grid-area: select;
-  } */
+  }
 
   min-width: 15ch;
   max-width: 30ch;
@@ -241,9 +281,6 @@ input{
   line-height: 1.1;
   margin-bottom:30px;
   margin-top:5px
-}
-input select::after{
-  grid-area: select;
 }
 .variable{
   display:flex;
@@ -259,14 +296,21 @@ input select::after{
 }
 #causal-discovery-page{
   display: flex;
+  // justify-content: space-between;
+  // gap:300px
   gap:80px;
 }
+// canvas{
+//   max-width:400px;
+//   max-height: 200px;
+// }
 #cy{
   width:450px;
   height:450px;
   box-shadow: 1px 1px 10px -3px;
-  margin-bottom:30px;
-  margin-right:15px;
+  // margin-bottom:30px;
+  // margin-right:15px;
+  margin: 0 auto 30px;
   background-color: white;
   box-shadow: 4px 4px 32px rgba(0, 0, 0, 0.08);
   border-radius: 32.2128px; 
@@ -275,8 +319,9 @@ input select::after{
   width:450px;
   height:450px;
   box-shadow: 1px 1px 10px -3px;
-  margin-bottom:30px;
-  margin-right:15px;
+  // margin-bottom:30px;
+  margin: 0 auto 30px;
+  // margin-right:15px;
   background-color: white;
   box-shadow: 4px 4px 32px rgba(0, 0, 0, 0.08);
   border-radius: 32.2128px; 
@@ -301,11 +346,13 @@ input select::after{
   display:flex;
   justify-content: space-between;
 }
-.variable input{
-  width:180px;
-}
-.variable select{
-  width:180px;
+.variable{
+  input{
+    width:180px;  
+  }
+  select{
+    width:180px
+  }
 }
 table{
   border: 1px solid black;
@@ -315,6 +362,7 @@ td{
   vertical-align: center;
   border:1px solid #DDDDDD;
   min-width:80px; 
+  // max-height:60px;
   padding:8px;
 }
 .button-cell{
@@ -338,15 +386,15 @@ td{
 }
 .arrow-btns{
   display:flex;
-}
-.arrow-btns button{
-  font-size:40px;
-  padding-top:8px;
+  button{
+    font-size:40px;
+    padding-top:8px;
+  }
 }
 #download-graph-button{
   color:white;
   font-weight:unset;
-  width:200px;
+  width:210px;
   margin: 0 auto 20px;
 }
 #error-message{
@@ -365,12 +413,15 @@ td{
 }
 .select-a-file-text {
   color:#1B96FF;
+  // font-weight:bold;
 }
 #select-a-file p{
   margin: 10px 0;
 }
 #file-upload{
   position: relative; 
+  // height: 50px; 
+  // line-height: 50px; 
   border-width: 1px; 
   border-style: dashed; 
   border-radius: 5px; 
@@ -398,6 +449,7 @@ td{
 table {
   border-collapse: collapse;
   border:none;
+  // border-spacing: 0 5px;
 }
 #multi-select{
   min-height:112px;
@@ -411,13 +463,13 @@ table {
 }
 #causal-inference{
   display:flex;
-  gap:80px;
+  // justify-content: space-between;
+  gap:30px;
 }
 
 #loading{
-  width:75px;
+  width:fit-content;
   margin:auto;
-
 }
 #loading img{
   width:75px;
@@ -530,7 +582,7 @@ footer{
 }
 #undirected-edges-screen{
   display:flex;
-  justify-content: space-between;
+  gap:40px;
 }
 #download-radio{
   margin-top:0;
@@ -594,6 +646,7 @@ option:focus{
 .prior-knowledge-button:active {
   transform: scale(1) !important;
   /* Scaling button to 0.98 to its original size */
+  // box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
   /* Lowering the shadow */
   color: #1B96FF !important;
   border: 1px solid #1B96FF !important;
@@ -608,4 +661,25 @@ option:focus{
   #discovery-graphs{
     flex-direction: column;
   }
+}
+.inference-btn{
+  margin-bottom:0 !important;
+}
+.inference-panel{
+  margin: auto;
+  margin-bottom:20px;
+}
+@media(max-width:1500px){
+  #causal-inference{
+    gap:15px;
+  }
+}
+#condition-label{
+  margin-left:30px;
+}
+#download-graph-btns{
+  display: flex;
+}
+#download-graph-btns a{
+  padding: 14px 8px;
 }

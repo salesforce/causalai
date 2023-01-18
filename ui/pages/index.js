@@ -1,14 +1,11 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
-// import { getDemoConfigWithId } from "../../utils";
 import PerformCausalDiscovery from "../components/PerformCausalDiscovery";
 import PerformCausalInference from "../components/PerformCausalInference";
 import NodeGraph from "../components/NodeGraph";
 import axios from 'axios';
-// require('./index.less');
 
 const CausalAI = () => {
-  // const demoData = getDemoConfigWithId('causal-ai');
   const [activePage, setActivePage] = useState(0);
   const [activeTab, setActiveTab] = useState(0);
   const [dataGenerated, setDataGenerated] = useState(false);
@@ -32,6 +29,8 @@ const CausalAI = () => {
   const [badGraphMessage, setBadGraphMessage] = useState(false)
   const [csv, setCsv] = useState('')
   const [badgraphUpload, setBadGraphUpload] = useState('')
+  // const [undirectedEdgesError, setUndirectedEdgesError] = useState('')
+  let undirectedEdgesError
 
   let fileReader;
   
@@ -48,11 +47,15 @@ const CausalAI = () => {
     setDiscreteErrorMessage('')
     let content = fileReader.result;
     content = JSON.parse(content)
+
     if(!Number.isInteger(content['data'][1][1]) && isDiscrete){
       setDiscreteErrorMessage('The selected data type is discrete but the uploaded data is continuous')
     }
     else if(Number.isInteger(content['data'][1][1]) && !isDiscrete){
       setDiscreteErrorMessage('The selected data type is continuous but the uploaded data is discrete')
+    }
+    else if(content['varNames'].length > 40){
+      setDiscreteErrorMessage('This file has too many variables. Please upload a file with 40 variables or less')
     }
     else{
       setData(content['data'])
@@ -94,6 +97,9 @@ const CausalAI = () => {
     else if(Number.isInteger(data[1][1]) && !isDiscrete){
       setDiscreteErrorMessage('The selected data type is continuous but the uploaded data is discrete')
     }
+    else if(varNames > 40){
+      setDiscreteErrorMessage('This file has too many variables. Please upload a file with 40 variables or less')
+    }
     else{
       setData(data)
       setVarNames(varNames)
@@ -106,6 +112,10 @@ const CausalAI = () => {
   };
   
   const handleFileChosen = (file) => {
+    if(file.size > 9000000){
+      setDiscreteErrorMessage('The uploaded file too large. Please upload a file that is less than 9MB')
+      return;
+    }
     setDataGenerated(false)
     fileReader = new FileReader();
     if(file.type === 'application/json'){
@@ -161,15 +171,28 @@ const CausalAI = () => {
   };
 
   const handleGraphFileRead = async (e) => {
+    let timeSeriesCheck;
     setBadGraphMessage('')
     let content = await fileReader.result;
     content = JSON.parse(content)
-    console.log(content[Object.keys(content)[0]][0][1])
-    if(dataType === 'Tabular' && content[Object.keys(content)[0]][0][1]){
+    await hasUndirectedEdges(content)
+    for(let i = 0; i < Object.keys(content).length; i++){
+      if( content[Object.keys(content)[i]][0] != undefined && content[Object.keys(content)[i]][0][1] != undefined){
+        timeSeriesCheck = true;
+      }
+      else{
+        timeSeriesCheck = false;
+      }
+    }
+    if(undirectedEdgesError){
+      setBadGraphMessage(undirectedEdgesError);
+      return;
+    }
+    if(dataType === 'Tabular' && timeSeriesCheck){
       setBadGraphMessage('Selected data type is tabular but uploaded graph is time series')
       return;
     } 
-    else if(dataType === 'Time Series' && !content[Object.keys(content)[0]][0][1]){
+    else if(dataType === 'Time Series' && !timeSeriesCheck){
       setBadGraphMessage('Selected data type is time series but uploaded graph is tabular')
       return;
     }
@@ -200,16 +223,43 @@ const CausalAI = () => {
     checkCausalGraph();
   },[causalGraph]);
 
+
+  const hasUndirectedEdges = async (graph) => {
+
+    let data = new FormData();
+    let causalArray =  JSON.stringify(graph);
+
+		data.append('graph', causalArray);
+
+    var config = {
+			method: 'post',
+			url: 'http://35.225.159.243:5000/has_undirected_edges',
+			headers: { 
+				'Content-Type': 'application/json'
+			},
+			data : data
+		}
+
+    await axios(config)
+      .then(function (response) {
+        undirectedEdgesError = response.data.msg
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+  
   const getUndirectedEdges = (graph) => {
 
     let data = new FormData();
     let causalArray =  JSON.stringify(graph);
 
 		data.append('causal_graph', causalArray);
+    data.append('data_type', dataType)
 
     var config = {
 			method: 'post',
-			url: 'http://127.0.0.1:5000/undirected_edges',
+			url: 'http://35.225.159.243:5000/undirected_edges',
 			headers: { 
 				'Content-Type': 'application/json'
 			},
@@ -235,7 +285,7 @@ const CausalAI = () => {
 
     var config = {
 			method: 'post',
-			url: 'http://127.0.0.1:5000/check_causal_graph_format',
+			url: 'http://35.225.159.243:5000/check_causal_graph_format',
 			headers: { 
 				'Content-Type': 'application/json'
 			},
@@ -270,7 +320,7 @@ const CausalAI = () => {
 
     var config = {
 			method: 'post',
-			url: 'http://127.0.0.1:5000/generate_data',
+			url: 'http://35.225.159.243:5000/generate_data',
 			headers: { 
 				'Content-Type': 'application/json'
 			},
@@ -279,7 +329,6 @@ const CausalAI = () => {
 
     axios(config)
       .then(function (response) {
-        console.log(response)
         setData(response.data.data_array);
         setCausalGraph(response.data.causal_graph);
         setVarNames(response.data.var_names);
@@ -292,8 +341,13 @@ const CausalAI = () => {
       });
   }
 
+  const resetGraphUpload = () =>{
+    setGraphUploaded(false)
+    setCausalGraph({})
+    
+  }
   return(
-    <Layout currentMenu={"casual-ai"} title={'causal ai'}>
+    <Layout currentMenu={"casual-ai"} title={'causal-ai'}>
       {activePage === 0 && (
         <div id="input-page">
 
@@ -363,7 +417,7 @@ const CausalAI = () => {
                     </>
                   )}
                   {!fileUploaded && (
-                  <p className="example-file">Need an example? Download sample files <a type="button" href="/uploads/sample_file.zip">here</a></p>
+                  <p className="example-file">Need an example? Download sample files <a type="button" href="/uploads/sample_files_data.zip">here</a></p>
                   )}
 
                   <p>OR</p>
@@ -517,6 +571,9 @@ const CausalAI = () => {
                     onChange={(e) => handleGraphUpload(e.target.files[0])}
                   />
                 </div>
+                {!graphUploaded && (
+                  <p className="example-file">Need an example? Download sample files <a type="button" href="/uploads/sample_files_graph.zip">here</a></p>
+                )}
               </div>
             </>
             )}
@@ -536,7 +593,8 @@ const CausalAI = () => {
                         <p className="file-selected-text">File Uploaded!</p>
                       </div>
                     </div>
-                    <p className="example-file">Want to upload a different file? Click <a type="button" className="different-file" onClick={() => setGraphUploaded(false)}>here</a></p>
+                    <p className="example-file">Want to upload a different file? Click <a type="button" className="different-file" onClick={() => resetGraphUpload()}>here</a></p>
+
                   </div>
                 </div>
 

@@ -1,5 +1,5 @@
-import React, {useRef, useEffect, useState, createRef} from 'react'
-import NodeGraph from './NodeGraph'
+import React, {useEffect, useState, createRef} from 'react'
+import NodeGraph from '../components/NodeGraph'
 import axios from 'axios'
 
 const PerformCausalDiscovery = (props) => {
@@ -37,6 +37,7 @@ const PerformCausalDiscovery = (props) => {
   const [priorKnowledgeCheck, setPriorKnowledgeCheck] = useState(true)
   const [priorKnowledgeError, setPriorKnowledgeError] = useState('')
   const [varRefs, setVarRefs] = useState([])
+  const [undirectedGraph, setUndirectedGraph] = useState(null)
 
   useEffect(() => {
     let temp = []
@@ -85,7 +86,17 @@ const PerformCausalDiscovery = (props) => {
   const handleSpecificationChange = async (e) => {
     setSpecification(e.target.value);
     setVar2(null)
+  }
+  const handleSetAlgorithm = (value) => {
+    setAlgorithm(value)
+    if(value === 'VARLINGAM'){
+      setPriorKnowledgeArray([]);
+      priorKnowledgeBuildArray = [];
+      setPriorKnowledgeSection(false);
+      setVar1(null)
+      setVar2(null)
 
+    }
   }
   const handleAddPriorKnowledge = async () => {
 
@@ -134,10 +145,10 @@ const PerformCausalDiscovery = (props) => {
       let var1 = priorKnowledgeBuildArray[i][1]
       let var2 = priorKnowledgeBuildArray[i][2]
       if(specification == 'forbidden_links' || specification == 'existing_links'){
-        if(!priorKnowledge[specification][var1]){
-          priorKnowledge[specification][var1] = []
+        if(!priorKnowledge[specification][var2]){
+          priorKnowledge[specification][var2] = []
         }
-        priorKnowledge[specification][var1].push(var2)
+        priorKnowledge[specification][var2].push(var1)
       }
       else{
         if(var1 != null){
@@ -155,7 +166,7 @@ const PerformCausalDiscovery = (props) => {
 
     var config = {
       method: 'post',
-      url: 'http://127.0.0.1:5000/is_latest_link_valid',
+      url: 'http://35.225.159.243:5000/is_latest_link_valid',
       headers: { 
         'Content-Type': 'application/json'
       },
@@ -227,7 +238,7 @@ const PerformCausalDiscovery = (props) => {
      
       var config = {
         method: 'post',
-        url: 'http://127.0.0.1:5000/perform_causal_discovery',
+        url: 'http://35.225.159.243:5000/perform_causal_discovery',
         headers: { 
           'Content-Type': 'application/json'
         },
@@ -237,6 +248,7 @@ const PerformCausalDiscovery = (props) => {
       axios(config)
         .then(function (response) {
           setGraphData(response.data.graph_est);
+          setUndirectedGraph(response.data.graph_est_undirected)
           setPrecision(response.data.precision);
           setRecall(response.data.recall);
           setF1Score(response.data.f1_score);
@@ -255,10 +267,13 @@ const PerformCausalDiscovery = (props) => {
   useEffect(() => {
     if(var1 != null){
       if(specification === 'forbidden_links' || specification === 'existing_links'){
-        varRefs[varNames.indexOf(var1)].current.style.color = '#1B96FF'
-        varRefs[varNames.indexOf(var1)].current.style.border = '1px solid #1B96FF'
-        varRefs[varNames.indexOf(var1)].current.style.backgroundColor = '#EEF4FF'
-        varRefs[varNames.indexOf(var1)].current.style.fontWeight = 'bold'
+        if(varRefs[varNames.indexOf(var1)].current){
+          varRefs[varNames.indexOf(var1)].current.style.color = '#1B96FF'
+          varRefs[varNames.indexOf(var1)].current.style.border = '1px solid #1B96FF'
+          varRefs[varNames.indexOf(var1)].current.style.backgroundColor = '#EEF4FF'
+          varRefs[varNames.indexOf(var1)].current.style.fontWeight = 'bold'
+        }
+
       }
       else{
 
@@ -269,10 +284,12 @@ const PerformCausalDiscovery = (props) => {
 
         }
         else{
-          varRefs[varNames.indexOf(varNames[i])].current.style.color = 'black'
-          varRefs[varNames.indexOf(varNames[i])].current.style.border = '1px solid #C9C9C9'
-          varRefs[varNames.indexOf(varNames[i])].current.style.backgroundColor = 'white'
-          varRefs[varNames.indexOf(varNames[i])].current.style.fontWeight = 'normal'
+          if(varRefs[varNames.indexOf(varNames[i])].current){
+            varRefs[varNames.indexOf(varNames[i])].current.style.color = 'black'
+            varRefs[varNames.indexOf(varNames[i])].current.style.border = '1px solid #C9C9C9'
+            varRefs[varNames.indexOf(varNames[i])].current.style.backgroundColor = 'white'
+            varRefs[varNames.indexOf(varNames[i])].current.style.fontWeight = 'normal'
+          }
         }
       }
     }
@@ -298,11 +315,14 @@ const PerformCausalDiscovery = (props) => {
 
   useEffect(() => {
     if(var1 != null){
-      varRefs[varNames.indexOf(var1)].current.style.color = 'black'
-      varRefs[varNames.indexOf(var1)].current.style.border = '1px solid #C9C9C9'
-      varRefs[varNames.indexOf(var1)].current.style.backgroundColor = 'white'
-      varRefs[varNames.indexOf(var1)].current.style.fontWeight = 'normal'
-      setVar1(null)
+      if(varRefs[varNames.indexOf(var1)].current){
+        varRefs[varNames.indexOf(var1)].current.style.color = 'black'
+        varRefs[varNames.indexOf(var1)].current.style.border = '1px solid #C9C9C9'
+        varRefs[varNames.indexOf(var1)].current.style.backgroundColor = 'white'
+        varRefs[varNames.indexOf(var1)].current.style.fontWeight = 'normal'
+        setVar1(null)
+      }
+
     }
   }, [specification]);
 
@@ -374,7 +394,7 @@ const PerformCausalDiscovery = (props) => {
             )}
             <div>
               <label htmlFor="">Algorithm</label>
-              <select name="specification" id="specification" defaultValue={''} onChange={(e) => setAlgorithm(e.target.value)}>
+              <select name="specification" id="specification" defaultValue={''} onChange={(e) => handleSetAlgorithm(e.target.value)}>
                 <option value="" disabled>Choose an algorithm</option>
                 <option value="PC">PC</option>
                 {((dataType == 'Time Series' && isDiscrete == false)) && (
@@ -405,21 +425,19 @@ const PerformCausalDiscovery = (props) => {
                 )}
                 {pvalue > 0 &&(
                   <button id='perform-discovery-button' className='btn' onClick={() => handleCausualDiscovery()}>Perform Causal Discovery</button>
-
+                )}
+                {loading && (
+                  <div id="loading">
+                    <img src={"/images/causal-ai/loader.gif"} alt="" />
+                  </div>
                 )}
               </div>
 
             )}
-            {loading && (
-              <div id="loading">
-                <img src={"/images/loader.gif"} alt="" />
-              </div>
-            )}
-            
+
+
           </div>
-       
         </div>
-        
         <div id="discovery-output prior-graph-output">
           <div>
             {priorKnowledgeArray.length != 0 && (
@@ -482,22 +500,40 @@ const PerformCausalDiscovery = (props) => {
                 )}      
               </div>
               {discoveryPerformed && (
-                <a 
-                  type='button' 
-                  id='download-graph-button' 
-                  className='btn'
-                  href={`data:text/json;charset=utf-8,${encodeURIComponent(
-                    JSON.stringify(graphData)
-                  )}`}
-                  download="causal-discovery-graph.json"
-                >
-                Download Graph
-                </a>
+                <div id='download-graph-btns'>
+                  <a 
+                    type='button' 
+                    id='download-graph-button' 
+                    className='btn'
+                    href={`data:text/json;charset=utf-8,${encodeURIComponent(
+                      JSON.stringify(graphData)
+                    )}`}
+                    download="causal-discovery-graph.json"
+                  >
+                  {dataType == 'Tabular' ? 'Download Oriented Graph' : 'Download Graph'}
+                  </a>
+                  {dataType == "Tabular" && (
+                    <a 
+                      type='button' 
+                      id='download-graph-button' 
+                      className='btn'
+                      href={`data:text/json;charset=utf-8,${encodeURIComponent(
+                        JSON.stringify(undirectedGraph)
+                      )}`}
+                      download="causal-discovery-undirected-graph.json"
+                    >
+                    Download Un-Oriented Graph
+                    </a>
+                  )}
+            
+                </div>
+                
             )}
             </div>
           )}
           </div>
       </div>
+
     </div>
   )
 }

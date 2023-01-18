@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
-import NodeGraph from './NodeGraph'
+import NodeGraph from '../components/NodeGraph'
+
+
 
 const PerformCausalInference = (props) => {
   if(Object.keys(props).length === 0){
@@ -28,11 +30,11 @@ const PerformCausalInference = (props) => {
 
   const [predictionModel, setPredictionModel] = useState('')
   const [treatmentVar, setTreatmentVar] = useState('');
-  const [treatmentValue, setTreatmentValue] = useState('')
-  const [controlValue, setControlValue] = useState('')
+  const [treatmentValue, setTreatmentValue] = useState(0)
+  const [controlValue, setControlValue] = useState(0)
 
   const [conditionVar, setConditionVar] = useState('')
-  const [conditionValue, setConditionValue] = useState('')
+  const [conditionValue, setConditionValue] = useState(0)
   const [undirectedEdges, setUndirectedEdges] = useState(undirectedEdgesArray)
 
   const [selectedEdge, setSelectedEdge] = useState('')
@@ -45,8 +47,8 @@ const PerformCausalInference = (props) => {
   const [estCate, setEstCate] = useState(0)
   const [trueCate, setTrueCate] = useState(0)
 
-  const [loadingAte, setLoadingAte] = useState(false)
-  const [loadingCate, setLoadingCate] = useState(false)
+  const [loadingAte, setLoadingAte] = useState(true)
+  const [loadingCate, setLoadingCate] = useState(true)
 
   const [undirectedEdgesSection, setUndirectedEdgesSection] = useState(false)
   const [undirectedDone, setUndirectedDone] = useState(false)
@@ -55,30 +57,37 @@ const PerformCausalInference = (props) => {
 
   const [treatmentError, setTreatmentError] = useState('')
   const [conditionError, setConditionError] = useState('')
+  const [graph, setGraph] = useState(null)
 
   const handleAddTreatmentVars = () => {
-    if(maxStateVals[treatmentVar] < treatmentValue){
-      setTreatmentError('Enter a valid treatment value')
-      return;
+    if(isDiscrete){
+      if(maxStateVals[treatmentVar] < treatmentValue){
+        setTreatmentError('Enter a valid treatment value')
+        return;
+      }
+      else if(maxStateVals[treatmentVar] < controlValue){
+        setTreatmentError('Enter a valid control value')
+        return;
+      }
     }
-    else if(maxStateVals[treatmentVar] < controlValue){
-      setTreatmentError('Enter a valid control value')
-      return;
-    }
+
     setTreatmentError('')
     for(let i = 0; i < treatmentVars.length; i++){
       if(treatmentVar === treatmentVars[i][0]){
         deleteTreatmentVar(i);
       }
     }
-    if(treatmentValue && controlValue){
+    if(treatmentValue != null && controlValue != null){
+      
       setTreatmentVars(treatmentVars => [...treatmentVars, [treatmentVar,parseFloat(treatmentValue),parseFloat(controlValue)]])
     }
   }
   const handleAddConditionVars = () => {
-    if(maxStateVals[conditionVar] < conditionValue){
-      setConditionError('Enter a valid condition value')
-      return;
+    if(isDiscrete){
+      if(maxStateVals[conditionVar] < conditionValue){
+        setConditionError('Enter a valid condition value')
+        return;
+      }  
     }
 
     setConditionError('')
@@ -88,7 +97,7 @@ const PerformCausalInference = (props) => {
         deleteConditionVar(i);
       }
     }
-    if(conditionValue){
+    if(conditionValue != null){
       setConditionVars(conditionVars => [...conditionVars, [conditionVar,parseFloat(conditionValue)]])
 
     }
@@ -97,7 +106,7 @@ const PerformCausalInference = (props) => {
 
 
   const selectLeftEdge = async (edge) => {
-    toggleUndirectedGraph(false)
+    setToggleUndirectedGraph(false)
     edge = edge.split('-');
     edge = edge[0].split(' ')
     edge = edge[0].split(',')
@@ -106,7 +115,7 @@ const PerformCausalInference = (props) => {
     copyGraph[edge[1]].splice(index, 1)
     causalGraph = copyGraph
     await setGraphState(copyGraph)
-    await setGraph(<NodeGraph data={copyGraph} dataType={dataType} graphId={'cy2'}  />)
+    // await setGraph(<NodeGraph data={copyGraph} dataType={dataType} graphId={'cy2'}  />)
 
     let temp = []
     temp.push(edge[0], edge[1]);
@@ -123,11 +132,11 @@ const PerformCausalInference = (props) => {
     if(undirectedEdges.length === 0){
       await setUndirectedDone(true)
     }
-    toggleUndirectedGraph(true)
+    setToggleUndirectedGraph(true)
   }
 
   const selectRightEdge = async (edge) => {
-    toggleUndirectedGraph(false)
+    setToggleUndirectedGraph(false)
     edge = edge.split('-');
     edge = edge[0].split(' ')
     edge = edge[0].split(',')
@@ -136,7 +145,7 @@ const PerformCausalInference = (props) => {
     copyGraph[edge[0]].splice(index, 1)
     causalGraph = copyGraph
     await setGraphState(copyGraph)
-    await setGraph(<NodeGraph data={copyGraph} dataType={dataType} graphId={'cy2'}  />)
+    // await setGraph(<NodeGraph data={copyGraph} dataType={dataType} graphId={'cy2'}  />)
 
     let temp = []
     temp.push(edge[0], edge[1]);
@@ -153,7 +162,7 @@ const PerformCausalInference = (props) => {
     if(undirectedEdges.length === 0){
       await setUndirectedDone(true)
     }
-    toggleUndirectedGraph(true)
+    setToggleUndirectedGraph(true)
   }
   
 
@@ -188,6 +197,7 @@ const PerformCausalInference = (props) => {
   }
 
   const handleAte = () => {
+    setLoadingAte(true)
     setEstimatedCate(false)
     let data = new FormData();
     let jsonArray = JSON.stringify(dataArray);
@@ -216,12 +226,13 @@ const PerformCausalInference = (props) => {
     data.append('num_vars', numVars);
     data.append('num_samples', numSamples);
     data.append('max_lag', maxLag);
+    setEstimatedAte(true)
 
-    setLoadingAte(true)
+    
 
     var config = {
 			method: 'post',
-			url: 'http://127.0.0.1:5000/ate',
+			url: 'http://35.225.159.243:5000/ate',
 			headers: { 
 				'Content-Type': 'application/json'
 			},
@@ -232,7 +243,6 @@ const PerformCausalInference = (props) => {
       .then(function (response) {
         setEstAte(response.data.est_ate)
         setTrueAte(response.data.true_ate)
-        setEstimatedAte(true)
         setLoadingAte(false);
       })
       .catch(function (error) {
@@ -240,6 +250,8 @@ const PerformCausalInference = (props) => {
       });
   }
   const handleCate = () => {
+    setLoadingCate(true);
+
     setEstimatedAte(false)
 		let data = new FormData();
     let jsonArray = JSON.stringify(dataArray);
@@ -272,11 +284,11 @@ const PerformCausalInference = (props) => {
     data.append('num_samples', numSamples);
     data.append('max_lag', maxLag);
     
-    setLoadingCate(true);
+    setEstimatedCate(true)
 
     var config = {
 			method: 'post',
-			url: 'http://127.0.0.1:5000/cate',
+			url: 'http://35.225.159.243:5000/cate',
 			headers: { 
 				'Content-Type': 'application/json'
 			},
@@ -287,7 +299,6 @@ const PerformCausalInference = (props) => {
       .then(function (response) {
         setEstCate(response.data.est_cate)
         setTrueCate(response.data.true_cate)
-        setEstimatedCate(true)
         setLoadingCate(false)
       })
       .catch(function (error) {
@@ -303,7 +314,7 @@ const PerformCausalInference = (props) => {
 
     var config = {
 			method: 'post',
-			url: 'http://127.0.0.1:5000/find_discrete_data_max_state',
+			url: 'http://35.225.159.243:5000/find_discrete_data_max_state',
 			headers: { 
 				'Content-Type': 'application/json'
 			},
@@ -319,14 +330,6 @@ const PerformCausalInference = (props) => {
       });
   },[]);
 
-  const checkValues = (e) => {
-    if(!/[0-9]/.test(e.key)){
-      e.preventDefault()
-    } 
-    if(isDiscrete && (/[\.\-]/.test(e.key))){
-      e.preventDefault()
-    }
-  }
 
 
   return (
@@ -362,7 +365,7 @@ const PerformCausalInference = (props) => {
       {((isDataGenerated || undirectedEdgesArray.length === 0 || undirectedEdges.length === 0) ) && (
         <div id='causal-inference'>
           <div>
-            <label htmlFor="" className="panel-label">Causal Inference</label>
+            <label htmlFor="" className="panel-label" id='condition-label'>Causal Inference</label>
             <NodeGraph data={causalGraph} dataType={dataType} graphId={'cy'}  />
             <div id='inference-buttons'>
               <div className='flex-column'>
@@ -390,31 +393,28 @@ const PerformCausalInference = (props) => {
                       {estimatedAte && (
                         <div id="ate-results">
                           {loadingAte ? <>
-                            <img className='inference-loading' src={"/images/loader.gif"} alt="" />
+                            <img className='inference-loading' src={"/images/causal-ai/loader.gif"} alt="" />
                           </> : <>
-                            <p>Estimated ATE: {parseFloat(estAte.toFixed(2))}</p>
-                            <p>True ATE: {parseFloat(trueAte).toFixed(2)}</p>
+                            <p>Estimated ATE: {typeof estAte == 'number' ? parseFloat(estAte.toFixed(2)) : estAte }</p>
+                            <p>True ATE: {typeof trueAte === 'number' ?  parseFloat(trueAte).toFixed(2) : trueAte}</p>
                           </>}
-
+                          
                         </div>
                       )}
                       {estimatedCate && (
                         <div id="cate-results">
                           {loadingCate ? <>
-                            <img className='inference-loading' src={"/images/loader.gif"} alt="" />
+                            <img className='inference-loading' src={"/images/causal-ai/loader.gif"} alt="" />
                           </> : <>
-                            <p>Estimated CATE: {parseFloat(estCate).toFixed(2)}</p>
-                            <p>True CATE: {parseFloat(trueCate).toFixed(2)}</p>
+                            <p>Estimated CATE: {typeof estCate == 'number' ? parseFloat(estCate).toFixed(2) : estCate}</p>
+                            <p>True CATE: {typeof trueCate == 'number' ? parseFloat(trueCate).toFixed(2) : trueCate}</p>
                           </>}
-
                         </div>
                       )}
-
                     </div>
-
                   </div>
                 </>
-              )}
+              )} 
             </div>
           </div>
           <div>
@@ -431,15 +431,21 @@ const PerformCausalInference = (props) => {
                 <label htmlFor="">Prediction Model</label>
                 <select name="data_type" id="data_type" defaultValue={''} onChange={(e) => setPredictionModel(e.target.value)}>
                   <option value="" disabled>Choose a Prediction Model</option>
-                  <option value="Linear Regression">Linear Regression</option>
+                  {!isDiscrete && (
+                    <option value="Linear Regression">Linear Regression</option>
+
+                  )}
                   <option value="MLP Regression">MLP Regression</option>
                 </select>
               </div>
             </div>
-            {(targetVar && predictionModel) && (
+            
+          </div>
+          <div className='variables-section'>
+          {(targetVar && predictionModel) && (
               <button className="btn-variant inference-button" onClick={() => addedVariable ? setAddedVariable(false) : setAddedVariable(true)}>Add Treatment Variable</button>
             )}
-            <div className={addedVariable ? "panel" : ''}>
+            <div className={addedVariable ? "panel inference-panel" : ''}>
               {addedVariable && (
                 <div>
                   <label htmlFor="">Variable Name</label>
@@ -451,43 +457,27 @@ const PerformCausalInference = (props) => {
                   </select>
                   {treatmentVar && (
                     <>
-                      <label htmlFor="">Treatment Value </label><span>Max: {maxStateVals[treatmentVar]}</span>
-                      <input type="number" min={0} max={maxStateVals[treatmentVar]} onKeyDown={(e) => checkValues(e)} onChange={(e) => setTreatmentValue(e.target.value)} />
-                      <label htmlFor="">Control Value </label><span>Max: {maxStateVals[treatmentVar]}</span>
-                      <input type="number" min={0} max={maxStateVals[treatmentVar]} onKeyDown={(e) => checkValues(e)} onChange={(e) => setControlValue(e.target.value)} />
-                      <button className='btn' onClick={() => handleAddTreatmentVars()}>Add</button>
+                      <label htmlFor="">Treatment Value </label>{isDiscrete && (<span>Max: {maxStateVals[treatmentVar]}</span> )}
+                      {isDiscrete 
+                      ?
+                        <input type="text" value={treatmentValue} onChange={(e) => e.target.value <= (maxStateVals[treatmentVar] || e.nativeEvent.inputType == 'deleteContentBackward') && e.nativeEvent.data != '.' ? setTreatmentValue(e.target.value) : e.preventDefault()} />
+                      : 
+                        <input type="text" value={treatmentValue} onChange={(e) => e.target.value < 9999 || e.nativeEvent.inputType == 'deleteContentBackward' || (e.nativeEvent.data == '-' && e.target.value.length < 2) ? setTreatmentValue(e.target.value) : e.preventDefault()} />
+                      }
+                      <label htmlFor="">Control Value </label> {isDiscrete && (<span>Max: {maxStateVals[treatmentVar]}</span> )}
+                      {isDiscrete 
+                      ?
+                        <input type="text" value={controlValue} onChange={(e) => e.target.value <= (maxStateVals[treatmentVar] || e.nativeEvent.inputType == 'deleteContentBackward') && e.nativeEvent.data != '.' ? setControlValue(e.target.value) : e.preventDefault()} />
+                      : 
+                        <input type="text" value={controlValue} onChange={(e) => e.target.value < 9999 || e.nativeEvent.inputType == 'deleteContentBackward' || (e.nativeEvent.data == '-' && e.target.value.length < 2) ? setControlValue(e.target.value) : e.preventDefault()} />
+                      }
+                      <button className='btn inference-btn' onClick={() => handleAddTreatmentVars()}>Add</button>
                     </>
                   )}
                   <p className='error-message'>{treatmentError}</p>
                 </div>
               )}
             </div>
-            {(targetVar && predictionModel) && (
-              <button className="btn-variant inference-button" onClick={() => addedConditionVariable ? setAddedConditionVariable(false) : setAddedConditionVariable(true)}>Add Condition Variable</button>
-            )}
-            <div className={addedConditionVariable ? "panel" : ''}>
-              {addedConditionVariable && (
-                <div>
-                  <label htmlFor="">Variable Name</label>
-                  <select name="" id="" defaultValue={''}  onChange={(e) => setConditionVar(e.target.value)}>
-                    <option value="" disabled>Select a Condition Var</option>
-                    {varNames.map((name,index) =>{
-                      return <option value={name} key={index}>{name}</option>
-                    })} 
-                  </select>
-                  {conditionVar && (
-                    <>
-                      <label htmlFor="">Condition Value </label><span>Max: {maxStateVals[conditionVar]}</span>
-                      <input type="text" max={maxStateVals[conditionVar]} onKeyDown={(e) => checkValues(e)} onChange={(e) => setConditionValue(e.target.value)} />
-                      <button className='btn' onClick={() => handleAddConditionVars()}>Add</button>
-                    </>
-                  )}
-                  <p className='error-message'>{conditionError}</p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className='variables-section'>
             {treatmentVars.length != 0 && (
               <label htmlFor="" className='panel-label'>Treatment Variables</label>
             )}
@@ -520,11 +510,43 @@ const PerformCausalInference = (props) => {
                 </table>
               </div>
             )}
+            
+          </div>
+          <div className="variables-section">
+          {(targetVar && predictionModel) && (
+              <button className="btn-variant inference-button" onClick={() => addedConditionVariable ? setAddedConditionVariable(false) : setAddedConditionVariable(true)}>Add Condition Variable</button>
+            )}
+            <div className={addedConditionVariable ? "panel inference-panel" : ''}>
+              {addedConditionVariable && (
+                <div>
+                  <label htmlFor="">Variable Name</label>
+                  <select name="" id="" defaultValue={''}  onChange={(e) => setConditionVar(e.target.value)}>
+                    <option value="" disabled>Select a Condition Var</option>
+                    {varNames.map((name,index) =>{
+                      return <option value={name} key={index}>{name}</option>
+                    })} 
+                  </select>
+                  {conditionVar && (
+                    <>
+                      <label htmlFor="">Condition Value </label>{isDiscrete && (<span>Max: {maxStateVals[conditionVar]}</span> )}
+                      {isDiscrete 
+                      ?
+                        <input type="text" value={conditionValue} onChange={(e) => e.target.value <= (maxStateVals[conditionVar] || e.nativeEvent.inputType == 'deleteContentBackward') && e.nativeEvent.data != '.' ? setConditionValue(e.target.value) : e.preventDefault()} />
+                      : 
+                        <input type="text" value={conditionValue} onChange={(e) => e.target.value < 9999 || e.nativeEvent.inputType == 'deleteContentBackward' || (e.nativeEvent.data == '-' && e.target.value.length < 2)  ? setConditionValue(e.target.value) : e.preventDefault()} />
+                      }
+                      <button className='btn inference-btn' onClick={() => handleAddConditionVars()}>Add</button>
+                    </>
+                  )}
+                  <p className='error-message'>{conditionError}</p>
+                </div>
+              )}
+            </div>
             {conditionVars.length != 0 && (
-              <label htmlFor="" className='panel-label'>Condition Variables</label>
+              <label htmlFor="" className='panel-label' id='condition-label'>Condition Variables</label>
             )}
             {(conditionVars.length != 0) && (
-              <div id={'condition-vars-section'} className="panel">
+              <div id={'condition-vars-section'} className="panel inference-panel">
                 <table>
                   <thead>
                     <tr>
