@@ -1,0 +1,30 @@
+{
+  "name": "ui",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@next/font": "13.1.2",
+    "next": "13.1.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "sass": "^1.57.1",
+    "cytoscape": "^3.23.0",
+    "cytoscape-avsdf": "^1.0.0",
+    "cytoscape-cise": "^1.0.0",
+    "cytoscape-cola": "^2.5.1",
+    "cytoscape-context-menus": "^4.1.0",
+    "cytoscape-cose-bilkent": "^4.1.0",
+    "cytoscape-dagre": "^2.4.0",
+    "cytoscape-expand-collapse": "^4.1.0",
+    "cytoscape-navigator": "^2.0.2",
+    "cytoscape-node-html-label": "^1.2.2",
+    "cytoscape-spread": "^3.0.0",
+    "axios": "^0.21.4"
+  }
+}
