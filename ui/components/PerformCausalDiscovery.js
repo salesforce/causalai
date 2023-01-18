@@ -428,7 +428,7 @@ const PerformCausalDiscovery = (props) => {
                 )}
                 {loading && (
                   <div id="loading">
-                    <img src={"/images/causal-ai/loader.gif"} alt="" />
+                    <img src={"/images/loader.gif"} alt="" />
                   </div>
                 )}
               </div>

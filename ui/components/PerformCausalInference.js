@@ -393,7 +393,7 @@ const PerformCausalInference = (props) => {
                       {estimatedAte && (
                         <div id="ate-results">
                           {loadingAte ? <>
-                            <img className='inference-loading' src={"/images/causal-ai/loader.gif"} alt="" />
+                            <img className='inference-loading' src={"/images/loader.gif"} alt="" />
                           </> : <>
                             <p>Estimated ATE: {typeof estAte == 'number' ? parseFloat(estAte.toFixed(2)) : estAte }</p>
                             <p>True ATE: {typeof trueAte === 'number' ?  parseFloat(trueAte).toFixed(2) : trueAte}</p>
@@ -404,7 +404,7 @@ const PerformCausalInference = (props) => {
                       {estimatedCate && (
                         <div id="cate-results">
                           {loadingCate ? <>
-                            <img className='inference-loading' src={"/images/causal-ai/loader.gif"} alt="" />
+                            <img className='inference-loading' src={"/images/loader.gif"} alt="" />
                           </> : <>
                             <p>Estimated CATE: {typeof estCate == 'number' ? parseFloat(estCate).toFixed(2) : estCate}</p>
                             <p>True CATE: {typeof trueCate == 'number' ? parseFloat(trueCate).toFixed(2) : trueCate}</p>
