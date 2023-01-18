@@ -11,17 +11,5 @@ setup(
                     "lingam==1.5.5",
                     "flask>=2.2.2",
                     "flask_cors>=3.0.0",
-                    # "plotly==5.9.0",
-                    # "dash==2.5.1",
-                    # "dash-core-components==2.0.0",
-                    # "dash-cytoscape==0.3.0",
-                    # "dash-html-components==2.0.0",
-                    # "dash-table==5.0.0"
                     ]
 )
-
-# from setuptools import setup, find_packages
-# setup(
-#     name = 'causallite',
-#     packages=setuptools.find_packages()
-# )
