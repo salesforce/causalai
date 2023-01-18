@@ -1,6 +1,6 @@
 #!/bin/zsh
-cd ui
 flask --app ui_backend run &
+cd ui
 npm install
 npm run dev &
 cd ..
