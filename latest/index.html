@@ -121,11 +121,13 @@
 </section>
 <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h1>
-<p>To install Salesforce CausalAI, git clone the library, go to the root directory of the repository, and execute <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code></p>
+<p>Prior to installing the library, create a conda environment with Python 3.9 or a later version. This can be done by executing <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">create</span> <span class="pre">-n</span> <span class="pre">causal_ai_env</span> <span class="pre">python=3.9</span></code>. Activate this environment by executing <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">causal_ai_env</span></code>. To install Salesforce CausalAI, git clone the library, go to the root directory of the repository, and execute <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code>.</p>
+<p>Before importing and calling the library, or launching the UI, remember to first activate the conda environemnt.</p>
 </section>
 <section id="user-inferface-ui">
 <h1>User Inferface (UI)<a class="headerlink" href="#user-inferface-ui" title="Permalink to this heading"></a></h1>
 <p>We provide an online UI for users to directly upload their data and run causal discovery and causal inference algorithms without the need to write any code. An introduction to the UI can be found <a class="reference internal" href="ui_tutorial.html"><span class="doc">here</span></a>.</p>
+<p>In order to launch the UI, go to the root directory of the library and execute <code class="docutils literal notranslate"><span class="pre">./launch_ui.sh</span></code>, and open the url specified in the terminal in a browser. In order to terminate the UI, press Ctrl+c, and then execute <code class="docutils literal notranslate"><span class="pre">./exit_ui.sh</span></code>.</p>
 </section>
 <section id="contents">
 <h1>Contents<a class="headerlink" href="#contents" title="Permalink to this heading"></a></h1>

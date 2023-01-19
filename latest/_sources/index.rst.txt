@@ -11,12 +11,16 @@ Salesforce CausalAI is an open-source Python library for causal analysis using o
 Installation
 ============
 
-To install Salesforce CausalAI, git clone the library, go to the root directory of the repository, and execute ``pip install .``
+Prior to installing the library, create a conda environment with Python 3.9 or a later version. This can be done by executing ``conda create -n causal_ai_env python=3.9``. Activate this environment by executing ``conda activate causal_ai_env``. To install Salesforce CausalAI, git clone the library, go to the root directory of the repository, and execute ``pip install .``. 
+
+Before importing and calling the library, or launching the UI, remember to first activate the conda environemnt.
 
 User Inferface (UI)
 ===================
 
 We provide an online UI for users to directly upload their data and run causal discovery and causal inference algorithms without the need to write any code. An introduction to the UI can be found :doc:`here <ui_tutorial>`.
+
+In order to launch the UI, go to the root directory of the library and execute ``./launch_ui.sh``, and open the url specified in the terminal in a browser. In order to terminate the UI, press Ctrl+c, and then execute ``./exit_ui.sh``.
 
 Contents
 ========
