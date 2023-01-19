@@ -11,7 +11,6 @@ import spread from 'cytoscape-spread'
 
 const NodeGraph = (props) => {
 
-  console.log(props)
   if(Object.keys(props).length === 0){
     return <div>no data</div>
   }
