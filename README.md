@@ -64,7 +64,7 @@ If you're using Salesforce CausalAI in your research or applications, please cit
 ```
 @article{?,
       title={Salesforce CausalAI Library: A Fast and Scalable framework for Causal Analysis of Time Series and Tabular Data},
-      author={?},
+      author={Arpit, Devansh and Fernandez, Matthew, Liu, Chenghao and Yao, Weiran and Yang, Wenzhuo and Josel, Paul and Heinecke, Shelby and Hu, Eric and Wang, Huan and Hoi, Stephen and Xiong, Caiming and Zhang, Kun and Niebles, Juan Carlos},
       year={2022},
       eprint={?},
       archivePrefix={arXiv},
