@@ -16,7 +16,7 @@ Some of the key features of CausalAI are:
 - Data: Causal analysis on tabular and time series data, of both discrete and continuous types.
 - Missing Values: Support for handling missing/NaN values in data.
 - Data Generator: A synthetic data generator that uses a specified structural equation model (SEM) for generating tabular and time series data. This can be used for evaluating and comparing different causal discovery algorithms since the ground truth values are known.
-- Distributed Computing: Use of multi-processing using the Ray \citep{moritz2018ray} library, that can be optionally turned on by the user when dealing with large datasets or number of variables for faster compute.
+- Distributed Computing: Use of multi-processing using the [Python Ray library](https://docs.ray.io/en/latest/), that can be optionally turned on by the user when dealing with large datasets or number of variables for faster compute.
 - Targeted Causal Discovery: In certain cases, we support targeted causal discovery, in which the user is only interested in discovering the causal parents of a specific variable of interest instead of the entire causal graph. This option reduces computational overhead.
 - Visualization: Visualize tabular and time series causal graphs.
 - Prior Knowledge: Incorporate any user provided partial prior knowledge about the causal graph in the causal discovery process.
@@ -54,7 +54,7 @@ In order to launch the UI, go to the root directory of the library and execute `
 ## Documentation
 
 For Jupyter notebooks with exmaples, see
-[`tutorials`](https://github.com/MetaMind/causalai/tree/main/tutorials). Detailed API documentation with tutorials can be found [here](https://opensource.salesforce.com/causalai). The
+[`tutorials`](https://github.com/salesforce/causalai/tree/main/tutorials). Detailed API documentation with tutorials can be found [here](https://opensource.salesforce.com/causalai). The
 [technical report](??) describes the implementation details of the algorithms along with their assumptions and also covers important aspects of the API. Further, it also presents experimental results that demosntrate the speed and performance our library compared with some of the existing libraries.
 
 ## Technical Report and Citing Salesforce CausalAI
