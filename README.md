@@ -47,7 +47,7 @@ Before importing and calling the library, or launching the UI, remember to first
 
 ## User Inferface
 
-We provide an online UI for users to directly upload their data and run causal discovery and causal inference algorithms without the need to write any code. An introduction to the UI can be found :doc:`here <ui_tutorial>`.
+We provide an online UI for users to directly upload their data and run causal discovery and causal inference algorithms without the need to write any code. An introduction to the UI can be found [here](https://opensource.salesforce.com/causalai/latest/ui_tutorial.html) and a video showing how to use the UI can be found ??. 
 
 In order to launch the UI, go to the root directory of the library and execute ``./launch_ui.sh``, and open the url specified in the terminal in a browser. In order to terminate the UI, press Ctrl+c, and then execute ``./exit_ui.sh``.
 
@@ -65,7 +65,7 @@ If you're using Salesforce CausalAI in your research or applications, please cit
 @article{salesforce_causalai23,
       title={Salesforce CausalAI Library: A Fast and Scalable framework for Causal Analysis of Time Series and Tabular Data},
       author={Arpit, Devansh and Fernandez, Matthew, Liu, Chenghao and Yao, Weiran and Yang, Wenzhuo and Josel, Paul and Heinecke, Shelby and Hu, Eric and Wang, Huan and Hoi, Stephen and Xiong, Caiming and Zhang, Kun and Niebles, Juan Carlos},
-      year={2022},
+      year={2023},
       eprint={?},
       archivePrefix={arXiv},
       primaryClass={cs.LG}
