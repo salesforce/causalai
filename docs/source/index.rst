@@ -20,7 +20,7 @@ User Inferface (UI)
 
 We provide an online UI for users to directly upload their data and run causal discovery and causal inference algorithms without the need to write any code. An introduction to the UI can be found :doc:`here <ui_tutorial>`.
 
-In order to launch the UI, go to the root directory of the library and execute ``./launch_ui.sh``, and open the url specified in the terminal in a browser. In order to terminate the UI, press Ctrl+c, and then execute ``./exit_ui.sh``.
+In order to launch the UI, go to the root directory of the library and execute ``./launch_ui.sh``, and open the url specified in the terminal in a browser. In order to terminate the UI, press Ctrl+c in the terminal where the UI was launched, and then execute ``./exit_ui.sh``.
 
 Contents
 ========

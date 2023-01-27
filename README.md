@@ -47,18 +47,18 @@ Before importing and calling the library, or launching the UI, remember to first
 
 ## User Inferface
 
-We provide an online UI for users to directly upload their data and run causal discovery and causal inference algorithms without the need to write any code. An introduction to the UI can be found [here](https://opensource.salesforce.com/causalai/latest/ui_tutorial.html) and a video showing how to use the UI can be found ??. 
+We provide a UI for users to directly upload their data and run causal discovery and causal inference algorithms without the need to write any code. An introduction to the UI can be found [here](https://opensource.salesforce.com/causalai/latest/ui_tutorial.html) and a video showing how to use the UI can be found ??. 
 
-In order to launch the UI, go to the root directory of the library and execute ``./launch_ui.sh``, and open the url specified in the terminal in a browser. In order to terminate the UI, press Ctrl+c, and then execute ``./exit_ui.sh``.
+In order to launch the UI, go to the root directory of the library and execute ``./launch_ui.sh``, and open the url specified in the terminal in a browser. In order to terminate the UI, press Ctrl+c in the terminal where the UI was launched, and then execute ``./exit_ui.sh``.
 
 ## Documentation
 
 For Jupyter notebooks with exmaples, see
 [`tutorials`](https://github.com/salesforce/causalai/tree/main/tutorials). Detailed API documentation with tutorials can be found [here](https://opensource.salesforce.com/causalai). The
-[technical report](??) describes the implementation details of the algorithms along with their assumptions and also covers important aspects of the API. Further, it also presents experimental results that demosntrate the speed and performance our library compared with some of the existing libraries.
+[technical report](https://arxiv.org/abs/2301.10859) describes the implementation details of the algorithms along with their assumptions and also covers important aspects of the API. Further, it also presents experimental results that demosntrate the speed and performance our library compared with some of the existing libraries.
 
 ## Technical Report and Citing Salesforce CausalAI
-You can find more details in our technical report: ??
+You can find more details in our [technical report](https://arxiv.org/abs/2301.10859)
 
 If you're using Salesforce CausalAI in your research or applications, please cite using this BibTeX:
 ```
@@ -66,7 +66,7 @@ If you're using Salesforce CausalAI in your research or applications, please cit
       title={Salesforce CausalAI Library: A Fast and Scalable framework for Causal Analysis of Time Series and Tabular Data},
       author={Arpit, Devansh and Fernandez, Matthew, Liu, Chenghao and Yao, Weiran and Yang, Wenzhuo and Josel, Paul and Heinecke, Shelby and Hu, Eric and Wang, Huan and Hoi, Stephen and Xiong, Caiming and Zhang, Kun and Niebles, Juan Carlos},
       year={2023},
-      eprint={?},
+      eprint={arXiv preprint arXiv:2301.10859},
       archivePrefix={arXiv},
       primaryClass={cs.LG}
 }
