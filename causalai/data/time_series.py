@@ -1,6 +1,5 @@
 
 from collections import defaultdict, OrderedDict
-# from datetime import datetime
 from numpy import ndarray
 from typing import Tuple, List, Union, Optional
 import sys
@@ -157,8 +156,8 @@ class TimeSeriesData(BaseData):
 
             if np.any(np.array(node_list)[:, 1] > 0):
                 raise ValueError(f'The following node list has positive lags. Positive lags violate causality because a future state cannot cause a past state.\n{node_list}')
-            if np.any(np.array(node_list)[:, 1] == 0):
-                raise ValueError(f'The following node list has zero lags. Instantaneous causal links are not supported currently by our library.\n{node_list}')
+            # if np.any(np.array(node_list)[:, 1] == 0):
+            #     raise ValueError(f'The following node list has zero lags. Instantaneous causal links are not supported currently by our library.\n{node_list}')
             if (np.any(np.array(node_list)[:, 0] >= self.D) or np.any(np.array(node_list)[:, 0] < 0)):
                 raise ValueError(f"Node list must have variable indices between 0-{self.D-1}. Found:\n{node_list}")
 

@@ -132,7 +132,7 @@ def _get_precision_recall_single(G, G_gt):
 
 def make_symmetric(graph):
     # only valid for tabular graph
-    if any([type(p[0]) in [list, tuple] for c,p in graph.items() if len(p)>0]): # if graph is time series, then return nan
+    if any([type(p[0]) in [list, tuple] for c,p in graph.items() if len(p)>0]): # if graph is time series, then return graph
         return graph
     g = {key: [] for key in graph.keys()}
     for key in graph.keys():
@@ -183,6 +183,7 @@ def get_precision_recall_skeleton(G, G_gt):
     '''
     if any([type(p[0]) in [list, tuple] for c,p in G_gt.items() if len(p)>0]): # if graph is time series, then return nan
         return math.nan, math.nan, math.nan
+    G = make_symmetric(G)
     G_gt = make_symmetric(G_gt)
     p,r,f1,t=0.,0.,0.,0.
     for i in G:

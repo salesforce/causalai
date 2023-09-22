@@ -23,7 +23,7 @@ const PerformCausalDiscovery = (props) => {
   let priorKnowledgeBuildArray = [];
   const [maxLag, setMaxLag] = useState(null);
   const [algorithm, setAlgorithm] = useState('')
-  const [pvalue, setPvalue] = useState(null)
+  const [pvalue, setPvalue] = useState(.05)
   const [ciTest, setCiTest] = useState('Partial Correlation')
   const [graphData, setGraphData] = useState([])
   const [precision, setPrecision] = useState(0);
@@ -403,6 +403,12 @@ const PerformCausalDiscovery = (props) => {
                 {((dataType == 'Time Series' && isDiscrete == false)) && (
                   <option value="VARLINGAM">VARLINGAM</option>
                 )}
+                {((dataType == 'Tabular' && isDiscrete == false)) && (
+                  <>
+                    <option value="GES">GES</option>
+                    <option value="LINGAM">LINGAM</option>
+                  </>
+                )}
 
               </select>
             </div>
@@ -418,7 +424,7 @@ const PerformCausalDiscovery = (props) => {
               <div>
                 <div>
                   <label htmlFor="">p-value Threshold</label>
-                  <input type="number" min={0} max={1} step={.01} onKeyDown={(e) => { if (!/^(0(\.\d+)?|1\.0)$/.test(e.key)){e.preventDefault}}} onChange={(e) => setPvalue(e.target.value)}  />
+                  <input type="number" min={0} max={1} step={.01} value={pvalue} onKeyDown={(e) => { if (!/^(0(\.\d+)?|1\.0)$/.test(e.key)){e.preventDefault}}} onChange={(e) => setPvalue(e.target.value)}  />
                 </div>
                 {errorMessage &&(
                   <p id='error-message'>Please Enter Valid Inputs</p>

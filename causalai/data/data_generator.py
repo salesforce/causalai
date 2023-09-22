@@ -1,9 +1,10 @@
 import warnings
 import numpy as np
 import copy
+from typing import Callable
 from sklearn.preprocessing import KBinsDiscretizer
 
-def GenerateRandomTimeseriesSEM(var_names=['a', 'b', 'c', 'd', 'e'], max_num_parents=4, max_lag=4, seed=0):
+def GenerateRandomTimeseriesSEM(var_names=['a', 'b', 'c', 'd', 'e'], max_num_parents=4, max_lag=4, seed=0, fn:Callable = lambda x:x, coef: float = 0.1):
     '''
     Generate a random structural equation model (SEM) for time series data.
 
@@ -11,26 +12,32 @@ def GenerateRandomTimeseriesSEM(var_names=['a', 'b', 'c', 'd', 'e'], max_num_par
     :type var_names: list
     :param max_num_parents: Maximum number of causal parents allowed in the randomly generated SEM.
     :type max_num_parents: int
-    :param max_lag: Maximum time lag between parent and child variable allowed in the randomly generated SEM.
+    :param max_lag: Maximum time lag between parent and child variable allowed in the randomly generated SEM. Must be non-negative.
     :type max_lag: int
     :param seed: Random seed used for reproducibility.
     :type seed: int
+    :param fn: Function applied to a parent variable when generating child variable data. Default: Linear 
+        function for linear causal relation.
+    :type fn: Callable
+    :param coef: coefficient of parent variables in the randomly generated SEM.
+    :type coef: float
     '''
     np.random.seed(seed)
-    coef = 0.1 # larger values may cause exploding values in data array for some seeds
-    fn = lambda x:x
-    sem = {n:[] for n in var_names}
+    # coef = 0.1 # larger values may cause exploding values in data array for some seeds
+    sem_dict = {n:[] for n in var_names}
     max_num_parents = min(max_num_parents, len(var_names))
     for n in var_names:
         num_parents = np.random.randint(1, max_num_parents+1)
         parents = np.random.permutation(var_names)[:num_parents]
         lags = np.random.randint(-max_lag, 0, num_parents)
-        sem[n] = [((p,int(l)),coef, fn) for p,l in zip(parents, lags)]
-    return sem
+        sem_dict[n] = [((p,int(l)),coef, fn) for p,l in zip(parents, lags)]
+    return sem_dict
 
-def GenerateRandomTabularSEM(var_names=['a', 'b', 'c', 'd', 'e', 'f'], max_num_parents=4, seed=0):
+def GenerateRandomTabularSEM(var_names=['a', 'b', 'c', 'd', 'e', 'f'], max_num_parents=4, seed=0, fn:Callable = lambda x:x, coef: float = 0.1):
     '''
-    Generate a random structural equation model (SEM) for tabular data.
+    Generate a random structural equation model (SEM) for tabular data using the following procedure:
+    Randomly divide variables into non-overlapping groups of size between 3 and num_vars. Then randomly
+    create edges between a preceeding group and a following group such that max_num_parents is never exceeded.
 
     :param var_names: Names of variables in the SEM in the form of a list of str.
     :type var_names: list
@@ -38,6 +45,11 @@ def GenerateRandomTabularSEM(var_names=['a', 'b', 'c', 'd', 'e', 'f'], max_num_p
     :type max_num_parents: int
     :param seed: Random seed used for reproducibility.
     :type seed: int
+    :param fn: Function applied to a parent variable when generating child variable data. Default: Linear 
+        function for linear causal relation.
+    :type fn: Callable
+    :param coef: coefficient of parent variables in the randomly generated SEM.
+    :type coef: float
     '''
     np.random.seed(seed)
     num_vars = len(var_names)
@@ -55,24 +67,100 @@ def GenerateRandomTabularSEM(var_names=['a', 'b', 'c', 'd', 'e', 'f'], max_num_p
         groups.append(group)
         for v in group:
             del vars_unused[vars_unused.index(v)]
-    coef = 0.1 # larger values may cause exploding values in data array for some seeds
-    fn = lambda x:x
-    sem = {n:[] for n in var_names}
+    # coef = 0.1 # larger values may cause exploding values in data array for some seeds
+    
+    sem_dict = {n:[] for n in var_names}
     for i, children in enumerate(groups[1:]):
         parents = groups[i]
         for c in children:
-            sem[c] = [(p,coef, fn) for p in parents[:np.random.randint(1, max(2, min(max_num_parents,len(parents)) ))]]
+            sem_dict[c] = [(p,coef, fn) for p in parents[:np.random.randint(1, max(2, min(max_num_parents,len(parents)) ))]]
         
         add_ancestor_as_parent = np.random.rand()>0.2
         if add_ancestor_as_parent:
             r = np.random.randint(0,max(1, i))
             if r!=i:
                 parents = groups[r][:np.random.randint(1, max(2, min(max_num_parents,len(parents))))]
-                sem[c].extend([(p,coef, fn) for p in parents])
+                sem_dict[c].extend([(p,coef, fn) for p in parents])
     for n in var_names:
-        if n not in list(sem.keys()):
-            sem[n] = []
-    return sem
+        if n not in list(sem_dict.keys()):
+            sem_dict[n] = []
+    return sem_dict
+
+def GenerateSparseTimeSeriesSEM(var_names=['a', 'b', 'c', 'd', 'e'], graph_density=0.1, max_lag=4, seed=0, fn:Callable = lambda x:x, coef: float = 0.1):
+    '''
+    Generate a structural equation model (SEM) for time series data using the following procedure:
+    For N nodes, enumerate them from 0-N. For each time lag (until max_lag), for all i,j between 0-N, if i < j, 
+    the edge from vi to vj exists with probability graph_density, and if i >= j there cannot be an edge 
+    betwen them.
+
+    :param var_names: Names of variables in the SEM in the form of a list of str.
+    :type var_names: list
+    :param graph_density: Probability that an edge between node i and j exists.
+    :type graph_density: float in the range (0,1]
+    :param max_lag: Maximum time lag between parent and child variable allowed in the randomly generated SEM.
+    :type max_lag: int
+    :param seed: Random seed used for reproducibility.
+    :type seed: int
+    :param fn: Function applied to a parent variable when generating child variable data. Default: Linear 
+        function for linear causal relation.
+    :param coef: coefficient of parent variables in the randomly generated SEM. Note: larger values may 
+        cause exploding values in data array for some seeds.
+    :type fn: Callable
+    '''
+    np.random.seed(seed)
+    num_vars = len(var_names)
+    
+    sem_dict = {n:[] for n in var_names}
+    for lag in range(1, max_lag):
+        
+        M = np.random.binomial(1, graph_density, (num_vars, num_vars))
+        mask = np.ones_like(M, dtype=float)
+        mask[np.tril_indices_from(mask)] = 0.
+        M = M* mask
+    
+        for pi in range(num_vars):
+            for ci in range(pi+1, num_vars):
+                if M[pi, ci] == 1:
+                    sem_dict[var_names[ci]].append(((var_names[pi], -lag),coef, fn))
+    for n in var_names:
+        if n not in list(sem_dict.keys()):
+            sem_dict[n] = []
+    return sem_dict
+
+def GenerateSparseTabularSEM(var_names=['a', 'b', 'c', 'd', 'e', 'f'], graph_density=0.1, seed=0, fn:Callable = lambda x:x, coef: float = 0.1):
+    '''
+    Generate a structural equation model (SEM) for tabular data using the following procedure:
+    For N nodes, enumerate them from 0-N. For all i,j between 0-N, if i < j, the edge from vi 
+    to vj exists with probability graph_density, and if i >= j there cannot be an edge betwen them.
+
+    :param var_names: Names of variables in the SEM in the form of a list of str.
+    :type var_names: list
+    :param graph_density: Probability that an edge between node i and j exists.
+    :type graph_density: float in the range (0,1]
+    :param seed: Random seed used for reproducibility.
+    :type seed: int
+    :param fn: Function applied to a parent variable when generating child variable data. Default: Linear 
+        function for linear causal relation.
+    :type fn: Callable
+    :param coef: coefficient of parent variables in the randomly generated SEM.
+    :type coef: float
+    '''
+    np.random.seed(seed)
+    num_vars = len(var_names)
+    M = np.random.binomial(1, graph_density, (num_vars, num_vars))
+    mask = np.ones_like(M, dtype=float)
+    mask[np.tril_indices_from(mask)] = 0.
+    M = M* mask
+    
+    sem_dict = {n:[] for n in var_names}
+    for pi in range(num_vars):
+        for ci in range(pi+1, num_vars):
+            if M[pi, ci] == 1:
+                sem_dict[var_names[ci]].append((var_names[pi],coef, fn))
+    for n in var_names:
+        if n not in list(sem_dict.keys()):
+            sem_dict[n] = []
+    return sem_dict
 
 def DataGenerator(sem_dict, T, noise_fn=None, intervention=None, discrete=False, nstates=10, seed=1):
     """
@@ -102,8 +190,11 @@ def DataGenerator(sem_dict, T, noise_fn=None, intervention=None, discrete=False,
         variables with the value being the array of length T with interventional values.
         Set values to np.nan to leave specific time points of a variable un-intervened.
     :type intervention: dict
-    :param discrete: If true, the generated data is discretized into 10 uniform bins (default: False).
-    :type discrete: bool
+    :param discrete: When bool, it specifies whether all the variables are discrete or all of them are continuous.
+        If true, the generated data is discretized into nstates uniform bins (default: False). Alternatively, if discrete is specified 
+        as a dictionary, then the keys of this dictionary must be the variable names and the value corresponding to
+        each key must be True or False. A value of False implies the variable is continuous, and discrete otherwise.
+    :type discrete: bool or dict
     :param nstates:  When discrete is True, the nstates specifies the number of bins to use for discretizing
         the data (default=10).
     :type nstates: int
@@ -112,7 +203,7 @@ def DataGenerator(sem_dict, T, noise_fn=None, intervention=None, discrete=False,
 
     :return: A tuple of 3 items--
 
-        - data: Generated data array of shape (T, 4).
+        - data: Generated data array of shape (T, number of variables).
 
         - var_names: List of variable names corresponding to the columns of data
 
@@ -122,6 +213,13 @@ def DataGenerator(sem_dict, T, noise_fn=None, intervention=None, discrete=False,
     """
     np.random.seed(seed)
     var_names = list(sem_dict.keys())
+    if type(discrete)==dict:
+        assert set(var_names)==set(list(discrete.keys())), f'The keys of the argument discrete must match the keys of the argument sem_dict.'
+    elif type(discrete)==bool:
+        discrete = {name: discrete==True for name in var_names}
+    else:
+        raise ValueError(f"The argument discrete must be either of type bool or Python dictionary, but found {type(discrete)}.")
+    is_any_discrete = any(discrete.values())
     sem_dict, data_type = _standardize_graph(sem_dict)
     sem_dict = _graph_names2num(sem_dict)
     graph_gt = {var_names[n]:None for n in sem_dict.keys()}
@@ -152,7 +250,8 @@ def DataGenerator(sem_dict, T, noise_fn=None, intervention=None, discrete=False,
                 instantaneous_graph.addEdge(node, i)
 
     if instantaneous_graph.isCyclic(): 
-        raise ValueError("Intantaneous edges among nodes with lag 0 specified in sem_dict cannot contain cycles.")
+        raise ValueError("Graph contains cycles! Only DAGs are allowed.")
+        #("Intantaneous edges among nodes with lag 0 specified in sem_dict cannot contain cycles.")
 
     causal_node_seq = instantaneous_graph.topologicalSort()
 
@@ -162,13 +261,13 @@ def DataGenerator(sem_dict, T, noise_fn=None, intervention=None, discrete=False,
                 raise ValueError(f'Intervention is specified for variable name {name}, but it does not exist in the specified graph with node names {var_names}!')
             if len(intervention[name])!=T:
                 raise ValueError(f"intervention data for {name} must be of length T, but found {len(intervention[name])}")
-            if discrete:
+            if discrete[name]==True:
                 assert np.all(intervention[name]<nstates),\
                             f'Treatment variable value must be in range [0,...,{nstates-1}], but found {intervention[name].max()}'
 
     history_len = T//5
-    data = np.zeros((T+history_len, D)) # data with intervention, if any
-    data_orig = np.zeros((T+history_len, D)) # data without intervention
+    data = np.zeros((T+history_len, D)) # data with intervention, if any; has discrete variabless if specified by the discrete argument
+    data_orig = np.zeros((T+history_len, D)) # data without intervention; continuous data
 
     # start with filling all elements with I.I.D. noise
     for i in range(D):
@@ -178,9 +277,10 @@ def DataGenerator(sem_dict, T, noise_fn=None, intervention=None, discrete=False,
     for t in range(max_lag, T+history_len):
         for i in causal_node_seq:
             for ((node, lag), coef, func) in sem_dict[i]:
+                # print(f'data_orig[{t},{var_names[i]}] += {coef}. data_orig[{t+lag},{var_names[node]}]')
                 data_orig[t, i] += coef * func(data_orig[t + lag, node])
 
-    if discrete:
+    if is_any_discrete:
         DiscretizeData_orig = _DiscretizeData()
         _ = DiscretizeData_orig(data_orig, data_orig, nstates, compute_bin_range=True)
         
@@ -189,7 +289,7 @@ def DataGenerator(sem_dict, T, noise_fn=None, intervention=None, discrete=False,
             node_name = var_names[i]
             if (intervention is not None and node_name in intervention and t >= history_len
                     and not np.isnan(intervention[node_name][t - history_len])):
-                if discrete:
+                if discrete[node_name]==True:
                     val = DiscretizeData_orig.inv_transform(i, intervention[node_name][t - history_len])
                     data[t, i] = val
                 else:
@@ -203,9 +303,14 @@ def DataGenerator(sem_dict, T, noise_fn=None, intervention=None, discrete=False,
 
     data = data[history_len:]
     data_orig = data_orig[history_len:]
-    if discrete:
+    if is_any_discrete:
         DiscretizeData_ = _DiscretizeData()
-        data = DiscretizeData_(data, data_orig, nstates)
+        # data in the input below is data with intervetions; data_orig is the continuous data on which bins are estimated for discretization
+        data_all_discrete = DiscretizeData_(data, data_orig, nstates)
+        for name in var_names:
+            if discrete[name] is True:
+                data[:, var_names.index(name)] = data_all_discrete[:, var_names.index(name)]
+
     return data, var_names, graph_gt
 
 
@@ -238,8 +343,11 @@ def ConditionalDataGenerator(T, data_type='time_series', noise_fn=None, interven
         variables with the value being the array of length T with interventional values.
         Set values to np.nan to leave specific time points of a variable un-intervened.
     :type intervention: dict
-    :param discrete: If true, the generated data is discretized into 10 uniform bins (default: False).
-    :type discrete: bool
+    :param discrete: When bool, it specifies whether all the variables are discrete or all of them are continuous.
+        If true, the generated data is discretized into nstates uniform bins (default: False). Alternatively, if discrete is specified 
+        as a dictionary, then the keys of this dictionary must be the variable names and the value corresponding to
+        each key must be True or False. A value of False implies the variable is continuous, and discrete otherwise.
+    :type discrete: bool or dict
     :param nstates:  When discrete is True, the nstates specifies the number of bins to use for discretizing
         the data (default=10).
     :type nstates: int
@@ -274,6 +382,15 @@ def ConditionalDataGenerator(T, data_type='time_series', noise_fn=None, interven
     D = 4 # number of variables
 
     causal_node_seq = nodes = ['C', 'W', 'X', 'Y']
+
+    if type(discrete)==dict:
+        assert set(nodes)==set(list(discrete.keys())), f'The keys of the argument discrete must match the keys of the argument sem_dict.'
+    elif type(discrete)==bool:
+        discrete = {name: discrete==True for name in nodes}
+    else:
+        raise ValueError(f"The argument discrete must be either of type bool or Python dictionary, but found {type(discrete)}.")
+
+
     if data_type=='tabular':
         graph_gt = {'C': [],
                     'W': ['C'],
@@ -285,13 +402,14 @@ def ConditionalDataGenerator(T, data_type='time_series', noise_fn=None, interven
                     'X': [('C',0), ('W',0)],
                     'Y': [('C',0), ('X',0)]}
 
+    is_any_discrete = any(discrete.values())
     if intervention is not None:
         for key in intervention.keys():
             if key not in nodes:
                 raise ValueError(f"intervention dictionary must have keys in {nodes} but found {key}.")
             if len(intervention[key])!=T:
                 raise ValueError(f"intervention data for {key} must be of length T, but found {len(intervention[key])}")
-            if discrete:
+            if discrete[key]:
                 assert np.all(intervention[key]<nstates),\
                             f'Treatment variable value must be in range [0,...,{nstates-1}], but found {intervention[key].max()}'
 
@@ -300,7 +418,7 @@ def ConditionalDataGenerator(T, data_type='time_series', noise_fn=None, interven
     data_orig = copy.deepcopy(data)
 
     DiscretizeData_orig=None
-    if discrete:
+    if is_any_discrete:
         DiscretizeData_orig = _DiscretizeData()
         _ = DiscretizeData_orig(data_orig, data_orig, nstates, compute_bin_range=True)
         
@@ -317,26 +435,30 @@ def ConditionalDataGenerator(T, data_type='time_series', noise_fn=None, interven
         intervened_data = np.zeros((T, D))
         # C
         if 'C' in intervention.keys():
-            intervened_data[:, 0] = get_intervention_data(discrete, DiscretizeData_orig, 0, 'C', intervention)
+            intervened_data[:, 0] = get_intervention_data(discrete['C'], DiscretizeData_orig, 0, 'C', intervention)
         else:
             intervened_data[:, 0] = noise_dict['C']
         if 'W' in intervention.keys():
-            intervened_data[:, 1] = get_intervention_data(discrete, DiscretizeData_orig, 1, 'W', intervention)
+            intervened_data[:, 1] = get_intervention_data(discrete['W'], DiscretizeData_orig, 1, 'W', intervention)
         else:
             intervened_data[:, 1] = intervened_data[:,0] + noise_dict['W']
         if 'X' in intervention.keys():
-            intervened_data[:, 2] = get_intervention_data(discrete, DiscretizeData_orig, 2, 'X', intervention)
+            intervened_data[:, 2] = get_intervention_data(discrete['X'], DiscretizeData_orig, 2, 'X', intervention)
         else:
             intervened_data[:, 2] = intervened_data[:,0]*intervened_data[:,1] + noise_dict['X']
         if 'Y' in intervention.keys():
-            intervened_data[:, 3] = get_intervention_data(discrete, DiscretizeData_orig, 3, 'Y', intervention)
+            intervened_data[:, 3] = get_intervention_data(discrete['Y'], DiscretizeData_orig, 3, 'Y', intervention)
         else:
             intervened_data[:, 3] = intervened_data[:,0]*intervened_data[:,2] + noise_dict['Y']
         data = intervened_data
     
-    if discrete:
+    if is_any_discrete:
         DiscretizeData_ = _DiscretizeData()
-        data = DiscretizeData_(data, data_orig, nstates)
+        data_all_discrete = DiscretizeData_(data, data_orig, nstates)
+        for name in nodes:
+            if discrete[name] is True:
+                data[:, nodes.index(name)] = data_all_discrete[:, nodes.index(name)]
+        # data = DiscretizeData_(data, data_orig, nstates)
     return data, nodes, graph_gt
 
 class _DiscretizeData:
@@ -380,10 +502,6 @@ class _DiscretizeData:
                     self.bin_range[i][b] = (min_, max_)
         data_disc = np.array(data_disc, dtype='int')
         self.called = True
-
-        
-
-
         return data_disc
     def transform(self, val, idx):
         # val must be an ndarray of shape (N, 1) where N is any integer

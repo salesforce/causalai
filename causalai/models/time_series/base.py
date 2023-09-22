@@ -27,7 +27,8 @@ class BaseTimeSeriesAlgo(object):
 
     def __init__(self, data: TimeSeriesData, prior_knowledge: Optional[PriorKnowledge]=None, use_multiprocessing=False, **kargs):
         '''
-        :param data: It contains the list data.data_arrays, where each item is a numpy array of shape (observations N, variables D).
+        :param data: this is a TimeSeriesData object and contains attributes likes data.data_arrays, which is a 
+            list of numpy array of shape (observations N, variables D).
         :type data: TimeSeriesData object 
 
         :param prior_knowledge: Specify prior knoweledge to the causal discovery process by either

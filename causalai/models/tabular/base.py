@@ -16,6 +16,13 @@ class ResultInfoTabularSingle(TypedDict):
     value_dict: Dict[Union[str,int], float]
     pvalue_dict: Dict[Union[str,int], float]
     undirected_edges: List[Union[str,int]]
+
+class ResultInfoTabularMB(TypedDict):
+    mb: List[Union[str,int]]
+    value_dict: Dict[Union[str,int], float]
+    pvalue_dict: Dict[Union[str,int], float]
+    undirected_edges: List[Union[str,int]]
+
 class ResultInfoTabularFull(TypedDict):
     parents: List[Union[str,int]]
     value_dict: Dict[Union[str,int], float]
@@ -28,7 +35,7 @@ class BaseTabularAlgo(object):
         :type data: TabularData object 
 
         :param prior_knowledge: Specify prior knoweledge to the causal discovery process by either
-            forbidding links that are known to not exist, or adding back links that do exist
+            forbidding links/co-parents that are known to not exist, or adding back links/co-parents that do exist
             based on expert knowledge. See the PriorKnowledge class for more details.
         :type prior_knowledge: PriorKnowledge object
         '''
@@ -64,6 +71,15 @@ class BaseTabularAlgo(object):
         candidate_parents = [n for n in self.data.var_names if self.prior_knowledge.isValid(parent=n, child=target_var) and n!=target_var]
         return candidate_parents
 
+    def get_candidate_mb(self, target_var: Union[int, str]) -> List:
+        '''
+        Populates the list using all the nodes that prior_knowledge allows
+        '''
+        candidate_parents = self.get_candidate_parents(target_var)
+        candidate_children = [n for n in self.data.var_names if self.prior_knowledge.isValid(parent=target_var, child=n) and n!=target_var]
+        candidate_co_parents = [n for n in self.data.var_names if n!=target_var and self.prior_knowledge.isValid_co_parent(first_co_parent=target_var, second_co_parent=n)]
+        return list(set(candidate_parents+candidate_children+candidate_co_parents))
+
     def sort_parents(self, parents_vals: Dict) -> Tuple[Union[int, str]]:
         """
         Sort (in descending order) parents according to test statistic values.
@@ -96,7 +112,7 @@ class BaseTabularAlgo(object):
 
         for index_parent, parent in enumerate(self.pvalue_dict.keys()):
 
-            parents_values[parent] = np.abs(self.value_dict[parent])
+            parents_values[parent] = np.abs(self.value_dict[parent]) if self.value_dict[parent] is not None else np.abs(self.pvalue_dict[parent])
 
             if self.pvalue_dict[parent] > pvalue_thres:
                 nonsignificant_parents.append(parent)
@@ -108,7 +124,7 @@ class BaseTabularAlgo(object):
         return parents
 
     @abstractmethod
-    def run(self, target_var: Union[int,str], pvalue_thres: float=0.05) -> ResultInfoTabularSingle:
+    def run(self, target_var: Union[int,str], pvalue_thres: float=0.05) -> Union[ResultInfoTabularSingle,ResultInfoTabularMB]:
         '''
         Run causal discovery using the algorithm implemented here
 
@@ -119,9 +135,9 @@ class BaseTabularAlgo(object):
             cause of the target_var.
         :type pvalue_thres: float
 
-        :return: Dictionay has three keys:
+        :return: Dictionary has three keys:
 
-            - parents : List of estimated parents.
+            - parents or markov_blanket : List of estimated parents or markov blanket.
 
             - value_dict : Dictionary of form {var3_name:float, ...} containing the test statistic of a link.
 
@@ -158,7 +174,7 @@ class BaseTabularAlgoFull(object):
             name, and the corresponding values is the list of its parents.
         :type target_var: str or float, optional
 
-        :return: Dictionay has D keys, where D is the number of variables. The value corresponding each key is 
+        :return: Dictionary has D keys, where D is the number of variables. The value corresponding each key is
             the list of lagged parent names that cause the target variable under the given pvalue_thres.
         :rtype: dict
         '''

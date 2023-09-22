@@ -1,7 +1,7 @@
 .. Salesforce CausalAI Library documentation master file, created by
-   sphinx-quickstart on Mon Nov 28 11:39:42 2022.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+	sphinx-quickstart on Mon Nov 28 11:39:42 2022.
+	You can adapt this file completely to your liking, but it should at least
+	contain the root `toctree` directive.
 
 Welcome to Salesforce CausalAI Library's documentation!
 =======================================================
@@ -46,12 +46,32 @@ Contents
 	- Tabular
 		- :doc:`Base Class <models.tabular.base>`
 		- :doc:`PC Algorithm <models.tabular.pc>`
+		- :doc:`GES <models.tabular.ges>`
+		- :doc:`LINGAM <models.tabular.lingam>`
+		- :doc:`GIN <models.tabular.gin>`
+		- :doc:`Grow-Shrink <models.tabular.grow_shrink>` (Markov Blanket Discovery)
 
 4. Causal Inference
 	- :doc:`Time Series Causal Inference <models.time_series.causal_inference>`
 	- :doc:`Tabular Causal Inference <models.tabular.causal_inference>`
 
-5. Other
+5. Applications
+	- Tabular
+		- :doc:`Tabular Distribution Shift Detector Class <application.tabular_distribution_shift_detector>`
+	- Time Series
+		- :doc:`Root Cause Detector Class <application.root_cause_detector.rst>`
+
+6. Benchmarking
+	- Tabular
+		- :doc:`Base Class <benchmark.tabular.base>`
+		- :doc:`Continuous Class <benchmark.tabular.continuous>`
+		- :doc:`Discrete Class <benchmark.tabular.discrete>`
+	- Time Series
+		- :doc:`Base Class <benchmark.time_series.base>`
+		- :doc:`Continuous Class <benchmark.time_series.continuous>`
+		- :doc:`Discrete Class <benchmark.time_series.discrete>`
+
+7. Other
 	- :doc:`Misc <misc.misc>` (plotting and evaluation)
 	- CI Tests for PC Algorithm
 		- :doc:`Discrete CI Tests <models.common.CI_tests.discrete_ci_tests>`
@@ -66,69 +86,106 @@ Tutorials
 1. Prior Knowledge
 
 .. toctree::
-   :maxdepth: 1
-   :glob:
+	:maxdepth: 1
+	:glob:
 
-   tutorials/Prior Knowledge.ipynb
+	tutorials/Prior Knowledge.ipynb
 
 2. Data
 
 .. toctree::
-   :maxdepth: 1
-   :glob:
+	:maxdepth: 1
+	:glob:
 
-   tutorials/Data objects.ipynb
+	tutorials/Data objects.ipynb
 
 .. toctree::
-   :maxdepth: 1
-   :glob:
+	:maxdepth: 1
+	:glob:
 
-   tutorials/Data Generator.ipynb
+	tutorials/Data Generator.ipynb
 
 
 3. Causal Discovery for Time Series
 
 .. toctree::
-   :maxdepth: 1
-   :glob:
+	:maxdepth: 1
+	:glob:
 
-   tutorials/PC_Algorithm_TimeSeries.ipynb
-
-.. toctree::
-   :maxdepth: 1
-   :glob:
-
-   tutorials/GrangerAlgorithm_TimeSeries.ipynb
+	tutorials/PC_Algorithm_TimeSeries.ipynb
 
 .. toctree::
-   :maxdepth: 1
-   :glob:
+	:maxdepth: 1
+	:glob:
 
-   tutorials/VARLINGAM_Algorithm_TimeSeries.ipynb
+	tutorials/GrangerAlgorithm_TimeSeries.ipynb
+
+.. toctree::
+	:maxdepth: 1
+	:glob:
+
+	tutorials/VARLINGAM_Algorithm_TimeSeries.ipynb
 
 
 4. Causal Discovery for Tabular Data
 
 .. toctree::
-   :maxdepth: 1
-   :glob:
+	:maxdepth: 1
+	:glob:
 
-   tutorials/PC_Algorithm_Tabular.ipynb
-
-
-5. Causal Inference
+	tutorials/PC_Algorithm_Tabular.ipynb
 
 .. toctree::
-   :maxdepth: 1
-   :glob:
+	:maxdepth: 1
+	:glob:
 
-   tutorials/Causal Inference Time Series Data.ipynb
+	tutorials/GES_Algorithm_Tabular.ipynb
 
 .. toctree::
-   :maxdepth: 1
-   :glob:
+	:maxdepth: 1
+	:glob:
 
-   tutorials/Causal Inference Tabular Data.ipynb
+	tutorials/LINGAM_Algorithm_Tabular.ipynb
+
+.. toctree::
+	:maxdepth: 1
+	:glob:
+
+	tutorials/GIN_Algorithm_Tabular.ipynb
+
+.. toctree::
+	:maxdepth: 1
+	:glob:
+
+	tutorials/GrowShrink_Algorithm_Tabular.ipynb
+
+5. Benchmarking
+
+.. toctree::
+	:maxdepth: 1
+	:glob:
+
+	tutorials/Benchmarking Tabular.ipynb
+
+.. toctree::
+	:maxdepth: 1
+	:glob:
+
+	tutorials/Benchmarking TimeSeries.ipynb
+
+6. Causal Inference
+
+.. toctree::
+	:maxdepth: 1
+	:glob:
+
+	tutorials/Causal Inference Time Series Data.ipynb
+
+.. toctree::
+	:maxdepth: 1
+	:glob:
+
+	tutorials/Causal Inference Tabular Data.ipynb
 
 Indices and tables
 ==================

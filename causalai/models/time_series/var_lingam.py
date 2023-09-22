@@ -40,10 +40,10 @@ class VARLINGAM(BaseTimeSeriesAlgo, BaseTimeSeriesAlgoFull):
         '''
         VAR-LiNGAM algorithm wrapper.
         
-        :param data: this object contains attributes likes data.values, which is a numpy array of shape
-            (observations N, variables D), and some useful methods to manipulate the time series.
+        :param data: this is a TimeSeriesData object and contains attributes likes data.data_arrays, which is a 
+            list of numpy array of shape (observations N, variables D).
         :type data: TimeSeriesData object
-        :param use_multiprocessing: If True, computations are performed using multi-processing which makes the algorithm faster.
+        :param use_multiprocessing: Multi-processing is not supported.
         :type use_multiprocessing: bool
         '''
 

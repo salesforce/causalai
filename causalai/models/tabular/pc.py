@@ -36,6 +36,11 @@ class GreedyConfigInfo(TypedDict):
     pvalue_thres: float
 
 def _greedy_subroutine(data, CI_test, X, Y, Z_all, condition_set_size, pvalue_thres):
+    '''
+    We iterate over all possible condition sets of a given size, x and y. For each set, we perform the CI test, 
+    which returns val, pval. We keep track of the largest pval seen so far, and if that pval is larger than the 
+    pval-thres (typically 0.05), then we have found our condition set which makes x and y independent.
+    '''
     value, pvalue_max = None, None
     for i,Z in enumerate(itertools.combinations(Z_all, condition_set_size)):
         x,y,z = data.extract_array(X=X, Y=Y, Z=list(Z))
@@ -58,7 +63,8 @@ class PCSingle(BaseTabularAlgo):
         '''
         PC algorithm for estimating parents of single variable.
         
-        :param data: It contains data.values, a numpy array of shape (observations N, variables D).
+        :param data: this is a TabularData object and contains attributes likes data.data_arrays, which is a 
+            list of numpy array of shape (observations N, variables D).
         :type data: TabularData object 
         :param prior_knowledge: Specify prior knoweledge to the causal discovery process by either
             forbidding links that are known to not exist, or adding back links that do exist
@@ -136,8 +142,8 @@ class PCSingle(BaseTabularAlgo):
         """
         Runs PC algorithm for estimating the causal stength of all potential parents of a single variable.
 
-        :param target_var: Target variable index for which parents need to be estimated.
-        :type target_var: int
+        :param target_var: Target variable index or name for which parents need to be estimated.
+        :type target_var: int or str
         :param pvalue_thres: Significance level used for hypothesis testing (default: 0.05). Candidate parents with pvalues above pvalue_thres
             are ignored, and the rest are returned as the cause of the target_var.
         :type pvalue_thres: float
@@ -202,8 +208,8 @@ class PC(BaseTabularAlgo, BaseTabularAlgoFull):
         '''
         PC algorithm for estimating parents of all variables.
 
-        :param data: this object contains attributes likes data.values, which is a numpy array of shape
-            (observations N, variables D), and some useful methods to manipulate the time series.
+        :param data: this is a TabularData object and contains attributes likes data.data_arrays, which is a 
+            list of numpy array of shape (observations N, variables D).
         :type data: TabularData object
         :param prior_knowledge: Specify prior knoweledge to the causal discovery process by either
             forbidding links that are known to not exist, or adding back links that do exist
@@ -256,6 +262,7 @@ class PC(BaseTabularAlgo, BaseTabularAlgoFull):
             del result['undirected_edges']
             self.result[name] = result
         self.stop()
+        self.separation_sets = separation_sets
 
         self.skeleton = deepcopy(graph)
         # this graph is a dict with var_names as keys, and values are nodes which are either parents, or nodes whose causal direction is undetermined
@@ -270,7 +277,7 @@ class PC(BaseTabularAlgo, BaseTabularAlgoFull):
                 del self.result[name]['pvalue_dict'][node]
 
         for name in self.data.var_names:
-            self.result[name]['parents'] = graph[name]
+            self.result[name]['parents'] = list(set(graph[name]))
 
         return self.result
 
@@ -286,7 +293,7 @@ class PC(BaseTabularAlgo, BaseTabularAlgoFull):
         :param target_var: If specified (must be one of the data variable names), the parents of only this variable
             are returned as a list, otherwise a dictionary is returned where each key is a target variable
             name, and the corresponding values is the list of its parents.
-        :type target_var: str or float, optional
+        :type target_var: str or int, optional
 
         :return: Dictionay has D keys, where D is the number of variables. The value corresponding each key is 
             the list of parent names that cause the target variable under the given pvalue_thres.

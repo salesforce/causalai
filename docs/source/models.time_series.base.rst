@@ -1,5 +1,5 @@
 TimeSeries Base module
-==================
+======================
 
 .. automodule:: causalai.models.time_series
    :members:

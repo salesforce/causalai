@@ -23,7 +23,8 @@ const PerformCausalInference = (props) => {
   const [graphState, setGraphState] = useState(causalGraph)
   const [addedVariable, setAddedVariable] = useState(false);
   const [estimatedAte, setEstimatedAte] = useState(false);
-  const [estimatedCate, setEstimatedCate] = useState(false)
+  const [estimatedCate, setEstimatedCate] = useState(false);
+  const [estimatedCounterfactual, setEstimatedCounterfactual] = useState(false);
   const [addedConditionVariable, setAddedConditionVariable] = useState(false)
 
   const [targetVar, setTargetVar] = useState('')
@@ -46,9 +47,12 @@ const PerformCausalInference = (props) => {
   const [trueAte, setTrueAte] = useState(0)
   const [estCate, setEstCate] = useState(0)
   const [trueCate, setTrueCate] = useState(0)
+  const [estCounterfactual, setEstCounterfactual] = useState(0)
+  const [trueCounterfactual, setTrueCounterfactual] = useState(0)
 
   const [loadingAte, setLoadingAte] = useState(true)
   const [loadingCate, setLoadingCate] = useState(true)
+  const [loadingCounterfactual, setLoadingCounterfactual] = useState(true)
 
   const [undirectedEdgesSection, setUndirectedEdgesSection] = useState(false)
   const [undirectedDone, setUndirectedDone] = useState(false)
@@ -196,9 +200,31 @@ const PerformCausalInference = (props) => {
     }
   }
 
+  const counterfactualConditionsMet = () =>{
+    let set = new Set()
+    if(treatmentVars.length === 1  ){
+      set.add(treatmentVars[0][0])
+      set.add(targetVar)
+      for(let i = 0; i < conditionVars.length; i++){
+        set.add(conditionVars[i][0])
+
+      }
+      if(set.size === varNames.length){
+        
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    else{
+      return false;
+    }
+  }
   const handleAte = () => {
     setLoadingAte(true)
     setEstimatedCate(false)
+    setEstimatedCounterfactual(false)
     let data = new FormData();
     let jsonArray = JSON.stringify(dataArray);
     let jsonVars = JSON.stringify(varNames);
@@ -253,6 +279,7 @@ const PerformCausalInference = (props) => {
     setLoadingCate(true);
 
     setEstimatedAte(false)
+    setEstimatedCounterfactual(false)
 		let data = new FormData();
     let jsonArray = JSON.stringify(dataArray);
     let jsonVars = JSON.stringify(varNames);
@@ -305,6 +332,58 @@ const PerformCausalInference = (props) => {
         console.log(error);
       });
   }
+  const handleCounterfactual = () => {
+    setLoadingCounterfactual(true)
+    setEstimatedCate(false);
+    setEstimatedAte(false)
+    let data = new FormData();
+    let jsonArray = JSON.stringify(dataArray);
+    let jsonVars = JSON.stringify(varNames);
+    let causalArray = JSON.stringify(causalGraph);
+    let treatmentVarsArray = JSON.stringify(treatmentVars);
+    let conditionVarsArray = JSON.stringify(conditionVars);
+
+		data.append('data_type', dataType);
+    data.append('data_array', jsonArray);
+		data.append('var_names', jsonVars);
+		data.append('causal_graph', causalArray);
+
+    data.append('target_var', targetVar);
+    data.append('prediction_model', predictionModel);
+    data.append('treatments', treatmentVarsArray)
+
+    data.append('conditions', conditionVarsArray)
+    data.append('condition_prediction_model', predictionModel)
+
+    data.append('isDiscrete', isDiscrete);
+    data.append('random_seed', randomSeed);
+    data.append('isDataGenerated', isDataGenerated);
+    
+    data.append('num_vars', numVars);
+    data.append('num_samples', numSamples);
+    data.append('max_lag', maxLag);
+    setEstimatedCounterfactual(true)
+
+    var config = {
+			method: 'post',
+			url: 'http://127.0.0.1:5000/counterfactual',
+			headers: { 
+				'Content-Type': 'application/json'
+			},
+			data : data
+		}
+
+    axios(config)
+      .then(function (response) {
+        console.log(response)
+        setEstCounterfactual(response.data.est_counterfactual)
+        setTrueCounterfactual(response.data.true_counterfactual)
+        setLoadingCounterfactual(false)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
   useEffect(() => {
 		let data = new FormData();
     let jsonArray = JSON.stringify(dataArray);
@@ -329,7 +408,6 @@ const PerformCausalInference = (props) => {
         console.log(error);
       });
   },[]);
-
 
 
   return (
@@ -368,14 +446,14 @@ const PerformCausalInference = (props) => {
             <label htmlFor="" className="panel-label" id='condition-label'>Causal Inference</label>
             <NodeGraph data={causalGraph} dataType={dataType} graphId={'cy'}  />
             <div id='inference-buttons'>
-              <div className='flex-column'>
+              <div className='flex'>
                 <button disabled={ateConditionsMet() ? false : true} className="btn" onClick={() => handleAte()}>Estimate ATE</button>
                 <div className='flex-column'>
                   <span className='required'>Required:</span>
                   <span>{treatmentVars.length > 0 ? (<img src='/images/check.svg' />) :  (<img src='/images/close-2.svg' />)}At least one treatment variable</span>
                 </div>
               </div>
-              <div className='flex-column'>
+              <div className='flex'>
                 <button disabled={cateConditionsMet() ? false : true} className="btn"onClick={() => handleCate()}>Estimate CATE</button>
                 <div className='flex-column'>
                   <span className='required'>Required:</span>
@@ -383,9 +461,17 @@ const PerformCausalInference = (props) => {
                   <span>{conditionVars.length > 0 ? (<img src='/images/check.svg' />) :  (<img src='/images/close-2.svg' />)} At least one condition variable</span>
                 </div>
               </div>
+              <div className='flex'>
+                <button disabled={counterfactualConditionsMet() ? false : true} className="btn"onClick={() => handleCounterfactual()}>Counterfactual</button>
+                <div className='flex-column'>
+                  <span className='required'>Required:</span>
+                  <span>{treatmentVars.length === 1 ? (<img src='/images/check.svg' />) :  (<img src='/images/close-2.svg' />)} One treatment variable</span>
+                  <span>{counterfactualConditionsMet() ? (<img src='/images/check.svg' />) :  (<img src='/images/close-2.svg' />)} All other variables condition variables</span>
+                </div>
+              </div>
             </div>
             <div id="inference-results">
-              {(estimatedAte || estimatedCate) && (
+              {(estimatedAte || estimatedCate || estimatedCounterfactual) && (
                 <>
                   <label htmlFor="" className="panel-label">Results</label>
                   <div className="panel">
@@ -409,6 +495,17 @@ const PerformCausalInference = (props) => {
                             <p>Estimated CATE: {typeof estCate == 'number' ? parseFloat(estCate).toFixed(2) : estCate}</p>
                             <p>True CATE: {typeof trueCate == 'number' ? parseFloat(trueCate).toFixed(2) : trueCate}</p>
                           </>}
+                        </div>
+                      )}
+                      {estimatedCounterfactual && (
+                        <div id="ate-results">
+                          {loadingCounterfactual ? <>
+                            <img className='inference-loading' src={"/images/loader.gif"} alt="" />
+                          </> : <>
+                            <p>Estimated Counterfactual: {typeof estCounterfactual == 'number' ? parseFloat(estCounterfactual.toFixed(2)) : estCounterfactual }</p>
+                            <p>True Counterfactual: {typeof trueCounterfactual === 'number' ?  parseFloat(trueCounterfactual).toFixed(2) : trueCounterfactual}</p>
+                          </>}
+                          
                         </div>
                       )}
                     </div>

@@ -39,8 +39,8 @@ class GrangerSingle(BaseTimeSeriesAlgo):
         '''
         Granger causality algorithm for estimating lagged parents of single variable.
 
-        :param data: this object contains attributes likes data.values, which is a numpy array of shape
-            (observations N, variables D), and some useful methods to manipulate the time series.
+        :param data: this is a TimeSeriesData object and contains attributes likes data.data_arrays, which is a 
+            list of numpy array of shape (observations N, variables D).
         :type data: TimeSeriesData object
         :param prior_knowledge: Specify prior knoweledge to the causal discovery process by either
             forbidding links that are known to not exist, or adding back links that do exist
@@ -95,8 +95,8 @@ class GrangerSingle(BaseTimeSeriesAlgo):
         """
         Runs Granger causality algorithm for estimating the causal stength of all potential lagged parents of a single variable.
 
-        :param target_var: Target variable index for which lagged parents need to be estimated.
-        :type target_var: int
+        :param target_var: Target variable index or name for which lagged parents need to be estimated.
+        :type target_var: int or str
         :param pvalue_thres: Significance level used for hypothesis testing (default: 0.05). Candidate parents with pvalues above pvalue_thres
             are ignored, and the rest are returned as the cause of the target_var.
         :type pvalue_thres: float
@@ -176,8 +176,8 @@ class Granger(BaseTimeSeriesAlgo, BaseTimeSeriesAlgoFull):
         '''
         Granger causality algorithm for estimating lagged parents of all variables.
 
-        :param data: this object contains attributes likes data.values, which is a numpy array of shape
-            (observations N, variables D), and some useful methods to manipulate the time series.
+        :param data: this is a TimeSeriesData object and contains attributes likes data.data_arrays, which is a 
+            list of numpy array of shape (observations N, variables D).
         :type data: TimeSeriesData object
         :param prior_knowledge: Specify prior knoweledge to the causal discovery process by either
             forbidding links that are known to not exist, or adding back links that do exist
@@ -230,7 +230,7 @@ class Granger(BaseTimeSeriesAlgo, BaseTimeSeriesAlgoFull):
         :param target_var: If specified (must be one of the data variable names), the parents of only this variable
             are returned as a list, otherwise a dictionary is returned where each key is a target variable
             name, and the corresponding values is the list of its parents.
-        :type target_var: str or float, optional
+        :type target_var: str or int, optional
 
         :return: Dictionay has D keys, where D is the number of variables. The value corresponding each key is 
             the list of lagged parent names that cause the target variable under the given pvalue_thres.

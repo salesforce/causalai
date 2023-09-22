@@ -135,6 +135,13 @@ const NodeGraph = (props) => {
         // centerGraph:false,
       }).run()  
     }
+    else{
+      cy.layout({
+        name: 'grid',
+        rows: rows,
+        infinite: true,
+      }).run()
+    }
 
   },[])
 

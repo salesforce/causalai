@@ -1,8 +1,10 @@
 
 from causalai.models.time_series.pc import PC as PC_timeseries
-from causalai.models.tabular.pc import PC as PC_tabular
 from causalai.models.time_series.granger import Granger
 from causalai.models.time_series.var_lingam import VARLINGAM
+from causalai.models.tabular.pc import PC as PC_tabular
+from causalai.models.tabular.ges import GES
+from causalai.models.tabular.lingam import LINGAM
 
 from causalai.models.common.CI_tests.partial_correlation import PartialCorrelation
 from causalai.models.common.CI_tests.kci import KCI
@@ -175,7 +177,7 @@ def perform_causal_discovery_api():
 
     if data_type=='Time Series':
         assert max_lag is not None and type(max_lag)==int and max_lag>=0
-        assert algorithm in ['PC', 'Granger', 'VARLINGAM']
+        # assert algorithm in ['PC', 'Granger', 'VARLINGAM']
         if algorithm=='PC':
             assert ci_test_input is not None
             if ci_test_input=='Partial Correlation':
@@ -202,7 +204,7 @@ def perform_causal_discovery_api():
             toc = time.time()
             print(f'Granger, time taken: {toc-tic:.2f}s')
         elif algorithm=='VARLINGAM':
-            model = VARLINGAM(data=data_obj, use_multiprocessing=False)
+            model = VARLINGAM(data=data_obj, prior_knowledge=prior_knowledge, use_multiprocessing=False)
             result = model.run(pvalue_thres=pvalue_thres, max_lag=max_lag)
         else:
             raise ValueError(f'algorithm {algorithm} not supported.')
@@ -223,6 +225,12 @@ def perform_causal_discovery_api():
                                 use_multiprocessing=True
                                 )
             result = model.run(pvalue_thres=pvalue_thres, max_condition_set_size=4)
+        elif algorithm=='GES':
+            model = GES(data=data_obj, prior_knowledge=prior_knowledge, use_multiprocessing=False)
+            result = model.run(pvalue_thres=pvalue_thres)
+        elif algorithm=='LINGAM':
+            model = LINGAM(data=data_obj, prior_knowledge=prior_knowledge, use_multiprocessing=False)
+            result = model.run(pvalue_thres=pvalue_thres)
         else:
             raise ValueError(f'algorithm {algorithm} not supported.')
 
@@ -427,33 +435,6 @@ def perform_causal_inference_cate_api():
         raise ValueError(f'Only [Linear Regression, MLP Regression] are supported for prediction_model, but got {condition_prediction_model}.')
 
 
-    true_cate = None
-    if isDataGenerated:
-        assert len(conditions)==1, 'When using generated data, only single condition variables are supported'
-        if(data_type == 'Time Series'):
-            max_lag = int(request.form['max_lag'])
-        else:
-            max_lag = None
-
-        treatment_vals_dict = {v:t*np.ones((num_samples,)) for (v,t,_) in treatments}
-        control_vals_dict = {v:c*np.ones((num_samples,)) for (v,_,c) in treatments}
-        treatment_data, _, _ = get_data(data_type, num_vars, max_num_parents, num_samples, random_seed, isDiscrete, max_lag, intervention=treatment_vals_dict)
-        control_data, _, _ = get_data(data_type, num_vars, max_num_parents, num_samples, random_seed, isDiscrete, max_lag, intervention=control_vals_dict)
-        target_var_idx = var_names.index(target_var)
-
-        condition_var_name = conditions[0][0]
-        control_var_idx = var_names.index(str(condition_var_name))
-        condition_state = conditions[0][1]
-
-        treatment_data = np.array(treatment_data)
-        control_data = np.array(control_data)
-        
-        diff = np.abs(data_array[:,control_var_idx] - condition_state)
-        idx = np.argmin(diff)
-        # assert diff[idx]<0.1, f'No observational data exists for the conditional variable close to {condition_state}'
-        true_cate = (treatment_data[idx,target_var_idx] - control_data[idx,target_var_idx])
-        true_cate = float(true_cate)
-
     intervention_lod = []
     for intervention in treatments:
         intervention_lod.append(define_treatments(intervention[0],intervention[1],intervention[2]))
@@ -468,6 +449,41 @@ def perform_causal_inference_cate_api():
     for condition in conditions:
         conditions_lod.append({'var_name': condition[0], 'condition_value': condition[1]})
     est_cate = CausalInference_.cate(target_var, intervention_lod, conditions_lod, condition_prediction_model)
+
+    is_treatment_relevant = CausalInference_.is_treatment_relevant
+
+
+    true_cate = None
+    if isDataGenerated:
+        if is_treatment_relevant is False:
+            true_cate = float(0.)
+        else:
+            assert len(conditions)==1, 'When using generated data, only single condition variables are supported'
+            if(data_type == 'Time Series'):
+                max_lag = int(request.form['max_lag'])
+            else:
+                max_lag = None
+
+            treatment_vals_dict = {v:t*np.ones((num_samples,)) for (v,t,_) in treatments}
+            control_vals_dict = {v:c*np.ones((num_samples,)) for (v,_,c) in treatments}
+            treatment_data, _, _ = get_data(data_type, num_vars, max_num_parents, num_samples, random_seed, isDiscrete, max_lag, intervention=treatment_vals_dict)
+            control_data, _, _ = get_data(data_type, num_vars, max_num_parents, num_samples, random_seed, isDiscrete, max_lag, intervention=control_vals_dict)
+            target_var_idx = var_names.index(target_var)
+
+            condition_var_name = conditions[0][0]
+            control_var_idx = var_names.index(str(condition_var_name))
+            condition_state = conditions[0][1]
+
+            treatment_data = np.array(treatment_data)
+            control_data = np.array(control_data)
+            
+            diff = np.abs(data_array[:,control_var_idx] - condition_state)
+            idx = np.argmin(diff)
+            # assert diff[idx]<0.1, f'No observational data exists for the conditional variable close to {condition_state}'
+            true_cate = (treatment_data[idx,target_var_idx] - control_data[idx,target_var_idx])
+            true_cate = float(true_cate)
+
+    
     '''
     est_cate: scalar
     true_cate: scalar or None
@@ -485,6 +501,134 @@ def perform_causal_inference_cate_api():
         true_cate='-'
 
     return jsonify({'est_cate':est_cate, 'true_cate':(true_cate)})
+
+@app.route("/counterfactual", methods=["POST"])
+def perform_causal_inference_counterfactual_api():
+    data_type = request.form['data_type']
+
+    data_array = request.form['data_array']
+    var_names = request.form['var_names']
+    causal_graph = request.form['causal_graph']
+
+    target_var = request.form['target_var']
+    prediction_model = request.form['prediction_model']
+    treatments = request.form['treatments']
+
+    conditions = request.form['conditions']
+    condition_prediction_model = request.form['condition_prediction_model']
+
+    if(request.form['isDiscrete'] == 'false'):
+        isDiscrete = False
+    else:
+        isDiscrete = True
+    random_seed = request.form['random_seed']
+    if(request.form['isDataGenerated'] == 'false'):
+        isDataGenerated = False
+    else:
+        isDataGenerated = True
+
+    num_vars = int(request.form['num_vars'])
+    num_samples = int(request.form['num_samples'])
+    
+
+    data_array = json.loads(data_array)
+    var_names = json.loads(var_names)
+    causal_graph = json.loads(causal_graph)
+    treatments = json.loads(treatments)
+    conditions = json.loads(conditions)
+
+    data_array = np.array(data_array)
+
+    max_num_parents = 4
+
+    if prediction_model=='Linear Regression':
+        prediction_model = LinearRegression
+    elif prediction_model=='MLP Regression':
+        prediction_model = MLPRegressor
+    else:
+        raise ValueError(f'Only [Linear Regression, MLP Regression] are supported for prediction_model, but got {prediction_model}.')
+
+    if condition_prediction_model=='Linear Regression':
+        condition_prediction_model = LinearRegression
+    elif condition_prediction_model=='MLP Regression':
+        condition_prediction_model = MLPRegressor
+    else:
+        raise ValueError(f'Only [Linear Regression, MLP Regression] are supported for prediction_model, but got {condition_prediction_model}.')
+
+    # compute the 1D sample array
+    sample = []
+    condition_names = [conditions[i][0] for i in range(len(conditions))]
+    condition_vals = [conditions[i][1] for i in range(len(conditions))]
+
+    treatment_names = [treatments[i][0] for i in range(len(treatments))]
+    treatment_vals = [treatments[i][1] for i in range(len(treatments))]
+
+    for var in var_names:
+        if var in treatment_names:
+            idx = treatment_names.index(var)
+            sample.append(treatment_vals[idx])
+        elif var in condition_names:
+            idx = condition_names.index(var)
+            sample.append(condition_vals[idx])
+        else:
+            assert var==target_var
+            sample.append(0.)
+    sample = np.array(sample).reshape(-1)
+
+    intervention_dict = {}
+    for intervention in treatments:
+        intervention_dict[intervention[0]] = intervention[1]
+
+    if data_type=='Time Series':
+        causal_graph = format_ts_graph(causal_graph)
+        CausalInference_ = CausalInference_timeseries(np.array(data_array), var_names, causal_graph, prediction_model, discrete=isDiscrete)
+    else:
+        CausalInference_ = CausalInference_tabular(np.array(data_array), var_names, causal_graph, prediction_model, discrete=isDiscrete)
+
+
+    est_counterfactual = CausalInference_.counterfactual(sample, target_var, intervention_dict, condition_prediction_model)
+
+    is_treatment_relevant = CausalInference_.is_treatment_relevant
+
+    true_counterfactual = None
+    if isDataGenerated:
+        target_var_idx = var_names.index(target_var)
+        if is_treatment_relevant is False:
+            true_counterfactual = float(sample[target_var_idx])
+        else:
+            if(data_type == 'Time Series'):
+                max_lag = int(request.form['max_lag'])
+            else:
+                max_lag = None
+
+            treatment_vals_dict = {v:t*np.ones((num_samples,)) for (v,t,_) in treatments}
+            treatment_data, _, _ = get_data(data_type, num_vars, max_num_parents, num_samples, random_seed, isDiscrete, max_lag, intervention=treatment_vals_dict)
+            treatment_data = np.array(treatment_data)
+
+            diff = np.abs(treatment_data - sample.reshape(1,-1))
+            idx = np.argmin(diff)
+            # assert diff[idx]<0.1, f'No observational data exists for the conditional variable close to {condition_state}'
+            true_counterfactual = (treatment_data[idx, target_var_idx])
+            true_counterfactual = float(true_counterfactual)
+
+    
+    '''
+    est_counterfactual: scalar
+    true_counterfactual: scalar or None
+    '''
+    if((est_counterfactual)!=None and math.isnan(est_counterfactual)):
+        est_counterfactual='NaN'
+
+    if((true_counterfactual)!=None and math.isnan(true_counterfactual)):
+        true_counterfactual='NaN'
+
+    if(est_counterfactual is None):
+        est_counterfactual='-'
+
+    if(true_counterfactual is None):
+        true_counterfactual='-'
+
+    return jsonify({'est_counterfactual':est_counterfactual, 'true_counterfactual':(true_counterfactual)})
 
 # @app.route("/undirected_edges", methods=["POST"])
 # def get_undirected_edges():

@@ -4,6 +4,7 @@ from numpy.random import permutation
 from scipy.spatial.distance import cdist, pdist, squareform
 from abc import abstractmethod
 from numpy.linalg import pinv
+import warnings
 
 def YeqXifNone(func):
     def wrapper(s,X,Y=None):
@@ -57,8 +58,9 @@ class LinearKernel(KernelBase):
         return self.centered_kernel(X.dot(Y.T))
 
 class GaussianKernel(KernelBase):
-    def __init__(self, width=None):
+    def __init__(self, width='empirical'):
         KernelBase.__init__(self)
+        assert width in ['empirical', 'median'], f'width must be one of ["empirical", "median"], but found {width}.'
         self.width = width
 
     @YeqXifNone
@@ -66,7 +68,9 @@ class GaussianKernel(KernelBase):
         """
         Gaussian kernel K(Xi,Yj) = exp(-0.5 * ||Xi-Yj||**2 / sigma**2)
         """
-        if self.width is None:
+        if self.width == 'empirical':
+            self.set_width_empirical(X)
+        elif self.width == 'median':
             self.set_width_median(X)
         X = X.reshape(X.shape[0], 1, -1)
         Y = Y.reshape(1, Y.shape[0], -1)
@@ -79,3 +83,12 @@ class GaussianKernel(KernelBase):
         dists = squareform(pdist(X, 'euclidean'))
         median_dist = median(dists[dists > 0])
         self.width = 0.5 / (median_dist ** 2)
+    def set_width_empirical(self, X: ndarray) -> None:
+        if X.shape[0] < 200:
+            width = 0.8
+        elif X.shape[0] < 1200:
+            width = 0.5
+        else:
+            width = 0.3
+        theta = 1.0 / (width ** 2)
+        self.width = theta * X.shape[1]

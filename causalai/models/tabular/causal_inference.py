@@ -9,6 +9,8 @@ import scipy.stats
 import time
 import math
 from numpy import ndarray
+from collections import Counter
+import copy
 from ...data.tabular import TabularData
 try:
     import ray
@@ -25,8 +27,27 @@ class ConditionalInfo(TypedDict):
     var_name: Union[str,int]
     condition_value: Union[int,float]
 
-
-
+def sanity_check_discrete_data(data_obj, treatments):
+    array = data_obj.data_arrays[0]
+    var_names = data_obj.var_names
+    for treatment in treatments:
+        name = treatment['var_name']
+        idx = var_names.index(name)
+        assert np.all(array[:,idx]==np.array(array[:,idx], dtype=int)), f'Data is specified as discrete but the '\
+                    f'data for treatment variable {name} is not disrete.'
+        assert np.all(array[:,idx]>=0), f'The discrete data for treatmenr variable {name} must be non-negative '\
+                    f'integers, but found negative values.'
+        assert np.all(treatment['treatment_value']==np.array(treatment['treatment_value'], dtype=int)),\
+                    f'Data is specified as discrete but the treatment_value '\
+                    f'for {name} is not disrete.'
+        assert np.all(treatment['control_value']==np.array(treatment['control_value'], dtype=int)),\
+                    f'Data is specified as discrete but the control_value '\
+                    f'for {name} is not disrete.'
+        num_states = int(array[:,idx].max())+1
+        assert treatment['treatment_value'].max()<num_states, f'The treatment values for the discrete variable '\
+                f'{name} must be at most {num_states-1}.'
+        assert treatment['control_value'].max()<num_states, f'The control values for the discrete variable '\
+                f'{name} must be at most {num_states-1}.'
 
 class CausalInference:
     '''
@@ -42,7 +63,7 @@ class CausalInference:
     '''
     def __init__(self, data: ndarray, var_names: List[Union[str, int]],\
                     causal_graph: Dict[Union[int,str], Tuple[Union[int, str]]],\
-                    prediction_model=None, use_multiprocessing: bool=False, discrete: bool=False):
+                    prediction_model=None, use_multiprocessing: bool=False, discrete: bool=False, method: str = 'causal_path'):
         '''
         :param data: The observational data of size (N,D) where N is the number of observations and D is the 
             number of variables.
@@ -62,10 +83,13 @@ class CausalInference:
         :type prediction_model: model class
         :param use_multiprocessing: If true multi-processing is used to speed up computation.
         :type use_multiprocessing: bool
-        :param discrete: Set to true if the data array (i.e. all the variables) is discrete. Note that the states
-            for a variable must take value in [0,1,...K-1], where K is the number of states for that variable.
-            Each variable can have a different number of states.
+        :param discrete: Set to true if the intervention variables discrete. Non-intervetion variables are expected to 
+            be continuous. Note that the states for a discrete variable must take value in [0,1,...K-1], where K is 
+            the number of states for that variable. Discrete variables may have different number of states.
         :type discrete: bool
+        :param method: The method used to estimate the causal effect of interventions. The supported options are
+            'causal_path' and 'backdoor'. See the functions ate_causal_path and ate_backdoor for details.
+        :type method: str
         '''
 
         self.discrete = discrete
@@ -73,8 +97,9 @@ class CausalInference:
         self.data_processor = _DataProcessor(data, var_names, discrete=discrete)
         self.causal_graph = causal_graph
 
-        assert prediction_model is not None or (prediction_model is None and discrete is True), 'prediction_model must be specified if data is not discrete'
+        assert prediction_model is not None, 'prediction_model must be specified if data is not discrete'
         # when discrete is True and prediction_model is None, use our simple model class DiscretePredictionModel
+        assert method in ['causal_path', 'backdoor'], f"method must be one of ['causal_path', 'backdoor'], but got {method}."
         self.prediction_model = prediction_model if prediction_model is not None else DiscretePredictionModel
         self.use_multiprocessing = use_multiprocessing
 
@@ -82,6 +107,12 @@ class CausalInference:
         self.node_seq = self.graph_obj.topologicalSort_causal_paths()
 
         self.train_model = _train_model
+        self.models = None
+        self.target_var = None
+        self.relevant_node_seq = None
+        self.treatment_vars = None
+        self.method = method
+        self.is_treatment_relevant = True
 
     def start(self):
         if self.use_multiprocessing==True and 'ray' in globals():
@@ -95,6 +126,14 @@ class CausalInference:
     def ate(self, target_var: Union[int,str],\
                   treatments: Union[TreatmentInfo, List[TreatmentInfo]]) -> Tuple[float, ndarray, ndarray]:
         '''
+        Mathematically Average Treatmet Effect (ATE) is expressed as,
+
+            𝙰𝚃𝙴 = 𝔼[𝑌|𝚍𝚘(𝑋=𝑥𝑡)]−𝔼[𝑌|𝚍𝚘(𝑋=𝑥𝑐)]
+
+        where  𝚍𝚘 denotes the intervention operation. In words, ATE aims to determine the relative expected difference 
+        in the value of  𝑌 when we intervene  𝑋 to be  𝑥𝑡 compared to when we intervene  𝑋 to be  𝑥𝑐. Here  𝑥𝑡 and  𝑥𝑐
+        are respectively the treatment value and control value.
+        
         :param target_var: Specify the name of the target variable of interest on which the effect of the treatment is to be estimated.
         :type target_var: int or str
         :param treatments: Each treatment is specified as a dictionary in which the keys are var_name, treatment_value, control_value.
@@ -109,7 +148,181 @@ class CausalInference:
 
             - y_treat: The individual effect of treatment value for each observation.
 
-            - y_treat: The individual effect of control value for each observation.
+            - y_control: The individual effect of control value for each observation.
+        :rtype: float, ndarray, ndarray
+        '''
+        if self.method == 'backdoor':
+            ate, y_treat, y_control, valid_backdoor = self.ate_backdoor(target_var, treatments)
+            if not valid_backdoor:
+                self.method = 'causal_path'
+                print(f'A valid backdoor was not found. Reverting to method="causal_path" for causal inference.')
+            else:
+                return ate, y_treat, y_control
+        if self.method == 'causal_path':
+            return self.ate_causal_path(target_var, treatments)
+        
+
+
+
+    def ate_backdoor(self, target_var: Union[int,str],\
+                  treatments: Union[TreatmentInfo, List[TreatmentInfo]]) -> Tuple[float, ndarray, ndarray]:
+        '''
+        This method finds all the backdoor sets for given interventions and target variables. We then learn a single 
+        conditional model P(y | X, Z), where y is the target variable, X is the set of intervention variables, and Z 
+        is the backdoor adjustment set. We then estimate the causal effect of the intervention on X using the following 
+        result (Theorem 1) from Pearl 1995 (Causal diagrams for empirical research):
+        P(y | do(X)) = sum_z P(y | X, Z). P(Z) ~= 1/N . (P(y | X, Z))
+        where N is the number of samples in the observational data, and X takes the intervention values (i,e, the treatment 
+        or control values). 
+
+        Backdoor criterion: Given a DAG, and an ordered variable pair (X,Y), 
+        a subset Z of variables in the DAG satisfies the backdoor criterion w.r.t. 
+        (X,Y) if Z does not contain a descendant of X, Z does not contain any colliders, 
+        and Z blocks all paths between X and Y that contain a arrow pointing into X. 
+        If Z contains colliders, then for each path, we additionally condition on at least one of its 
+        parents, or one of their descendants, in that path. This is because conditioning on colliders 
+        open up paths rather than blocking them. For multiple intervention variables, see the function 
+        find_approx_minimal_backdoor_set below.
+
+        We find this estimator to have a higher variance and lower performance compared to the causal_path 
+        method. However, this method is more efficient in general, since we only need to fit a single model.
+
+        :param target_var: Specify the name of the target variable of interest on which the effect of the treatment is to be estimated.
+        :type target_var: int or str
+        :param treatments: Each treatment is specified as a dictionary in which the keys are var_name, treatment_value, control_value.
+            The value of var_name is a str or int depending on var_names specified during class object creation, and
+            treatment_value and control_value are 1D arrays of length equal to the number of observations in data (specified
+            during class object creation).
+        :type treatments: dict or list of dict
+
+        :return: Returns a tuple of 4 items:
+
+            - ate: The average treatment effect on target_var.
+
+            - y_treat: The individual effect of treatment value for each observation.
+
+            - y_control: The individual effect of control value for each observation.
+
+            - valid_backdoor: Boolean value specifying if a valid backdoor set was found or not.
+        :rtype: float, ndarray, ndarray
+        '''
+        if type(treatments)!=list:
+            treatments = [treatments]
+        for treatment_i in treatments:
+            if type(treatment_i['treatment_value']) in [int, float]:
+                treatment_i['treatment_value'] = treatment_i['treatment_value']* np.ones((self.data.data_arrays[0].shape[0],))
+            else:
+                assert len(treatment_i['treatment_value'].shape)==1 and len(treatment_i['treatment_value'])==self.data.data_arrays[0].shape[0],\
+                    f"treatment_value must be a scalar or 1D array of same length as the data array along index 0. "\
+                    f"But found {treatment_i['treatment_value'].shape} and {self.data.data_arrays[0].shape[0]}."
+            if type(treatment_i['control_value']) in [int, float]:
+                treatment_i['control_value'] = treatment_i['control_value']* np.ones((self.data.data_arrays[0].shape[0],))
+            else:
+                assert len(treatment_i['control_value'].shape)==1 and len(treatment_i['control_value'])==self.data.data_arrays[0].shape[0],\
+                    f"control_value must be a scalar or 1D array of same length as the data array along index 0. "\
+                    f"But found {treatment_i['control_value'].shape} and {self.data.data_arrays[0].shape[0]}."
+
+        if self.discrete:
+            sanity_check_discrete_data(self.data, treatments)
+
+        target_var = self.data.index2var_name(target_var)
+        treatment_vars = [treatment_i['var_name'] for treatment_i in treatments]
+
+        relevant_nodes_ = self.graph_obj.relevant_nodes([target_var])
+        relevant_node_seq_ = [node for node in self.node_seq if node in relevant_nodes_] + [target_var]
+
+        isTreatment_relevant = False
+        for t in treatments:
+            isTreatment_relevant = isTreatment_relevant or t['var_name'] in relevant_node_seq_
+        if not isTreatment_relevant:
+            print(f"None of the treatment variables {[t['var_name'] for t in treatments]} are not causally affecting the target variable {target_var}.")
+            return 0, None, None, True
+
+        treatment_vars = [t for t in treatment_vars if t in relevant_node_seq_] # remove irrelevant treatments
+        treatments = [treatment for treatment in treatments if treatment['var_name'] in treatment_vars]
+
+
+        backdoor_list, valid_backdoor = find_approx_minimal_backdoor_set(self.causal_graph, treatment_vars, target_var)
+        if not valid_backdoor:
+            return math.nan, None, None, False
+
+        condition_vars = backdoor_list + treatment_vars
+
+        if self.models is None or self.target_var is None or target_var!=self.target_var or\
+                self.relevant_node_seq is None or self.treatment_vars is None or treatment_vars!=self.treatment_vars:
+            self.models = {}
+
+
+            y,_,X = self.data.extract_array(X=target_var, Y=None, Z=condition_vars)
+            X = self.data_processor.transformX(X, condition_vars)
+            y = self.data_processor.transformY(y, target_var)
+            self.models['backdoor_model'] = model = deepcopy(self.prediction_model)()
+            model.fit(X,y)
+        
+            self.relevant_node_seq = condition_vars
+            self.target_var = target_var
+            self.treatment_vars = treatment_vars
+
+        _,_,X = self.data.extract_array(X=self.target_var, Y=None, Z=self.relevant_node_seq)
+        treatment_data = deepcopy(X)
+        control_data = deepcopy(X)
+
+        for treatment_i in treatments:
+            idx = condition_vars.index(treatment_i['var_name'])
+            treatment_data[:, idx] = self.data_processor.transformY(treatment_i['treatment_value'],
+                                                                        treatment_i['var_name'])
+            control_data[:, idx] = self.data_processor.transformY(treatment_i['control_value'],
+                                                                      treatment_i['var_name'])
+
+
+        y_treatment = self.models['backdoor_model'].predict(treatment_data)
+        y_control = self.models['backdoor_model'].predict(control_data)
+        # Compute ATE
+        y_treatment = np.array(y_treatment)
+        y_control = np.array(y_control)
+        
+        y_treatment = self.data_processor.inv_transform(y_treatment, [target_var])
+        y_control = self.data_processor.inv_transform(y_control, [target_var])
+
+        if len(y_treatment)>0 and len(y_control)>0:
+            return (y_treatment.mean() - y_control.mean()), y_treatment, y_control, True
+        print('Not enough samples to perform causal inference.')
+        return math.nan, None, None, True
+
+    def ate_causal_path(self, target_var: Union[int,str],\
+                  treatments: Union[TreatmentInfo, List[TreatmentInfo]]) -> Tuple[float, ndarray, ndarray]:
+        '''
+        In this implementation, we learn a set of relevant conditional models that are together able to simulate 
+        the data generating process, and we then use this process to estimate ATE by performing interventions 
+        explicitly in this process, using the learned models. For instance, consider a simple causal graph with 
+        three variables A,B,C: A->B->C. If we wanted to estimate the causal effect of intervetion on A, on the 
+        target variable C, then in this estimator, we first fit two conditional model P(B|A) and P(C|B), using 
+        the given observational data. We then replace the intervention variable (A) in the observation data 
+        with the given intervention values (treatment and control values) and form 2 different datasets this way. 
+        We then perform inference using the learned models on this intervention data along the causal path to 
+        estimate the effect of the interventions on A, on C. Specifically, we first estimate B_treat using 
+        P(B|A=A_treat). We then use this B_treat to estimate C_treat using P(C|B=B_treat). We similarly compute 
+        B_control and C_control using A_control. We then estimate ATE as the mean of (C_treat - C_control).
+
+        We find this estimator to have a lower variance and better performance compared to the backdoor 
+        adjustment set method. However, this method may be more computationally expensive in general, due to the 
+        need to learn multiple models, depending on the given causal graph.
+
+        :param target_var: Specify the name of the target variable of interest on which the effect of the treatment is to be estimated.
+        :type target_var: int or str
+        :param treatments: Each treatment is specified as a dictionary in which the keys are var_name, treatment_value, control_value.
+            The value of var_name is a str or int depending on var_names specified during class object creation, and
+            treatment_value and control_value are 1D arrays of length equal to the number of observations in data (specified
+            during class object creation).
+        :type treatments: dict or list of dict
+
+        :return: Returns a tuple of 3 items:
+
+            - ate: The average treatment effect on target_var.
+
+            - y_treat: The individual effect of treatment value for each observation.
+
+            - y_control: The individual effect of control value for each observation.
         :rtype: float, ndarray, ndarray
         '''
 
@@ -129,49 +342,47 @@ class CausalInference:
                     f"control_value must be a scalar or 1D array of same length as the data array along index 0. "\
                     f"But found {treatment_i['control_value'].shape} and {self.data.data_arrays[0].shape[0]}."
 
-            if self.discrete:
-                treatment_var = self.data.index2var_name(treatment_i['var_name'])
-                tval = treatment_i['treatment_value']
-                cval = treatment_i['control_value']
-                num_states = self.data_processor.num_states[self.data.var_names.index(treatment_var)]
-                assert np.all(tval<num_states),\
-                            f'Treatment variable value must be in range [0,...,{num_states-1}], but found {tval.max()}'
-                assert np.all(cval<num_states),\
-                            f'Treatment variable value must be in range [0,...,{num_states-1}], but found {cval.max()}'
-
+        if self.discrete:
+            sanity_check_discrete_data(self.data, treatments)
 
         target_var = self.data.index2var_name(target_var)
         treatment_vars = [treatment_i['var_name'] for treatment_i in treatments]
 
-        self.models = {}
+        if self.models is None or self.target_var is None or target_var!=self.target_var or\
+                self.relevant_node_seq is None or self.treatment_vars is None or treatment_vars!=self.treatment_vars:
+            self.models = {}
 
-        relevant_nodes = self.graph_obj.relevant_nodes([target_var])
-        relevant_node_seq = [node for node in self.node_seq if node in relevant_nodes] + [target_var]
+            relevant_nodes = self.graph_obj.relevant_nodes([target_var])
+            relevant_node_seq = [node for node in self.node_seq if node in relevant_nodes] + [target_var]
 
-        isTreatment_relevant = False
-        for t in treatments:
-            isTreatment_relevant = isTreatment_relevant or t['var_name'] in relevant_node_seq
-        if not isTreatment_relevant:
-            print(f"None of the treatment variables {[t['var_name'] for t in treatments]} are not causally affecting the target variable {target_var}.")
-            return 0, None, None
+            isTreatment_relevant = False
+            for t in treatments:
+                isTreatment_relevant = isTreatment_relevant or t['var_name'] in relevant_node_seq
+            if not isTreatment_relevant:
+                print(f"None of the treatment variables {[t['var_name'] for t in treatments]} are not causally affecting the target variable {target_var}.")
+                self.is_treatment_relevant = False
+                return 0, None, None
 
-        self.start()
-        if self.use_multiprocessing==True and 'ray' in globals():
-            self.train_model = ray.remote(_train_model) # Ray wrapper; avoiding Ray Actors because they are slower
+            self.start()
+            if self.use_multiprocessing==True and 'ray' in globals():
+                self.train_model = ray.remote(_train_model) # Ray wrapper; avoiding Ray Actors because they are slower
 
-        for node in relevant_node_seq: # self.node_seq:
-            if  node not in treatment_vars and self.causal_graph[node]!=[]:
-                if self.use_multiprocessing==True and 'ray' in globals():
-                    self.models[node] = self.train_model.remote(self.data, self.data_processor, self.prediction_model, node, self.causal_graph[node]) #model
-                else:
-                    self.models[node] = self.train_model(self.data, self.data_processor, self.prediction_model, node, self.causal_graph[node]) #model
-
-        if self.use_multiprocessing==True and 'ray' in globals():
-            for node in relevant_node_seq: # self.data.var_names:
+            for node in relevant_node_seq: # self.node_seq:
                 if  node not in treatment_vars and self.causal_graph[node]!=[]:
-                    self.models[node] = ray.get(self.models[node])
+                    if self.use_multiprocessing==True and 'ray' in globals():
+                        self.models[node] = self.train_model.remote(self.data, self.data_processor, self.prediction_model, node, self.causal_graph[node]) #model
+                    else:
+                        self.models[node] = self.train_model(self.data, self.data_processor, self.prediction_model, node, self.causal_graph[node]) #model
 
-        self.stop()
+            if self.use_multiprocessing==True and 'ray' in globals():
+                for node in relevant_node_seq: # self.data.var_names:
+                    if  node not in treatment_vars and self.causal_graph[node]!=[]:
+                        self.models[node] = ray.get(self.models[node])
+
+            self.stop()
+            self.relevant_node_seq = relevant_node_seq
+            self.target_var = target_var
+            self.treatment_vars = treatment_vars
 
         treatment_data = deepcopy(self.data)
         control_data = deepcopy(self.data)
@@ -206,9 +417,6 @@ class CausalInference:
         y_treatment = np.array(y_treatment)
         y_control = np.array(y_control)
 
-        # y_treatment = self.data_processor.inv_transform(y_treatment, [target_var])
-        # y_control = self.data_processor.inv_transform(y_control, [target_var])
-
         if len(y_treatment)>0 and len(y_control)>0:
             return (y_treatment.mean() - y_control.mean()), y_treatment, y_control
         print('Not enough samples to perform causal inference.')
@@ -218,6 +426,15 @@ class CausalInference:
                   treatments: Union[TreatmentInfo, List[TreatmentInfo]],\
                   conditions: Union[Tuple[ConditionalInfo], ConditionalInfo], condition_prediction_model=None) -> float:
         '''
+        Mathematically Conditional Average Treatmet Effect (CATE) is expressed as,
+
+            𝙲𝙰𝚃𝙴 = 𝔼[𝑌|𝚍𝚘(𝑋=𝑥𝑡),𝐶=𝑐]−𝔼[𝑌|𝚍𝚘(𝑋=𝑥𝑐),𝐶=𝑐]
+
+        where  𝚍𝚘 denotes the intervention operation. In words, CATE aims to determine the relative expected difference 
+        in the value of  𝑌 when we intervene  𝑋 to be 𝑥𝑡 compared to when we intervene  𝑋 to be 𝑥𝑐, 
+        where we condition on some set of variables  𝐶 taking value 𝑐. Notice here that  𝑋 is intervened but  𝐶 
+        is not. Here 𝑥𝑡 and 𝑥𝑐 are respectively the treatment value and control value.
+
         :param target_var: Specify the name of the target variable of interest on which the effect of the treatment is to be estimated.
         :type target_var: int or str
         :param treatments: Each treatment is specified as a dictionary in which the keys are var_name, treatment_value, control_value.
@@ -244,36 +461,11 @@ class CausalInference:
         if type(conditions)!=list:
             conditions = [conditions]
 
-        if self.discrete:
-            for conditions_i in conditions:
-                var_idx = self.data.var_name2index(conditions_i['var_name'])
-                c = conditions_i['condition_value']
-                num_states = self.data_processor.num_states[var_idx]
-                assert np.all(c<num_states),\
-                                f'Condition variable value must be in range [0,...,{num_states-1}], but found {c}'
-
-
         ate, y_treat, y_control = self.ate(target_var, treatments)
         if y_treat is None:
             return math.nan
 
-        if self.discrete and condition_prediction_model is not None:
-            idx = set()
-            for i, conditions_i in enumerate(conditions):
-                var_idx = self.data.var_name2index(conditions_i['var_name'])
-                data_c_i = self.data.data_arrays[0][:, var_idx][-len(y_treat):]
-                c = conditions_i['condition_value']
-                idx_i = set(np.where(data_c_i==c)[0])
-                idx = idx & idx_i if i>0 else idx_i # intersection
-            idx = list(idx)
-            if len(idx)==0:
-                print('No observational data was found that satisfied the provided conditions.')
-                return math.nan
-            cate = (y_treat[idx] - y_control[idx]).mean()
-            return cate
-
-        # if data is not discrete, follow the procedure below
-        assert condition_prediction_model is not None, 'condition_prediction_model must not be None for non-discrete data'
+        assert condition_prediction_model is not None, 'condition_prediction_model must not be None'
         y_treat = self.data_processor.transformY(y_treat, target_var)
         y_control = self.data_processor.transformY(y_control, target_var)
 
@@ -305,36 +497,74 @@ class CausalInference:
         cate = self.data_processor.inv_transform(cate, [target_var])
         return cate
 
+    def counterfactual(self, sample: ndarray, target_var: Union[int,str], interventions: Dict,\
+                       counterfactual_prediction_model=None):
+        '''
+        Counterfactuals aim at estimating the effect of an intervention on a specific instance or sample. 
+        Suppose we have a specific instance of a system of random variables  (𝑋1,𝑋2,...,𝑋𝑁) given by  (𝑋1=𝑥1,𝑋2=𝑥2,...,𝑋𝑁=𝑥𝑁)
+        , then in a counterfactual, we want to know the effect an intervention (say)  𝑋1=𝑘 would have had on some other variable(s) 
+        (say  𝑋2), holding all the remaining variables fixed. Mathematically, this can be expressed as,
+
+        𝙲𝚘𝚞𝚗𝚝𝚎𝚛𝚏𝚊𝚌𝚝𝚞𝚊𝚕 = 𝑋2|𝚍𝚘(𝑋1=𝑘),𝑋3=𝑥3,𝑋4=4,⋯,𝑋𝑁=𝑥𝑁
+
+        :param sample: A 1D array of data sample where the ith index corresponds to the ith variable name in var_names (specified 
+            in the causal inference object constructor).
+        :type sample: ndarray
+        :param target_var: Specify the name of the target variable of interest on which the effect of the treatment is to be estimated.
+        :type target_var: int or str
+        :param interventions: A dictionary in which keys are var_names, and the corresponding values are the scalar interventions.
+        :type interventions: dict
+        :param counterfactual_prediction_model: A model class (e.g. Sklearn`s LinearRegression) that has fit and predict method. Do not pass
+            an instantiated class object, rather an uninstantiated one.
+        :type counterfactual_prediction_model: model class
+
+        :return: Returns the counterfactual on the given sample for the specified interventions.
+        :rtype: float
+        '''
+        assert len(sample.shape)==1 and sample.shape[0]==len(self.data.var_names), f'The argument sample must be '\
+                                            f'a 1D Numpy array of length {len(self.data.var_names)}.'
+        treatments = [{'var_name': name, 'treatment_value': float(val), 'control_value': 0.}\
+                      for name,val in interventions.items()]
+        conditions = [{'var_name': name, 'condition_value': val}\
+                     for name,val in zip(self.data.var_names, list(sample)) if name!=target_var]#
+        
+        target_var = self.data.index2var_name(target_var)
+        ate, y_treat, _ = self.ate(target_var, treatments)
+        if y_treat is None and math.isnan(ate): # ATE could not be computed
+            return math.nan
+        elif y_treat is None and not math.isnan(ate) and ate==0: # ate=0 implies treatment var does not causally affect the target var
+            return float(sample[self.data.var_names.index(target_var)])
+
+        assert counterfactual_prediction_model is not None, 'counterfactual_prediction_model must not be None.'
+        y_treat = self.data_processor.transformY(y_treat, target_var)
+
+        condition_obs = []
+        condition_given = []
+        for conditions_i in conditions:
+            var_idx = self.data.var_name2index(conditions_i['var_name'])
+            var_name = self.data.index2var_name(conditions_i['var_name'])
+            v = self.data.data_arrays[0][:, var_idx]
+            v = self.data_processor.transformX(v.reshape(-1,1), [var_name])
+            condition_obs.append(v)
+            
+            v = np.array(conditions_i['condition_value']).reshape(1,1)
+            v = self.data_processor.transformX(v, [var_name])
+            condition_given.append(v)
+
+        condition_obs = np.hstack(condition_obs)
+        condition_given = np.hstack(condition_given)
+
+        model_treat = deepcopy(counterfactual_prediction_model)()
+        model_treat.fit(condition_obs[-y_treat.shape[0]:], y_treat)
+
+        t = model_treat.predict(condition_given)
+        t = self.data_processor.inv_transform(t, [target_var])
+
+        # var_idx = self.data.var_name2index(target_var)
+        return float(t[0])
+
 
 ############# Helper functions/classes below #############
-
-class DiscretePredictionModel:
-    def __init__(self):
-        pass
-    def fit(self, X, y):
-        self.num_states = num_states = [len(np.unique(X[:,i])) for i in range(X.shape[1])]
-        p_y_x = np.zeros((len(np.unique(y)), sum(num_states)))
-        for i,yi in enumerate(np.unique(y)):
-            idx = np.where(y==yi)[0]
-            for x_idx in range(X.shape[1]):
-                x_=X[idx, x_idx]
-                start_idx = sum(num_states[:x_idx])
-                for j,x_idx_j in enumerate(range(self.num_states[x_idx])):
-                    p_yi_xj = len(np.where(x_==x_idx_j)[0])/len(x_)
-                    p_y_x[i,start_idx+j] = p_yi_xj
-        self.prob_table = p_y_x
-    def predict(self, X):
-        p = 0
-        y = None
-        for i in range(self.prob_table.shape[0]):
-            p_i = 1.
-            for x_idx in range(X.shape[1]):
-                start_idx = sum(self.num_states[:x_idx])
-                p_i *= self.prob_table[i, start_idx+X[0, x_idx]]
-            if p_i>=p:
-                p = p_i
-                y = i
-        return y
 
 def _train_model(data, data_processor, prediction_model, node, parents):
     X,y, column_names = data.get_causal_Xy(target_var=node, parents=parents) # X is a 2D array, y is a 1D array
@@ -348,11 +578,13 @@ def _train_model(data, data_processor, prediction_model, node, parents):
 
 class _DataProcessor:
     def __init__(self, data, var_names, discrete=False):
+        # Use the same normalization for both continuous and discrete data
         self.discrete = discrete
         self.var_names = var_names
-        if discrete:
+        self.not_normalize = False # discrete
+        if self.not_normalize:
             data_ = np.array(data, dtype=int)
-            assert np.all(data==data_), 'The provided data array must have integer entries discrete is set to True'
+            assert np.all(data==data_), 'The provided data array must have integer entries when discrete is set to True'
             data = data_
             self.num_states = np.array(np.max(data, axis=0), dtype=int)+1
             data = self.discretize_all(data, var_names)
@@ -378,7 +610,7 @@ class _DataProcessor:
         return out
 
     def transformX(self, x, var_names):
-        if self.discrete:
+        if self.not_normalize:
             return x    
 
         idx = [self.var_names.index(name) for name in var_names]
@@ -388,7 +620,7 @@ class _DataProcessor:
         return out
 
     def transformY(self, x, var_name):
-        if self.discrete:
+        if self.not_normalize:
             out = x
         else:
             idx = self.var_names.index(var_name)
@@ -397,7 +629,7 @@ class _DataProcessor:
 
     def inv_transform(self, x, var_names):
         out = x
-        if not self.discrete:
+        if not self.not_normalize:
             idx = [self.var_names.index(name) for name in var_names]
             if len(idx)==1:
                 idx = idx[0]
@@ -529,3 +761,143 @@ class _TabularGraph:
         for e in stack:
             valid_node_seq.append(e)
         return valid_node_seq
+
+# Backdoor adjustment helper functions
+def find_parents(graph, node):
+    return graph[node]
+def is_collider(graph, node):
+    '''
+    check if node is a collider in the graph
+    '''
+    return len(find_parents(graph, node))>1
+def get_connected_nodes(graph, node):
+    '''
+    return the list of all nodes adjacent to the given node
+    '''
+    connected = set()
+    for key, values in graph.items():
+        if node in values:
+            connected.add(key)
+    connected.update(graph.get(node, []))
+    return list(connected)
+def is_backdoor_path(graph, intervention, path, target):
+    '''
+    check if a given path is a backdoor path
+    '''
+    if path[1] not in graph.get(intervention, []):
+        '''
+        if the first node next to the intervention is not its parent, then this is not a 
+        valid backdoor path.
+        '''
+        return False
+    return True
+
+def is_path(graph, start, end, visited=None):
+    # in the DAG graph, check if there is a directed path from start node to end node
+    if visited is None:
+        visited = set()
+    if start not in graph:
+        return False
+    visited.add(end)
+    if start==end:
+        return True
+    for node in graph[end]:
+        if node not in visited:
+            if is_path(graph, start, node, visited):
+                return True
+    return False
+
+def remove_descendants(backdoor_set, intervention, graph):
+    remove_set = set()
+    for node in backdoor_set:
+        if is_path(graph, intervention, node, visited=None):
+            remove_set.add(node)
+    backdoor_set = {node for node in backdoor_set if node not in remove_set}
+    return backdoor_set
+
+def is_descendant(node, intervention, graph):
+    # chech if node is a descendant of intervention
+    if is_path(graph, start=intervention, end=node, visited=None):
+        return True
+    return False
+
+def find_backdoor_set_single(graph, intervention, target):#, other_interventions=[]
+    '''
+    Note that we do not deal with colliders in this function. They are dealt with in 
+    the find_approx_minimal_backdoor_set function.
+    '''
+    def search(path, visited):
+        node = path[-1]
+        if node==target:
+            if is_backdoor_path(graph, intervention, path, target):
+                backdoor_set = set(path) - {intervention, target}
+                # remove descendants of intervention from backdoor_set
+                backdoor_set = remove_descendants(backdoor_set, intervention, graph)
+                return [backdoor_set]
+            return []
+        visited.add(node)
+        backdoor_sets = []
+        for connected_node in get_connected_nodes(graph, node):
+            if connected_node not in visited:
+                # Run a DFS to find all backdoor paths
+                backdoor_sets.extend(search(path + [connected_node], visited.copy()))
+        return backdoor_sets
+    
+    backdoor_sets = search([intervention], set())
+    return [set(backdoor_set) for backdoor_set in {frozenset(s) for s in backdoor_sets}]
+
+def find_approx_minimal_backdoor_set(graph, interventions, target):
+    '''
+    Logic: We need to ensure that every backdoor path for each intervention variable is blocked 
+    by the final adjustment set. So we use the following greedy approach to find this set. We find 
+    the union of all the backdoor paths, separately, for each intervention variable. We then find 
+    the frequecy of occurance of each variable across all the backdoor paths, and sort them. We then 
+    keep adding the most frequent variable, that are not descendants of any intervetion,
+    to our approx_minimal_set until the variables in this set 
+    cover all the backdoor paths. Finally, we need to ensure that the variables added to this set 
+    actually block all the backdoor paths. The challenge behind this is that some of the variables in 
+    approx_minimal_set may be colliders along some backdoor paths, and therefore may open up paths 
+    rather than blocking them. So we fix by adding one of the parents of each collider to the 
+    approx_minimal_set.
+    '''
+    all_backdoor_paths = {i: find_backdoor_set_single(graph, i, target) for i in interventions}
+    approx_minimal_set = set()
+    
+    unblocked_paths = {i: paths.copy() for i,paths in all_backdoor_paths.items()}
+    visited = set()
+    valid_backdoor = True
+    while any(unblocked_paths.values()):
+        l = [var for paths in unblocked_paths.values() for path in paths for var in list(path) if var not in visited]
+        l = list(set(l) - set(interventions))
+        counts = Counter(l)
+        if not counts:
+            break
+        
+        max_blocker = counts.most_common(1)[0][0]
+        visited.add(max_blocker)
+        max_blocker = max_blocker if not\
+                        any([is_descendant(max_blocker, intervention, graph) for intervention in interventions]) else None
+        
+        if max_blocker is not None:
+            approx_minimal_set.add(max_blocker)
+        
+            for intervention, paths in unblocked_paths.items():
+                unblocked_paths[intervention] = set(frozenset(path) for path in paths if max_blocker not in path)#{}
+
+    if any(unblocked_paths.values()):
+        valid_backdoor = False # a valid backdoor path was not found
+    if not valid_backdoor:
+        return None, False
+    '''
+    TODO: The strategy below can be improved (i.e., a smaller adjustment set), by going through each backdoor path,
+    and checking if the nodes in approx_minimal_set block the path. If not, add a parent of the node in 
+    approx_minimal_set that is acting as a collider, to approx_minimal_set. Repeat utill all the paths are blocked.
+    '''
+    for node in copy.copy(approx_minimal_set):
+        if is_collider(graph, node):
+            cand_nodes = find_parents(graph, node)[0]
+            if len(cand_nodes)>0:
+                approx_minimal_set.update([cand_nodes[0]])
+            else:
+                approx_minimal_set.remove(node)
+    return list(approx_minimal_set), True

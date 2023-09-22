@@ -81,10 +81,13 @@ class PartialCorrelation:
 
         Assumes two-sided correlation. If the degrees of freedom are less than 1, numpy.nan is returned.
 
+        The null hypothesis (large p-values) is that the correlation between x and y is not significantly different from 0.
+        For a clear understanding, this means that when p-values are closer to 0, x and y are dependent, and independent otherwise.
+
         :param value: Test statistic value.
         :type value: float
 
-        :return: Returns the pvalue
+        :return: Returns the pvalue. Larger p-values here indicate a larger likelihood of independence.
         :rtype: float
         """
         # Get the number of degrees of freedom

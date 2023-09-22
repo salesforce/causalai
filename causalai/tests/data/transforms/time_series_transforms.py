@@ -112,14 +112,14 @@ class TestTimeSeriesTransforms(unittest.TestCase):
         transform = DifferenceTransform(order=1)
         transform.fit(data)
         data_transformed = transform.transform(data, data[:3])
-        data_transformed_gt = np.array([
+        data_transformed_gt = [
                               [[ 0.03132278, -1.02247577,  0.83480896],
                                [ 0.46231149,  2.22406072,  2.17498712],
                                [-0.3604624 , -1.00985424,  0.74330332],
                                [-1.39261697, -0.73011005, -1.8001183 ]],
                               [[ 0.03132278, -1.02247577,  0.83480896],
                                [ 0.46231149,  2.22406072,  2.17498712]]
-                                ])
+                                ]
                               
             
         for d,d_gt in zip(data_transformed, data_transformed_gt):
