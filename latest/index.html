@@ -114,7 +114,7 @@
              
   <section id="welcome-to-salesforce-causalai-library-s-documentation">
 <h1>Welcome to Salesforce CausalAI Library's documentation!<a class="headerlink" href="#welcome-to-salesforce-causalai-library-s-documentation" title="Permalink to this heading"></a></h1>
-<p>Salesforce CausalAI is an open-source Python library for causal analysis using observational data. It supports causal discovery and causal inference for tabular and time series data, of both discrete and continuous types. This library includes algorithms that handle linear and non-linear causal relationship between variables, and uses multi-processing for speed-up. We also include a data generator capable of generating synthetic data with specified structural equation model for both the aforementioned data formats and types, that helps users control the ground-truth causal process while investigating various algorithms. Finally, we provide a user interface (UI) that allows users to perform causal analysis on data without coding. The goal of this library is to provide a fast and flexible solution for a variety of problems in the domain of causality.</p>
+<p>Salesforce CausalAI is an open-source Python library for causal analysis using observational data. It supports causal discovery and causal inference for tabular and time series data (see figure above), of discrete, continuous and heterogeneous data types. It also supports Markov Blanket discovery algorithms. This library includes algorithms that handle linear and non-linear causal relationship between variables, and uses multi-processing for speed-up. We also include a data generator capable of generating synthetic data with specified structural equation model for both the aforementioned data formats and types, that helps users control the ground-truth causal process while investigating various algorithms. CausalAI includes benchmarking modules for tabular and time series data, that users can use to compare different causal discovery algorithms, as well as evaluate the performance of a particular algorithm across datasets with different challenges. Specifically, users can evaluate the performance of causal discovery algorithms on synthetic data with varying graph sparsity, sample complexity, variable complexity, SNR, noise type, and max lag (time series data). Finally, we provide a user interface (UI) that allows users to perform causal analysis on data without coding. The goal of this library is to provide a fast and flexible solution for a variety of problems in the domain of causality.</p>
 </section>
 <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h1>
@@ -196,7 +196,7 @@
 </li>
 <li><dl class="simple">
 <dt>Time Series</dt><dd><ul>
-<li><p><span class="xref std std-doc">Root Cause Detector Class</span></p></li>
+<li><p><a class="reference internal" href="application.root_cause_detector.html"><span class="doc">Root Cause Detector Class</span></a></p></li>
 </ul>
 </dd>
 </dl>
