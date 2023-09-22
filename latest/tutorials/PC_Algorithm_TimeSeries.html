@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PC algorithm for time series causal discovery &mdash; Salesforce CausalAI Library 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Ganger Causality for Time Series Causal Discovery" href="GrangerAlgorithm_TimeSeries.html" />
+    <link rel="prev" title="Data Generator" href="Data%20Generator.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Salesforce CausalAI Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="Prior%20Knowledge.html">Prior Knowledge</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Data%20objects.html">Data Object</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Data%20Generator.html">Data Generator</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PC algorithm for time series causal discovery</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Load-and-Visualize-Data">Load and Visualize Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Causal-Discovery-(CD)">Causal Discovery (CD)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Targeted-Causal-Discovery">Targeted Causal Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Full-Causal-Discovery">Full Causal Discovery</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Greedy-Heuristic-when-the-underlying-true-causal-graph-is-sparse">Greedy Heuristic when the underlying true causal graph is sparse</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="LINGAM_Algorithm_Tabular.html">LINGAM for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GIN_Algorithm_Tabular.html">Generalized Independent Noise (GIN)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GrowShrink_Algorithm_Tabular.html">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking%20TimeSeries.html">Benchmark Time Series Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Causal%20Inference%20Tabular%20Data.html">Causal Inference for Tabular Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Salesforce CausalAI Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">PC algorithm for time series causal discovery</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/PC_Algorithm_TimeSeries.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="PC-algorithm-for-time-series-causal-discovery">
+<h1>PC algorithm for time series causal discovery<a class="headerlink" href="#PC-algorithm-for-time-series-causal-discovery" title="Permalink to this heading"></a></h1>
+<p>The Peter-Clark (PC) algorithm is one of the most general purpose algorithms for causal discovery that can be used for both tabular and time series data, of both continuous and discrete types. Briefly, the PC algorithm works in two steps, it first identifies the undirected causal graph, and then (partially) directs the edges. In the first step, we check for the existence of a causal connection between every pair of variables by checking if there exists a condition set (a subset of variables
+excluding the two said variables), conditioned on which, the two variables are independent. In the second step, the edges are directed by identifying colliders. Note that the edge orientation strategy of the PC algorithm may result in partially directed graphs. In the case of time series data, the additional information about the time steps associated with each variable can also be used to direct the edges.</p>
+<p>The PC algorithm makes four core assumptions: 1. Causal Markov condition, which implies that two variables that are d-separated in a causal graph are probabilistically independent, 2. faithfulness, i.e., no conditional independence can hold unless the Causal Markov condition is met, 3. no hidden confounders, and 4. no cycles in the causal graph. 5. For time series data, it makes the additional assumption of stationarity, i.e., the properties of a. random variable is agnostic to the time step.</p>
+<p>Finally, our current implementation of PC does not support contemporaneous causal links.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">pickle</span> <span class="k">as</span> <span class="nn">pkl</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="kn">from</span> <span class="nn">causalai.models.time_series.pc</span> <span class="kn">import</span> <span class="n">PCSingle</span><span class="p">,</span> <span class="n">PC</span>
+<span class="kn">from</span> <span class="nn">causalai.models.common.CI_tests.partial_correlation</span> <span class="kn">import</span> <span class="n">PartialCorrelation</span>
+<span class="kn">from</span> <span class="nn">causalai.models.common.CI_tests.kci</span> <span class="kn">import</span> <span class="n">KCI</span>
+<span class="kn">from</span> <span class="nn">causalai.data.data_generator</span> <span class="kn">import</span> <span class="n">DataGenerator</span><span class="p">,</span> <span class="n">GenerateRandomTimeseriesSEM</span>
+<span class="kn">from</span> <span class="nn">causalai.models.common.CI_tests.discrete_ci_tests</span> <span class="kn">import</span> <span class="n">DiscreteCI_tests</span>
+
+
+<span class="c1"># also importing data object, data transform object, and prior knowledge object, and the graph plotting function</span>
+<span class="kn">from</span> <span class="nn">causalai.data.time_series</span> <span class="kn">import</span> <span class="n">TimeSeriesData</span>
+<span class="kn">from</span> <span class="nn">causalai.data.transforms.time_series</span> <span class="kn">import</span> <span class="n">StandardizeTransform</span>
+<span class="kn">from</span> <span class="nn">causalai.models.common.prior_knowledge</span> <span class="kn">import</span> <span class="n">PriorKnowledge</span>
+<span class="kn">from</span> <span class="nn">causalai.misc.misc</span> <span class="kn">import</span> <span class="n">plot_graph</span><span class="p">,</span> <span class="n">get_precision_recall</span>
+</pre></div>
+</div>
+</div>
+<section id="Load-and-Visualize-Data">
+<h2>Load and Visualize Data<a class="headerlink" href="#Load-and-Visualize-Data" title="Permalink to this heading"></a></h2>
+<p>Load the dataset and visualize the ground truth causal graph. For the purpose of this example, we will use a synthetic dataset available in our repository.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fn = lambda x:x</span>
+<span class="c1"># coef = 0.1</span>
+<span class="c1"># sem = {</span>
+<span class="c1">#         &#39;a&#39;: [],</span>
+<span class="c1">#         &#39;b&#39;: [((&#39;a&#39;, -1), coef, fn), ((&#39;f&#39;, -1), coef, fn)],</span>
+<span class="c1">#         &#39;c&#39;: [((&#39;b&#39;, -2), coef, fn), ((&#39;f&#39;, -2), coef, fn)],</span>
+<span class="c1">#         &#39;d&#39;: [((&#39;b&#39;, -4), coef, fn), ((&#39;b&#39;, -1), coef, fn), ((&#39;g&#39;, -1), coef, fn)],</span>
+<span class="c1">#         &#39;e&#39;: [((&#39;f&#39;, -1), coef, fn)],</span>
+<span class="c1">#         &#39;f&#39;: [],</span>
+<span class="c1">#         &#39;g&#39;: [],</span>
+<span class="c1">#         }</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="mi">5000</span>
+
+<span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span>
+<span class="n">sem</span> <span class="o">=</span> <span class="n">GenerateRandomTimeseriesSEM</span><span class="p">(</span><span class="n">var_names</span><span class="o">=</span><span class="n">var_names</span><span class="p">,</span> <span class="n">max_num_parents</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">data_array</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">graph_gt</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;0&#39;: [(&#39;5&#39;, -3), (&#39;2&#39;, -1)],
+ &#39;1&#39;: [(&#39;2&#39;, -2)],
+ &#39;2&#39;: [(&#39;3&#39;, -4), (&#39;0&#39;, -1)],
+ &#39;3&#39;: [(&#39;3&#39;, -4)],
+ &#39;4&#39;: [(&#39;4&#39;, -2), (&#39;0&#39;, -3)],
+ &#39;5&#39;: [(&#39;3&#39;, -3), (&#39;2&#39;, -4)]}
+</pre></div></div>
+</div>
+<p>Now we perform the following operations: 1. Standardize the data arrays 2. Create the data object</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><br/><span></span><span class="c1"># 1.</span>
+<span class="n">StandardizeTransform_</span> <span class="o">=</span> <span class="n">StandardizeTransform</span><span class="p">()</span>
+<span class="n">StandardizeTransform_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+<span class="n">data_trans</span> <span class="o">=</span> <span class="n">StandardizeTransform_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+<span class="c1"># 2.</span>
+<span class="n">data_obj</span> <span class="o">=</span> <span class="n">TimeSeriesData</span><span class="p">(</span><span class="n">data_trans</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="n">var_names</span><span class="p">)</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<p>We visualize the data and graph below:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><br/><span></span><span class="n">plot_graph</span><span class="p">(</span><span class="n">graph_gt</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">var_names</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_trans</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">:,</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_PC_Algorithm_TimeSeries_9_0.png" src="../_images/tutorials_PC_Algorithm_TimeSeries_9_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_PC_Algorithm_TimeSeries_9_1.png" src="../_images/tutorials_PC_Algorithm_TimeSeries_9_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Causal-Discovery-(CD)">
+<h2>Causal Discovery (CD)<a class="headerlink" href="#Causal-Discovery-(CD)" title="Permalink to this heading"></a></h2>
+<p>Our library supports running Granger causal discovery in two modes:</p>
+<ol class="arabic simple">
+<li><p>Targeted CD: Find causal parents of a single given variable. This is useful when we are only interested in finding out the cause of a specific variable, and not others. We thus save both compute and time this way.</p></li>
+<li><p>Full CD: Find the full causal graph. This is costlier and scales linearly with the number of variables compared to the time taken by the mode above.</p></li>
+</ol>
+<p>Enable/Disable Parallel Processing:</p>
+<p>When we instantiate our causal discovery model, we need to decide if we want to use multi-processing. Multi-processing typically provides a significant speed-up for the PC algorithm. In order to use multi-processing in our causal discovery library, we pass the argument use_multiprocessing=True to the model constructor. It’s default value is False.</p>
+<p>When running the PC algorithm in either of the above configurations, there is an optional functionality to enable a greedy heuristic that provides a further speed-up. More details are provided below in the Greedy Heuristic section.</p>
+<section id="Targeted-Causal-Discovery">
+<h3>Targeted Causal Discovery<a class="headerlink" href="#Targeted-Causal-Discovery" title="Permalink to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><br/><span></span><span class="n">prior_knowledge</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># PriorKnowledge(forbidden_links={&#39;C&#39;: [&#39;A&#39;]})</span>
+
+<span class="n">target_var</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span> <span class="c1"># &#39;c&#39;</span>
+<span class="n">max_lag</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">pvalue_thres</span> <span class="o">=</span> <span class="mf">0.001</span><span class="c1">#0.000000001</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Target Variable: </span><span class="si">{</span><span class="n">target_var</span><span class="si">}</span><span class="s1">, using max_lag </span><span class="si">{</span><span class="n">max_lag</span><span class="si">}</span><span class="s1">, pvalue_thres </span><span class="si">{</span><span class="n">pvalue_thres</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">CI_test</span> <span class="o">=</span> <span class="n">PartialCorrelation</span><span class="p">()</span> <span class="c1"># use KCI() if the causal relationship is expected to be non-linear</span>
+<span class="c1"># CI_test = KCI()</span>
+<span class="n">pc_single</span> <span class="o">=</span> <span class="n">PCSingle</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">data_obj</span><span class="p">,</span>
+    <span class="n">prior_knowledge</span><span class="o">=</span><span class="n">prior_knowledge</span><span class="p">,</span>
+    <span class="n">CI_test</span><span class="o">=</span><span class="n">CI_test</span><span class="p">,</span>
+    <span class="n">use_multiprocessing</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Target Variable: 0, using max_lag 5, pvalue_thres 0.001
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pc_single</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">target_var</span><span class="o">=</span><span class="n">target_var</span><span class="p">,</span> <span class="n">pvalue_thres</span><span class="o">=</span><span class="n">pvalue_thres</span><span class="p">,</span> <span class="n">max_lag</span><span class="o">=</span><span class="n">max_lag</span><span class="p">,</span> <span class="n">max_condition_set_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time taken: </span><span class="si">{</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">s</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Time taken: 0.15s
+
+parents
+ [(&#39;5&#39;, -3), (&#39;2&#39;, -1)]
+
+value_dict
+ {(&#39;0&#39;, -1): 0.008617392491692836, (&#39;0&#39;, -2): 0.0018719655352873257, (&#39;0&#39;, -3): -0.018247310621102835, (&#39;0&#39;, -4): -0.008172415285694823, (&#39;0&#39;, -5): -0.022965949303747218, (&#39;1&#39;, -1): 0.0065014703986125445, (&#39;1&#39;, -2): 0.0054060589346605565, (&#39;1&#39;, -3): 0.010927859638999218, (&#39;1&#39;, -4): 0.018428080161603726, (&#39;1&#39;, -5): -0.004880797801728776, (&#39;2&#39;, -1): 0.07966085711107593, (&#39;2&#39;, -2): 0.020003191601610463, (&#39;2&#39;, -3): -0.010856883544675107, (&#39;2&#39;, -4): 0.005053791802773835, (&#39;2&#39;, -5): -0.0011014065390646153, (&#39;3&#39;, -1): 0.03805532987698295, (&#39;3&#39;, -2): -0.019954514609284667, (&#39;3&#39;, -3): -0.0013006743749435922, (&#39;3&#39;, -4): 0.001083817267272737, (&#39;3&#39;, -5): -0.00631117812741271, (&#39;4&#39;, -1): 0.004332264603256165, (&#39;4&#39;, -2): 0.0030765021801625668, (&#39;4&#39;, -3): 0.022561445613761433, (&#39;4&#39;, -4): 0.002766552799842021, (&#39;4&#39;, -5): -0.018253328570831766, (&#39;5&#39;, -1): -0.021362902145286, (&#39;5&#39;, -2): 0.012457248161551112, (&#39;5&#39;, -3): 0.10487138358725479, (&#39;5&#39;, -4): -0.03378770240873199, (&#39;5&#39;, -5): 0.00949296311111276}
+
+pvalue_dict
+ {(&#39;0&#39;, -1): 0.5437681136635399, (&#39;0&#39;, -2): 0.895076012354255, (&#39;0&#39;, -3): 0.1985587454758103, (&#39;0&#39;, -4): 0.564768268966926, (&#39;0&#39;, -5): 0.10561669473008387, (&#39;1&#39;, -1): 0.6469185611842226, (&#39;1&#39;, -2): 0.7032989349892531, (&#39;1&#39;, -3): 0.44135104324767815, (&#39;1&#39;, -4): 0.19414737580413452, (&#39;1&#39;, -5): 0.7309481459822311, (&#39;2&#39;, -1): 1.8962443807433843e-08, (&#39;2&#39;, -2): 0.15871453292040036, (&#39;2&#39;, -3): 0.44432340441297347, (&#39;2&#39;, -4): 0.7218011906486563, (&#39;2&#39;, -5): 0.9381490743831484, (&#39;3&#39;, -1): 0.0073172562883217565, (&#39;3&#39;, -2): 0.15973075647087706, (&#39;3&#39;, -3): 0.9269878081050825, (&#39;3&#39;, -4): 0.9391348897986946, (&#39;3&#39;, -5): 0.6565797527269087, (&#39;4&#39;, -1): 0.7601996508647306, (&#39;4&#39;, -2): 0.8284058391576121, (&#39;4&#39;, -3): 0.11190158349255867, (&#39;4&#39;, -4): 0.845463515470323, (&#39;4&#39;, -5): 0.19841071860251203, (&#39;5&#39;, -1): 0.13226409935674308, (&#39;5&#39;, -2): 0.3801209352060546, (&#39;5&#39;, -3): 1.2740205766545935e-13, (&#39;5&#39;, -4): 0.017261269740706457, (&#39;5&#39;, -5): 0.503613902301266}
+
+undirected_edges
+ []
+
+</pre></div></div>
+</div>
+<p>The output variable result is a dictionary with 3 keys, <em>parents</em>, <em>value_dict</em> and <em>pvalue_dict</em>. The first one is a list of the causal parents. Each of latter ones is a dictionary, with keys equal to all possile candidates of the specified target variable. On a side note, note that if any links are specified as forbidden in prior_knowledge, they will be ignored during the computation and will not be present in result.</p>
+<p>The dictionary result['value_dict'] contains the strength of the link between the targeted variable and each of the candidate parents. The dictionary result['pvalue_dict'] contains the p-values of the said strength.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Predicted parents:&#39;</span><span class="p">)</span>
+<span class="n">parents</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;parents&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">parents</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ground truth parents:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">graph_gt</span><span class="p">[</span><span class="n">target_var</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Predicted parents:
+[(&#39;5&#39;, -3), (&#39;2&#39;, -1)]
+Ground truth parents:
+[(&#39;5&#39;, -3), (&#39;2&#39;, -1)]
+</pre></div></div>
+</div>
+<p>The way to read this Python dictionary is that <span class="math notranslate nohighlight">\(0[t]\)</span> has parents <span class="math notranslate nohighlight">\(5[t-3]\)</span> and <span class="math notranslate nohighlight">\(2[t-1]\)</span>.</p>
+</section>
+<section id="Full-Causal-Discovery">
+<h3>Full Causal Discovery<a class="headerlink" href="#Full-Causal-Discovery" title="Permalink to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><br/><span></span><span class="n">prior_knowledge</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1">#  PriorKnowledge(forbidden_links={})</span>
+
+<span class="n">max_lag</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">pvalue_thres</span> <span class="o">=</span> <span class="mf">0.001</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Using max_lag </span><span class="si">{</span><span class="n">max_lag</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">CI_test</span> <span class="o">=</span> <span class="n">PartialCorrelation</span><span class="p">()</span>
+<span class="c1"># CI_test = KCI(chunk_size=100) # use if the causal relationship is expected to be non-linear</span>
+<span class="n">pc</span> <span class="o">=</span> <span class="n">PC</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data_obj</span><span class="p">,</span>
+        <span class="n">prior_knowledge</span><span class="o">=</span><span class="n">prior_knowledge</span><span class="p">,</span>
+        <span class="n">CI_test</span><span class="o">=</span><span class="n">CI_test</span><span class="p">,</span>
+        <span class="n">use_multiprocessing</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Using max_lag 5
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">pvalue_thres</span><span class="o">=</span><span class="n">pvalue_thres</span><span class="p">,</span> <span class="n">max_lag</span><span class="o">=</span><span class="n">max_lag</span><span class="p">)</span>
+
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time taken: </span><span class="si">{</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">s</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Time taken: 0.73s
+
+</pre></div></div>
+</div>
+<p>The output <em>result</em> now has the variable names as its keys, and the value corresponding to each key has the same format as the output of <em>pc_single.run()</em> example above for targeted CD.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Predicted parents:&#39;</span><span class="p">)</span>
+<span class="n">graph_est</span><span class="o">=</span><span class="p">{</span><span class="n">n</span><span class="p">:[]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">parents</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;parents&#39;</span><span class="p">]</span>
+    <span class="n">graph_est</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">parents</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">parents</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Ground truth parents:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">graph_gt</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">graph_gt</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">f1_score</span> <span class="o">=</span> <span class="n">get_precision_recall</span><span class="p">(</span><span class="n">graph_est</span><span class="p">,</span> <span class="n">graph_gt</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Precision </span><span class="si">{</span><span class="n">precision</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, Recall: </span><span class="si">{</span><span class="n">recall</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, F1 score: </span><span class="si">{</span><span class="n">f1_score</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Predicted parents:
+0: [(&#39;5&#39;, -3), (&#39;2&#39;, -1)]
+1: [(&#39;2&#39;, -2)]
+2: [(&#39;3&#39;, -4), (&#39;0&#39;, -1)]
+3: [(&#39;3&#39;, -4)]
+4: [(&#39;0&#39;, -3), (&#39;4&#39;, -2)]
+5: [(&#39;2&#39;, -4), (&#39;3&#39;, -3)]
+
+Ground truth parents:
+0: [(&#39;5&#39;, -3), (&#39;2&#39;, -1)]
+1: [(&#39;2&#39;, -2)]
+2: [(&#39;3&#39;, -4), (&#39;0&#39;, -1)]
+3: [(&#39;3&#39;, -4)]
+4: [(&#39;4&#39;, -2), (&#39;0&#39;, -3)]
+5: [(&#39;3&#39;, -3), (&#39;2&#39;, -4)]
+Precision 1.00, Recall: 1.00, F1 score: 1.00
+</pre></div></div>
+</div>
+<p>The way to read this Python dictionary is that <span class="math notranslate nohighlight">\(0[t]\)</span> has parents <span class="math notranslate nohighlight">\(5[t-3]\)</span> and <span class="math notranslate nohighlight">\(2[t-1]\)</span>, and so on.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Greedy-Heuristic-when-the-underlying-true-causal-graph-is-sparse">
+<h2>Greedy Heuristic when the underlying true causal graph is sparse<a class="headerlink" href="#Greedy-Heuristic-when-the-underlying-true-causal-graph-is-sparse" title="Permalink to this heading"></a></h2>
+<p>When running the PC algorithm in either of the above configurations, enabling the greedy heuristic provides a speed-up on top of multi-processing.</p>
+<p>The exact algorithm can be understood by looking through the <em>run_greedy()</em> in pc.py. In a nut shell, this procedure tries to determine the causal link between two variables by greedily conditioning on a condition set of increasing size, from 0 to the maximum number of possible parents or max_condition_set_size (whichever is lower). At each step, it permanently eliminates variables in the condition set whose causal strength is less than a specified value (determined by the pvalue_thres). Once
+all combinations of nodes are used as condition sets until max_condition_set_size, it then uses all the variables (except those that got eliminated, and the 2 variables being check) as the condition set. This step helps remove edges for which the condition set is larger than max_condition_set_size.</p>
+<p>Using this greedy heuristic can significantly speed-up the algorithm when the underlying true causal graph is sparse because most of the candidate parents for each variable get eliminated in the greedy step with a relatively small computational cost.</p>
+<p>An example for the single target variable case is given below. The only additional argument that needs to be passed is <em>max_condition_set_size</em>. The full causal discovery algorithm can be called similarly with the same additional argument <em>max_condition_set_size</em>.</p>
+<p>We compare the time taken by the PC algorithm with and without the greedy heuristic. To make the difference in time taken apparent, we set max_lag=30, which makes the effective number of variables = 6x30=180.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">5000</span>
+
+<span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">,</span><span class="s1">&#39;e&#39;</span><span class="p">,</span><span class="s1">&#39;f&#39;</span><span class="p">]</span>
+<span class="n">sem</span> <span class="o">=</span> <span class="n">GenerateRandomTimeseriesSEM</span><span class="p">(</span><span class="n">var_names</span><span class="o">=</span><span class="n">var_names</span><span class="p">,</span> <span class="n">max_num_parents</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">data_array</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+
+<span class="n">StandardizeTransform_</span> <span class="o">=</span> <span class="n">StandardizeTransform</span><span class="p">()</span>
+<span class="n">StandardizeTransform_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+<span class="n">data_trans</span> <span class="o">=</span> <span class="n">StandardizeTransform_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+<span class="n">data_obj</span> <span class="o">=</span> <span class="n">TimeSeriesData</span><span class="p">(</span><span class="n">data_trans</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="n">var_names</span><span class="p">)</span>
+
+
+
+<span class="n">prior_knowledge</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># PriorKnowledge(forbidden_links={&#39;b&#39;: [&#39;c&#39;]})</span>
+
+<span class="n">target_var</span> <span class="o">=</span> <span class="s1">&#39;c&#39;</span>
+<span class="n">max_lag</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Target Variable: </span><span class="si">{</span><span class="n">target_var</span><span class="si">}</span><span class="s1">, using max_lag </span><span class="si">{</span><span class="n">max_lag</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Target Variable: c, using max_lag 30
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ground truth parents for target variable </span><span class="si">{</span><span class="n">target_var</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">graph_gt</span><span class="p">[</span><span class="n">target_var</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># without greedy heuristic</span>
+
+<span class="n">CI_test</span> <span class="o">=</span> <span class="n">PartialCorrelation</span><span class="p">()</span>
+<span class="n">pc_single</span> <span class="o">=</span> <span class="n">PCSingle</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">data_obj</span><span class="p">,</span>
+    <span class="n">prior_knowledge</span><span class="o">=</span><span class="n">prior_knowledge</span><span class="p">,</span>
+    <span class="n">CI_test</span><span class="o">=</span><span class="n">CI_test</span><span class="p">,</span>
+    <span class="n">use_multiprocessing</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pc_single</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">target_var</span><span class="o">=</span><span class="n">target_var</span><span class="p">,</span> <span class="n">pvalue_thres</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">max_lag</span><span class="o">=</span><span class="n">max_lag</span><span class="p">,</span> <span class="n">max_condition_set_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time taken without greedy heuristic: </span><span class="si">{</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">s&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Predicted parents without greedy heuristic:&#39;</span><span class="p">)</span>
+<span class="n">parents</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;parents&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">parents</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># with greedy heuristic</span>
+
+<span class="n">CI_test</span> <span class="o">=</span> <span class="n">PartialCorrelation</span><span class="p">()</span>
+<span class="n">pc_single</span> <span class="o">=</span> <span class="n">PCSingle</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">data_obj</span><span class="p">,</span>
+    <span class="n">prior_knowledge</span><span class="o">=</span><span class="n">prior_knowledge</span><span class="p">,</span>
+    <span class="n">CI_test</span><span class="o">=</span><span class="n">CI_test</span><span class="p">,</span>
+    <span class="n">use_multiprocessing</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pc_single</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">target_var</span><span class="o">=</span><span class="n">target_var</span><span class="p">,</span> <span class="n">pvalue_thres</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">max_lag</span><span class="o">=</span><span class="n">max_lag</span><span class="p">,</span> <span class="n">max_condition_set_size</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time taken with greedy heuristic: </span><span class="si">{</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">s&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Predicted parents with greedy heuristic:&#39;</span><span class="p">)</span>
+<span class="n">parents</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;parents&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">parents</span><span class="p">)</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Ground truth parents for target variable c:
+[(&#39;d&#39;, -4), (&#39;a&#39;, -1)]
+
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2023-08-17 07:38:31,943 INFO worker.py:1553 -- Started a local Ray instance.
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Time taken without greedy heuristic: 28.82s
+Predicted parents without greedy heuristic:
+[(&#39;d&#39;, -4), (&#39;a&#39;, -1), (&#39;c&#39;, -17)]
+
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2023-08-17 07:39:01,090 INFO worker.py:1553 -- Started a local Ray instance.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Time taken with greedy heuristic: 11.91s
+Predicted parents with greedy heuristic:
+[(&#39;d&#39;, -4), (&#39;a&#39;, -1), (&#39;c&#39;, -17)]
+</pre></div></div>
+</div>
+<p>The way to read this Python dictionary is that <span class="math notranslate nohighlight">\(c[t]\)</span> has parents <span class="math notranslate nohighlight">\(d[t-4]\)</span> and <span class="math notranslate nohighlight">\(a[t-1]\)</span>. Note that the greedy heuristic takes less time.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Data%20Generator.html" class="btn btn-neutral float-left" title="Data Generator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="GrangerAlgorithm_TimeSeries.html" class="btn btn-neutral float-right" title="Ganger Causality for Time Series Causal Discovery" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, salesforce.com, inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GIN Tabular module &mdash; Salesforce CausalAI Library 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Salesforce CausalAI Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Prior%20Knowledge.html">Prior Knowledge</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20objects.html">Data Object</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20Generator.html">Data Generator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_TimeSeries.html">PC algorithm for time series causal discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/LINGAM_Algorithm_Tabular.html">LINGAM for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GIN_Algorithm_Tabular.html">Generalized Independent Noise (GIN)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrowShrink_Algorithm_Tabular.html">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20TimeSeries.html">Benchmark Time Series Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Tabular%20Data.html">Causal Inference for Tabular Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Salesforce CausalAI Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">GIN Tabular module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/models.tabular.gin.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-causalai.models.tabular">
+<span id="gin-tabular-module"></span><h1>GIN Tabular module<a class="headerlink" href="#module-causalai.models.tabular" title="Permalink to this heading"></a></h1>
+<section id="module-causalai.models.tabular.gin">
+<span id="causalai-models-tabular-gin"></span><h2>causalai.models.tabular.gin<a class="headerlink" href="#module-causalai.models.tabular.gin" title="Permalink to this heading"></a></h2>
+<p>Generalized Independent Noise (GIN) is a method for causal discovery for tabular data when there are 
+hidden confounder variables.</p>
+<p>Let X denote the set of all the observed variables and L the set of unknown ground truth hidden variables. 
+Then this algorithm makes the following assumptions:
+1. There is no observed variable in X, that is an ancestor of any latent variables in L.
+2. The noise terms are non-Gaussian.
+3. Each latent variable set L' in L, in which every latent variable directly causes the same set of 
+observed variables, has at least 2Dim(L') pure measurement variables as children.
+4. There is no direct edge between observed variables.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="causalai.models.tabular.gin.GIN">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">causalai.models.tabular.gin.</span></span><span class="sig-name descname"><span class="pre">GIN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data:</span> <span class="pre">~causalai.data.tabular.TabularData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_knowledge:</span> <span class="pre">~causalai.models.common.prior_knowledge.PriorKnowledge</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CI_test:</span> <span class="pre">~causalai.models.common.CI_tests.partial_correlation.PartialCorrelation</span> <span class="pre">|</span> <span class="pre">~causalai.models.common.CI_tests.kci.KCI</span> <span class="pre">|</span> <span class="pre">~causalai.models.common.CI_tests.discrete_ci_tests.DiscreteCI_tests</span> <span class="pre">=</span> <span class="pre">&lt;causalai.models.common.CI_tests.kci.KCI</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_multiprocessing:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.models.tabular.gin.GIN" title="Permalink to this definition"></a></dt>
+<dd><p>Generalized Independent Noise (GIN) is a method for causal discovery for multivariate tabular data when there are 
+hidden confounder variables.</p>
+<p>References:
+[1] Xie, F., Cai, R., Huang, B., Glymour, C., Hao, Z., &amp; Zhang, K. (2020). Generalized independent noise condition 
+for estimating latent variable causal graphs. Advances in neural information processing systems, 33, 14891-14902.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.models.tabular.gin.GIN.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data:</span> <span class="pre">~causalai.data.tabular.TabularData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_knowledge:</span> <span class="pre">~causalai.models.common.prior_knowledge.PriorKnowledge</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CI_test:</span> <span class="pre">~causalai.models.common.CI_tests.partial_correlation.PartialCorrelation</span> <span class="pre">|</span> <span class="pre">~causalai.models.common.CI_tests.kci.KCI</span> <span class="pre">|</span> <span class="pre">~causalai.models.common.CI_tests.discrete_ci_tests.DiscreteCI_tests</span> <span class="pre">=</span> <span class="pre">&lt;causalai.models.common.CI_tests.kci.KCI</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_multiprocessing:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.models.tabular.gin.GIN.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Generalized Independent Noise (GIN) is a method for causal discovery when there are hidden confounder variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>TabularData object</em>) -- this is a TabularData object and contains attributes likes data.data_arrays, which is a 
+list of numpy array of shape (observations N, variables D).</p></li>
+<li><p><strong>prior_knowledge</strong> (<em>PriorKnowledge object</em>) -- Prior knowledge is not supported for the GIN algorithm.</p></li>
+<li><p><strong>use_multiprocessing</strong> (<em>bool</em>) -- Multi-processing is not supported.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.models.tabular.gin.GIN.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pvalue_thres</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ResultInfoTabularFull</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#causalai.models.tabular.gin.GIN.run" title="Permalink to this definition"></a></dt>
+<dd><p>Runs GIN algorithm for estimating the causal graph with latent variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pvalue_thres</strong> (<em>float</em>) -- This pvalue_thres is the significance level used for hypothesis testing (default: 0.05).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Dictionay has D keys, where D is the number of variables. The value corresponding to each key is 
+a dictionary with three keys:</p>
+<ul class="simple">
+<li><p>parents : List of estimated parents.</p></li>
+<li><p>value_dict : Dictionary of form {var3_name:float, ...} containing the test statistic of a link.</p></li>
+<li><p>pvalue_dict : Dictionary of form {var3_name:float, ...} containing the p-value corresponding to the above test statistic.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, salesforce.com, inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

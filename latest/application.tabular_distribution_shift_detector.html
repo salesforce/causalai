@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tabular Distribution Shift Detector module &mdash; Salesforce CausalAI Library 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Salesforce CausalAI Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Prior%20Knowledge.html">Prior Knowledge</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20objects.html">Data Object</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20Generator.html">Data Generator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_TimeSeries.html">PC algorithm for time series causal discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/LINGAM_Algorithm_Tabular.html">LINGAM for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GIN_Algorithm_Tabular.html">Generalized Independent Noise (GIN)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrowShrink_Algorithm_Tabular.html">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20TimeSeries.html">Benchmark Time Series Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Tabular%20Data.html">Causal Inference for Tabular Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Salesforce CausalAI Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tabular Distribution Shift Detector module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/application.tabular_distribution_shift_detector.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-causalai.application">
+<span id="tabular-distribution-shift-detector-module"></span><h1>Tabular Distribution Shift Detector module<a class="headerlink" href="#module-causalai.application" title="Permalink to this heading"></a></h1>
+<p>This module contains the two application APIs of causal discovery algorithms.</p>
+<ul class="simple">
+<li><p>RootCauseDetection: API for root cause detection.</p></li>
+<li><p>TabularDistributionShiftDetector: API for root cause detection in tabular data.</p></li>
+</ul>
+<section id="module-causalai.application.distribution_shift_detection">
+<span id="causalai-application-distribution-shift-detection"></span><h2>causalai.application.distribution_shift_detection<a class="headerlink" href="#module-causalai.application.distribution_shift_detection" title="Permalink to this heading"></a></h2>
+<p>TabularDistributionShiftDetector detects the origins of distribution shifts in tabular, continous/discrete data 
+with the help of domain index variable. The algorithm uses the PC algorithm to estimate the causal graph,
+by treating distribution shifts as intervention of the domain index on the root cause node, and PC can use 
+conditional independence tests to quickly recover the causal graph and detec the root cause of anomaly.
+Note that the algorithm supports both discrete and continuous variables, and can handle nonlinear relationships
+by converting the continous variables into discrete ones using K-means clustering and using discrete PC algorithm
+instead for CI test and causal discovery.</p>
+<p>This algorithm makes the following assumptions: 
+1. observational samples conditioned on the domain index are i.i.d. 
+2. arbitrary relationship between variables,
+3. Causal Markov condition, which implies that two variables that are d-separated in a causal graph are 
+probabilistically independent
+4. faithfulness, i.e., no conditional independence can hold unless the Causal Markov condition is met,
+5. no hidden confounders.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="causalai.application.distribution_shift_detection.TabularDistributionShiftDetector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">causalai.application.distribution_shift_detection.</span></span><span class="sig-name descname"><span class="pre">TabularDistributionShiftDetector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.tabular.html#causalai.data.tabular.TabularData" title="causalai.data.tabular.TabularData"><span class="pre">TabularData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain_index_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'domain_index'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_knowledge</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="models.common.prior_knowledge.html#causalai.models.common.prior_knowledge.PriorKnowledge" title="causalai.models.common.prior_knowledge.PriorKnowledge"><span class="pre">PriorKnowledge</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.application.distribution_shift_detection.TabularDistributionShiftDetector" title="Permalink to this definition"></a></dt>
+<dd><p>Detects the root causes of distribution shift in tabular data.</p>
+<p>Reference: Ikram, Azam, et al. &quot;Root Cause Analysis of Failures in 
+Microservices through Causal Discovery.&quot;
+Advances in Neural Information Processing Systems 35 (2022): 31158-31170.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.application.distribution_shift_detection.TabularDistributionShiftDetector.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.tabular.html#causalai.data.tabular.TabularData" title="causalai.data.tabular.TabularData"><span class="pre">TabularData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain_index_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'domain_index'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_knowledge</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="models.common.prior_knowledge.html#causalai.models.common.prior_knowledge.PriorKnowledge" title="causalai.models.common.prior_knowledge.PriorKnowledge"><span class="pre">PriorKnowledge</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.application.distribution_shift_detection.TabularDistributionShiftDetector.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>PC algorithm for root cause detection in domain-varying data settings.
+:param data_obj: tabular data object
+:type data_obj: TabularData
+:param var_names: list of variable names
+:type var_names: List[str]
+:param domain_index_name: name of the domain index column
+:tyoe domain_index_name: str
+:param prior_knowledge: prior knowledge about the causal graph
+:type prior_knowledge: Optional[PriorKnowledge]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.application.distribution_shift_detection.TabularDistributionShiftDetector.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pvalue_thres</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_condition_set_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_graph</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.application.distribution_shift_detection.TabularDistributionShiftDetector.run" title="Permalink to this definition"></a></dt>
+<dd><p>Run the algorithm for root cause detection in tabular data.
+:param pvalue_thres: p-value threshold for conditional independence test
+:type pvalue_thres: float
+:param max_condition_set_size: maximum size of the condition set
+:type max_condition_set_size: int
+:return_graph: whether to return the estimated causal graph
+:type return_graph: bool
+:return: root cause of the incident and/or the estimated causal graph
+:rtype: Union[List[str], Dict[str, List[str]]]</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, salesforce.com, inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

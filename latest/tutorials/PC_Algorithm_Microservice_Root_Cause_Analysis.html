@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PC Algorithm for Root Cause Analysis of Microservice Failure &mdash; Salesforce CausalAI Library 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Salesforce CausalAI Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="Prior%20Knowledge.html">Prior Knowledge</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Data%20objects.html">Data Object</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Data%20Generator.html">Data Generator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PC_Algorithm_TimeSeries.html">PC algorithm for time series causal discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="LINGAM_Algorithm_Tabular.html">LINGAM for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GIN_Algorithm_Tabular.html">Generalized Independent Noise (GIN)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GrowShrink_Algorithm_Tabular.html">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking%20TimeSeries.html">Benchmark Time Series Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Causal%20Inference%20Tabular%20Data.html">Causal Inference for Tabular Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Salesforce CausalAI Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">PC Algorithm for Root Cause Analysis of Microservice Failure</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/PC_Algorithm_Microservice_Root_Cause_Analysis.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="PC-Algorithm-for-Root-Cause-Analysis-of-Microservice-Failure">
+<h1>PC Algorithm for Root Cause Analysis of Microservice Failure<a class="headerlink" href="#PC-Algorithm-for-Root-Cause-Analysis-of-Microservice-Failure" title="Permalink to this heading"></a></h1>
+<p>The Peter-Clark (PC) algorithm is one of the most general purpose algorithms for causal discovery that can be used for both tabular and time series data, of both continuous and discrete types. As proposed in CD-NOD [1], PC algorithm can be tailored for root cause analysis by treating the failure as an intervention on the root cause, and PC can use conditional independence tests to quickly detect it. Let us see how PC algorithm, with slight modifications on the PriorKnowledge sets, can be adapted
+for Root Cause Analysis for continous, microservice monitoring metrics data.</p>
+<p>References:</p>
+<p>[1] Huang, Biwei, Kun Zhang, Jiji Zhang, Joseph Ramsey, Ruben Sanchez-Romero, Clark Glymour, and Bernhard Schölkopf. &quot;Causal discovery from heterogeneous/nonstationary data.&quot; The Journal of Machine Learning Research 21, no. 1 (2020): 3482-3534.</p>
+<p>[2] Ikram, Azam, Sarthak Chakraborty, Subrata Mitra, Shiv Saini, Saurabh Bagchi, and Murat Kocaoglu. &quot;Root Cause Analysis of Failures in Microservices through Causal Discovery.&quot; Advances in Neural Information Processing Systems 35 (2022): 31158-31170.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">truncexpon</span><span class="p">,</span> <span class="n">halfnorm</span>
+<span class="kn">from</span> <span class="nn">causalai.application</span> <span class="kn">import</span> <span class="n">RootCauseDetector</span>
+<span class="kn">from</span> <span class="nn">causalai.application.common</span> <span class="kn">import</span> <span class="n">rca_preprocess</span>
+</pre></div>
+</div>
+</div>
+<section id="Generate-cloud-monitoring-metrics-data">
+<h2>Generate cloud monitoring metrics data<a class="headerlink" href="#Generate-cloud-monitoring-metrics-data" title="Permalink to this heading"></a></h2>
+<p>We create distribution shifts on the marginals/external noises of caching service, in which the anomaly will get propagated downwards to product service because of the causal graph.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_observed_latency_data</span><span class="p">(</span><span class="n">unobserved_intrinsic_latencies</span><span class="p">):</span>
+    <span class="n">observed_latencies</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">observed_latencies</span><span class="p">[</span><span class="s1">&#39;Product DB&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">unobserved_intrinsic_latencies</span><span class="p">[</span><span class="s1">&#39;Product DB&#39;</span><span class="p">]</span>
+    <span class="n">observed_latencies</span><span class="p">[</span><span class="s1">&#39;Customer DB&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">unobserved_intrinsic_latencies</span><span class="p">[</span><span class="s1">&#39;Customer DB&#39;</span><span class="p">]</span>
+    <span class="n">observed_latencies</span><span class="p">[</span><span class="s1">&#39;Order DB&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">unobserved_intrinsic_latencies</span><span class="p">[</span><span class="s1">&#39;Order DB&#39;</span><span class="p">]</span>
+    <span class="n">observed_latencies</span><span class="p">[</span><span class="s1">&#39;Shipping Cost Service&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">unobserved_intrinsic_latencies</span><span class="p">[</span><span class="s1">&#39;Shipping Cost Service&#39;</span><span class="p">]</span>
+    <span class="n">observed_latencies</span><span class="p">[</span><span class="s1">&#39;Caching Service&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">observed_latencies</span><span class="p">[</span><span class="s1">&#39;Product DB&#39;</span><span class="p">]),),</span>
+                                                             <span class="n">p</span><span class="o">=</span><span class="p">[</span><span class="mf">.5</span><span class="p">,</span> <span class="mf">.5</span><span class="p">])</span> <span class="o">*</span> \
+                                            <span class="n">observed_latencies</span><span class="p">[</span><span class="s1">&#39;Product DB&#39;</span><span class="p">]</span> \
+                                            <span class="o">+</span> <span class="n">unobserved_intrinsic_latencies</span><span class="p">[</span><span class="s1">&#39;Caching Service&#39;</span><span class="p">]</span>
+    <span class="n">observed_latencies</span><span class="p">[</span><span class="s1">&#39;Product Service&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">observed_latencies</span><span class="p">[</span><span class="s1">&#39;Shipping Cost Service&#39;</span><span class="p">],</span>
+                                                                  <span class="n">observed_latencies</span><span class="p">[</span><span class="s1">&#39;Caching Service&#39;</span><span class="p">]),</span>
+                                                       <span class="n">observed_latencies</span><span class="p">[</span><span class="s1">&#39;Customer DB&#39;</span><span class="p">])</span> \
+                                            <span class="o">+</span> <span class="n">unobserved_intrinsic_latencies</span><span class="p">[</span><span class="s1">&#39;Product Service&#39;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">observed_latencies</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">unobserved_intrinsic_latencies_normal</span><span class="p">(</span><span class="n">num_samples</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;Product Service&#39;</span><span class="p">:</span> <span class="n">halfnorm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
+        <span class="s1">&#39;Shipping Cost Service&#39;</span><span class="p">:</span> <span class="n">halfnorm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
+        <span class="s1">&#39;Caching Service&#39;</span><span class="p">:</span> <span class="n">halfnorm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span>
+        <span class="s1">&#39;Order DB&#39;</span><span class="p">:</span> <span class="n">truncexpon</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
+        <span class="s1">&#39;Customer DB&#39;</span><span class="p">:</span> <span class="n">truncexpon</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
+        <span class="s1">&#39;Product DB&#39;</span><span class="p">:</span> <span class="n">truncexpon</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">unobserved_intrinsic_latencies_anomalous</span><span class="p">(</span><span class="n">num_samples</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;Product Service&#39;</span><span class="p">:</span> <span class="n">halfnorm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
+        <span class="s1">&#39;Shipping Cost Service&#39;</span><span class="p">:</span> <span class="n">halfnorm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
+        <span class="s1">&#39;Caching Service&#39;</span><span class="p">:</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">halfnorm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span>
+        <span class="s1">&#39;Order DB&#39;</span><span class="p">:</span> <span class="n">truncexpon</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
+        <span class="s1">&#39;Customer DB&#39;</span><span class="p">:</span> <span class="n">truncexpon</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
+        <span class="s1">&#39;Product DB&#39;</span><span class="p">:</span> <span class="n">truncexpon</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">normal_data</span> <span class="o">=</span> <span class="n">create_observed_latency_data</span><span class="p">(</span><span class="n">unobserved_intrinsic_latencies_normal</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>
+<span class="n">outlier_data</span> <span class="o">=</span> <span class="n">create_observed_latency_data</span><span class="p">(</span><span class="n">unobserved_intrinsic_latencies_anomalous</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lower_level_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Customer DB&#39;</span><span class="p">,</span> <span class="s1">&#39;Shipping Cost Service&#39;</span><span class="p">,</span> <span class="s1">&#39;Caching Service&#39;</span><span class="p">,</span> <span class="s1">&#39;Product DB&#39;</span><span class="p">]</span>
+<span class="n">upper_level_metric</span> <span class="o">=</span> <span class="n">normal_data</span><span class="p">[</span><span class="s1">&#39;Product Service&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">+</span> <span class="n">outlier_data</span><span class="p">[</span><span class="s1">&#39;Product Service&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">outlier_data</span> <span class="o">=</span> <span class="n">outlier_data</span><span class="p">[</span><span class="n">lower_level_columns</span><span class="p">]</span>
+<span class="n">normal_data</span> <span class="o">=</span> <span class="n">normal_data</span><span class="p">[</span><span class="n">lower_level_columns</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_obj</span><span class="p">,</span> <span class="n">var_names</span> <span class="o">=</span> <span class="n">rca_preprocess</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">normal_data</span><span class="p">,</span> <span class="n">outlier_data</span><span class="p">],</span>
+    <span class="n">time_metric</span><span class="o">=</span><span class="n">upper_level_metric</span><span class="p">,</span>
+    <span class="n">time_metric_name</span><span class="o">=</span><span class="s1">&#39;time&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Run-root-cause-analysis">
+<h2>Run root cause analysis<a class="headerlink" href="#Run-root-cause-analysis" title="Permalink to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">RootCauseDetector</span><span class="p">(</span>
+    <span class="n">data_obj</span> <span class="o">=</span> <span class="n">data_obj</span><span class="p">,</span>
+    <span class="n">var_names</span><span class="o">=</span><span class="n">var_names</span><span class="p">,</span>
+    <span class="n">time_metric_name</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span>
+    <span class="n">prior_knowledge</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">root_causes</span><span class="p">,</span> <span class="n">graph</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="n">pvalue_thres</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+    <span class="n">max_condition_set_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">return_graph</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The root cause(s) of the incident are: {&#39;Caching Service&#39;}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">root_causes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;Caching Service&#39;}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;Customer DB&#39;: set(), &#39;Shipping Cost Service&#39;: set(), &#39;Caching Service&#39;: set(), &#39;Product DB&#39;: set(), &#39;time&#39;: {&#39;Caching Service&#39;}}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, salesforce.com, inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

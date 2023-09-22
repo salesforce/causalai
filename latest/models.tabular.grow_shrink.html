@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grow-Shrink Tabular module &mdash; Salesforce CausalAI Library 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Salesforce CausalAI Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Prior%20Knowledge.html">Prior Knowledge</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20objects.html">Data Object</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20Generator.html">Data Generator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_TimeSeries.html">PC algorithm for time series causal discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/LINGAM_Algorithm_Tabular.html">LINGAM for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GIN_Algorithm_Tabular.html">Generalized Independent Noise (GIN)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrowShrink_Algorithm_Tabular.html">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20TimeSeries.html">Benchmark Time Series Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Tabular%20Data.html">Causal Inference for Tabular Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Salesforce CausalAI Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Grow-Shrink Tabular module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/models.tabular.grow_shrink.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-causalai.models.tabular">
+<span id="grow-shrink-tabular-module"></span><h1>Grow-Shrink Tabular module<a class="headerlink" href="#module-causalai.models.tabular" title="Permalink to this heading"></a></h1>
+<section id="module-causalai.models.tabular.grow_shrink">
+<span id="causalai-models-tabular-grow-shrink"></span><h2>causalai.models.tabular.grow_shrink<a class="headerlink" href="#module-causalai.models.tabular.grow_shrink" title="Permalink to this heading"></a></h2>
+<p>The Grow-Shrink algorithm can be used for discovering the minimal Markov blanket (MB) of a target variable in tabular
+data. A MB is a minimal conditioning set making the target variable independent of all other variables; under the
+assumption of faithfulness, which we make here, the MB is unique and corresponds to the set of parents, children and
+co-parents of the target variable. The MB can be used for feature selection.</p>
+<p>The Grow-Shrink algorithm operates in two phases, called growth and shrink. The growth phase first adds to the MB
+estimation variables unconditionally dependent on the target variable, then conditions on those variables and adds the
+conditionally dependent variables to the estimation. Assuming perfect conditional independence testing, this yields a
+superset of the actual MB. The shrink phase then removes from the estimated MB variables independent from the target
+variable conditional on all other variables in the MB estimation. The algorithm does not partition the estimated MB into
+parents/children/co-parents.</p>
+<p>The assumptions we make for the growth-shrink algorithm are: 1. Causal Markov condition, which implies that two
+variables that are d-separated in a causal graph are probabilistically independent, 2. faithfulness, i.e., no
+conditional independence can hold unless the Causal Markov condition is met, 3. no hidden confounders, and 4. no cycles
+in the causal graph.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="causalai.models.tabular.grow_shrink.GrowShrink">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">causalai.models.tabular.grow_shrink.</span></span><span class="sig-name descname"><span class="pre">GrowShrink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data:</span> <span class="pre">~causalai.data.tabular.TabularData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_knowledge:</span> <span class="pre">~causalai.models.common.prior_knowledge.PriorKnowledge</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CI_test:</span> <span class="pre">~causalai.models.common.CI_tests.partial_correlation.PartialCorrelation</span> <span class="pre">|</span> <span class="pre">~causalai.models.common.CI_tests.kci.KCI</span> <span class="pre">|</span> <span class="pre">~causalai.models.common.CI_tests.discrete_ci_tests.DiscreteCI_tests</span> <span class="pre">|</span> <span class="pre">~causalai.models.common.CI_tests.ccit.CCITtest</span> <span class="pre">=</span> <span class="pre">&lt;causalai.models.common.CI_tests.partial_correlation.PartialCorrelation</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_multiprocessing:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_shrink:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.models.tabular.grow_shrink.GrowShrink" title="Permalink to this definition"></a></dt>
+<dd><p>Grow-Shrink (GS) algorithm for estimating a minimal markov blanket in tabular data. For details, see:
+&quot;Bayesian Network Induction via Local Neighborhoods&quot;, Dimitris Margaritis and Sebastian Thrun, NeurIPS 1999.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.models.tabular.grow_shrink.GrowShrink.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data:</span> <span class="pre">~causalai.data.tabular.TabularData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_knowledge:</span> <span class="pre">~causalai.models.common.prior_knowledge.PriorKnowledge</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CI_test:</span> <span class="pre">~causalai.models.common.CI_tests.partial_correlation.PartialCorrelation</span> <span class="pre">|</span> <span class="pre">~causalai.models.common.CI_tests.kci.KCI</span> <span class="pre">|</span> <span class="pre">~causalai.models.common.CI_tests.discrete_ci_tests.DiscreteCI_tests</span> <span class="pre">|</span> <span class="pre">~causalai.models.common.CI_tests.ccit.CCITtest</span> <span class="pre">=</span> <span class="pre">&lt;causalai.models.common.CI_tests.partial_correlation.PartialCorrelation</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_multiprocessing:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_shrink:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.models.tabular.grow_shrink.GrowShrink.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Grow-Shrink (GS) algorithm for estimating a minimal markov blanket.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>TabularData object</em>) -- It contains data.values, a numpy array of shape (observations N, variables D).</p></li>
+<li><p><strong>prior_knowledge</strong> (<em>PriorKnowledge object</em>) -- Specify prior knowledge to the causal discovery process by either
+forbidding links/co-parents that are known to not exist, or adding back links/co-parents that do exist
+based on expert knowledge. See the PriorKnowledge class for more details.</p></li>
+<li><p><strong>CI_test</strong> (<a class="reference internal" href="models.common.CI_tests.partial_correlation.html#causalai.models.common.CI_tests.partial_correlation.PartialCorrelation" title="causalai.models.common.CI_tests.partial_correlation.PartialCorrelation"><em>PartialCorrelation</em></a><em>, </em><a class="reference internal" href="models.common.CI_tests.kci.html#causalai.models.common.CI_tests.kci.KCI" title="causalai.models.common.CI_tests.kci.KCI"><em>KCI</em></a><em>, or </em><em>CCITtest object</em>) -- This object perform conditional independence tests (default: PartialCorrelation).
+See object class for more details.</p></li>
+<li><p><strong>use_multiprocessing</strong> (<em>bool</em>) -- If True, computations are performed using multi-processing which makes the algorithm
+faster.</p></li>
+<li><p><strong>update_shrink</strong> (<em>bool</em>) -- whether to update the markov blanket during the shrink phase or not. update_shrink=True
+reduces the size of the conditioning sets tested (which usually increases the quality of the CI test), but makes
+the algorithm susceptible to cumulative error when a variable from the minimal markov blanket is mistakenly
+removed due to previous error of the CI test. Note: this option disables multiprocessing at the shrink phase.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.models.tabular.grow_shrink.GrowShrink.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue_thres</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ResultInfoTabularMB</span></span></span><a class="headerlink" href="#causalai.models.tabular.grow_shrink.GrowShrink.run" title="Permalink to this definition"></a></dt>
+<dd><p>Runs GS algorithm for estimating markov blnaket.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_var</strong> (<em>int</em>) -- Target variable index for which parents need to be estimated.</p></li>
+<li><p><strong>pvalue_thres</strong> (<em>float</em>) -- Significance level used for hypothesis testing (default: 0.05). Candidate variable with pvalues above pvalue_thres
+are ignored, and the rest are returned as the markov blanket of the target_var.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Dictionary has three keys:</p>
+<ul class="simple">
+<li><p>markov_blanket : List of estimated markov blanket variables.</p></li>
+<li><p>value_dict : Dictionary of form {var3_name:float, ...} containing the test statistic of a link.</p></li>
+<li><p>pvalue_dict : Dictionary of form {var3_name:float, ...} containing the p-value corresponding to the above test statistic.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, salesforce.com, inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

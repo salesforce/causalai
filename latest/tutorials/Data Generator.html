@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Generator &mdash; Salesforce CausalAI Library 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="PC algorithm for time series causal discovery" href="PC_Algorithm_TimeSeries.html" />
+    <link rel="prev" title="Data Object" href="Data%20objects.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Salesforce CausalAI Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="Prior%20Knowledge.html">Prior Knowledge</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Data%20objects.html">Data Object</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Data Generator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Graph-Generation">Graph Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Data-Generation">Data Generation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Graph Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Data-Generation-without-intervention">Data Generation without intervention</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Data-Generation-with-intervention">Data Generation with intervention</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PC_Algorithm_TimeSeries.html">PC algorithm for time series causal discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="LINGAM_Algorithm_Tabular.html">LINGAM for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GIN_Algorithm_Tabular.html">Generalized Independent Noise (GIN)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GrowShrink_Algorithm_Tabular.html">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking%20TimeSeries.html">Benchmark Time Series Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Causal%20Inference%20Tabular%20Data.html">Causal Inference for Tabular Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Salesforce CausalAI Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Data Generator</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/Data Generator.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Data-Generator">
+<h1>Data Generator<a class="headerlink" href="#Data-Generator" title="Permalink to this heading"></a></h1>
+<p>The data generator module supports generating both time series and tabular causal graphs, and data of continuous and discrete types.</p>
+<section id="Graph-Generation">
+<h2>Graph Generation<a class="headerlink" href="#Graph-Generation" title="Permalink to this heading"></a></h2>
+<p>For both, tabular and time series data, we support two methods for generating synthetic causal graphs.</p>
+<p><strong>Tabular</strong>: GenerateRandomTabularSEM, GenerateSparseTabularSEM</p>
+<p><strong>Time Series</strong>: GenerateRandomTimeseriesSEM, GenerateSparseTimeSeriesSEM</p>
+<p>The main difference between GenerateRandomSEM and GenerateSparseSEM is that the former requires the maximum number of parents when generating a random SEM, while the latter requires the graph density.</p>
+<p>Their descriptions are as follows:</p>
+<ul class="simple">
+<li><p><strong>GenerateRandomTabularSEM</strong>: Generate a random structural equation model (SEM) for tabular data. It takes the following arguments:</p>
+<ol class="arabic simple">
+<li><p>var_names (List of str): Names of variables in the SEM in the form of a list of str.</p></li>
+<li><p>max_num_parents (int): Maximum number of causal parents allowed in the randomly generated SEM. (default: 4)</p></li>
+<li><p>seed (int): Random seed used for reproducibility.</p></li>
+<li><p>fn (Callable): Function applied to a parent variable when generating child variable data. Default: Linear function for linear causal relation.</p></li>
+</ol>
+</li>
+<li><p><strong>GenerateSparseTabularSEM</strong>: Generate a structural equation model (SEM) for tabular data using the following procedure: For N nodes, enumerate them from 0-N. For all i,j between 0-N, if i &lt; j, the edge from vi to vj exists with probability graph_density, and if i &gt;= j there cannot be an edge betwen them. It takes the following arguments:</p>
+<ol class="arabic simple">
+<li><p>var_names (List of str): Names of variables in the SEM in the form of a list of str.</p></li>
+<li><p>graph_density (float): Probability that an edge between node i and j exists.</p></li>
+<li><p>seed (int): Random seed used for reproducibility.</p></li>
+<li><p>fn (Callable): Function applied to a parent variable when generating child variable data. Default: Linear function for linear causal relation.</p></li>
+<li><p>coef (float): coefficient of parent variables in the randomly generated SEM. Note: larger values may cause exploding values in data array for some seeds.</p></li>
+</ol>
+</li>
+<li><p><strong>GenerateRandomTimeseriesSEM</strong>: Generate a random structural equation model (SEM) for time series data using the following procedure: Randomly divide variables into non-overlapping groups of size between 3 and num_vars. Then randomly create edges between a preceeding group and a following group such that max_num_parents is never exceeded. It takes the following arguments:</p>
+<ol class="arabic simple">
+<li><p>var_names (List of str): Names of variables in the SEM in the form of a list of str.</p></li>
+<li><p>max_num_parents (int): Maximum number of causal parents allowed in the randomly generated SEM. (default: 4)</p></li>
+<li><p>max_lag (int): Maximum time lag between parent and child variable allowed in the randomly generated SEM. (default: 4)</p></li>
+<li><p>seed (int): Random seed used for reproducibility.</p></li>
+<li><p>fn (Callable): Function applied to a parent variable when generating child variable data. Default: Linear function for linear causal relation.</p></li>
+</ol>
+</li>
+<li><p><strong>GenerateSparseTimeSeriesSEM</strong>: Generate a structural equation model (SEM) for time series data using the following procedure: For N nodes, enumerate them from 0-N. For each time lag (until max_lag), for all i,j between 0-N, if i &lt; j, the edge from vi to vj exists with probability graph_density, and if i &gt;= j there cannot be an edge betwen them. It takes the following arguments:</p>
+<ol class="arabic simple">
+<li><p>var_names (List of str): Names of variables in the SEM in the form of a list of str.</p></li>
+<li><p>graph_density (float): Probability that an edge between node i and j exists.</p></li>
+<li><p>max_lag (int): Maximum time lag between parent and child variable allowed in the randomly generated SEM. Must be non-negative.</p></li>
+<li><p>seed (int): Random seed used for reproducibility.</p></li>
+<li><p>fn (Callable): Function applied to a parent variable when generating child variable data. Default: Linear function for linear causal relation.</p></li>
+<li><p>coef (float): coefficient of parent variables in the randomly generated SEM. Note: larger values may cause exploding values in data array for some seeds.</p></li>
+</ol>
+</li>
+</ul>
+</section>
+<section id="Data-Generation">
+<h2>Data Generation<a class="headerlink" href="#Data-Generation" title="Permalink to this heading"></a></h2>
+<p>The function <strong>DataGenerator</strong> is used for generating data samples for a given structural equation model (SEM). The function has several arguments:</p>
+<ol class="arabic simple">
+<li><p>sem (Python dictionary): specifies the causal graph in the form of aa Python Dctionary and implicitly contains the information whether the data is time series or tabular data.</p></li>
+<li><p>T (int): specifies the number of sample or length of time series, depending on whether the data i tabular or time series.</p></li>
+<li><p>noise_fn (List of Callable): List of functions each of which takes t as input and that returns a random vector of length t. The ith index corresponds to the ith key in sem. (default: list of np.random.randn)</p></li>
+<li><p>intervention (Python dictionary): Dictionary of format: {1:np.array, …} containing only keys of intervened variables with the value being the array of length T with interventional values. Set values to np.nan to leave specific time points of a variable un-intervened.</p></li>
+<li><p>discrete (bool or Python dictionary): When bool, it specifies whether all the variables are discrete or all of them are continuous. If true, the generated data is discretized into nstates uniform bins (default: False). Alternatively, if discrete is specified as a dictionary, then the keys of this dictionary must be the variable names and the value corresponding to each key must be True or False. A value of False implies the variable is continuous, and discrete otherwise. (default: False)</p></li>
+<li><p>nstates (int): When discrete is True, the nstates specifies the number of bins to use for discretizing the data (default=10). Ignored for continuous data.</p></li>
+<li><p>seed (int): Set the seed value for random number generation for reproduciblity (default: 1).</p></li>
+</ol>
+<p>As an example, for tabular data, the following is a sample SEM,</p>
+<div class="math notranslate nohighlight">
+\[A = \mathcal{N}_A()\]</div>
+<div class="math notranslate nohighlight">
+\[B = k_1 \times F_1(A) + \mathcal{N}_B()\]</div>
+<div class="math notranslate nohighlight">
+\[C = k_2 \times F_2(A) + k_3 \times F_3(B) + \mathcal{N}_C()\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathcal{N}_i\)</span>’s are functions that return random samples from some distribution (E.g. Gaussain), <span class="math notranslate nohighlight">\(k_i\)</span>’s are constants, and <span class="math notranslate nohighlight">\(F_i\)</span>’s are callable functions that transforms the argument variable value.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">pickle</span> <span class="k">as</span> <span class="nn">pkl</span>
+<span class="kn">from</span> <span class="nn">causalai.misc.misc</span> <span class="kn">import</span> <span class="n">plot_graph</span>
+<span class="kn">from</span> <span class="nn">causalai.data.data_generator</span> <span class="kn">import</span> <span class="n">DataGenerator</span><span class="p">,</span> <span class="n">GenerateRandomTabularSEM</span><span class="p">,</span> <span class="n">GenerateRandomTimeseriesSEM</span>
+<span class="kn">from</span> <span class="nn">causalai.data.data_generator</span> <span class="kn">import</span> <span class="n">GenerateSparseTimeSeriesSEM</span>
+</pre></div>
+</div>
+</div>
+<section id="id1">
+<h3>Graph Generation<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<p>Here we show an example of generating a graph for tabular and time series data.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sem_tabular</span> <span class="o">=</span> <span class="n">GenerateRandomTabularSEM</span><span class="p">(</span><span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">],</span>
+                                       <span class="n">max_num_parents</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">)</span>
+<span class="n">sem_tabular</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;a&#39;: [(&#39;c&#39;, 0.1, &lt;function __main__.&lt;lambda&gt;(x)&gt;),
+  (&#39;f&#39;, 0.1, &lt;function __main__.&lt;lambda&gt;(x)&gt;)],
+ &#39;b&#39;: [(&#39;f&#39;, 0.1, &lt;function __main__.&lt;lambda&gt;(x)&gt;)],
+ &#39;c&#39;: [(&#39;b&#39;, 0.1, &lt;function __main__.&lt;lambda&gt;(x)&gt;)],
+ &#39;d&#39;: [(&#39;f&#39;, 0.1, &lt;function __main__.&lt;lambda&gt;(x)&gt;)],
+ &#39;e&#39;: [(&#39;b&#39;, 0.1, &lt;function __main__.&lt;lambda&gt;(x)&gt;),
+  (&#39;f&#39;, 0.1, &lt;function __main__.&lt;lambda&gt;(x)&gt;)],
+ &#39;f&#39;: []}
+</pre></div></div>
+</div>
+<p>SEM is provided as a Python dictionary with variable names as keys, and the list of children as values. Specifically, each child is of the format (parent, coef, function), as explained in the example above under Data Generation in the equations for an SEM.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sem_time_series</span> <span class="o">=</span> <span class="n">GenerateSparseTimeSeriesSEM</span><span class="p">(</span><span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">],</span>
+                                       <span class="n">graph_density</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">max_lag</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">,</span> <span class="n">coef</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>
+
+<span class="n">sem_time_series</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;a&#39;: [],
+ &#39;b&#39;: [],
+ &#39;c&#39;: [((&#39;b&#39;, -1), 0.1, &lt;function __main__.&lt;lambda&gt;(x)&gt;),
+  ((&#39;a&#39;, -2), 0.1, &lt;function __main__.&lt;lambda&gt;(x)&gt;)],
+ &#39;d&#39;: [],
+ &#39;e&#39;: [((&#39;c&#39;, -2), 0.1, &lt;function __main__.&lt;lambda&gt;(x)&gt;)],
+ &#39;f&#39;: [((&#39;c&#39;, -3), 0.1, &lt;function __main__.&lt;lambda&gt;(x)&gt;)]}
+</pre></div></div>
+</div>
+<p>SEM is provided as a Python dictionary with variable names as keys, and the list of children as values. Specifically, each child is of the format ((parent, time_lag), coef, function), as explained in the example above under Data Generation in the equations for an SEM. Note that time_lag is specified as -k (e.g. -1) which is to be read as t-1, where t is the current time step of the parent. So for node 'c', one of the parents is ('b',-1), which implies b[t-1], which is a parent of c[t].</p>
+</section>
+<section id="Data-Generation-without-intervention">
+<h3>Data Generation without intervention<a class="headerlink" href="#Data-Generation-without-intervention" title="Permalink to this heading"></a></h3>
+<p>Let’s start with the simple case of data generation without any interventions.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span>
+<span class="n">F1</span><span class="o">=</span><span class="n">F2</span><span class="o">=</span><span class="n">F3</span> <span class="o">=</span> <span class="n">fn</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">k1</span><span class="o">=</span><span class="n">k2</span><span class="o">=</span><span class="n">k3</span><span class="o">=</span><span class="n">k</span>
+<span class="n">noise_fn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span>
+<span class="n">noise_fn_a</span><span class="o">=</span> <span class="n">noise_fn_b</span><span class="o">=</span> <span class="n">noise_fn_c</span> <span class="o">=</span> <span class="n">noise_fn</span>
+<span class="n">sem_tabular</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">k1</span><span class="p">,</span> <span class="n">F1</span><span class="p">)],</span>
+        <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">k2</span><span class="p">,</span> <span class="n">F2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">k3</span><span class="p">,</span> <span class="n">F3</span><span class="p">)],</span>
+        <span class="p">}</span>
+
+<span class="n">sem_time_series</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[((</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">k1</span><span class="p">,</span> <span class="n">F1</span><span class="p">)],</span>
+        <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[((</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">),</span> <span class="n">k2</span><span class="p">,</span> <span class="n">F2</span><span class="p">),</span> <span class="p">((</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">),</span> <span class="n">k3</span><span class="p">,</span> <span class="n">F3</span><span class="p">)],</span>
+        <span class="p">}</span>
+
+
+<span class="n">T</span> <span class="o">=</span> <span class="mi">5000</span> <span class="c1"># number of samples in case of tabular data, and length of time series in case of time series data</span>
+<span class="n">data_tabular</span><span class="p">,</span> <span class="n">var_names_tabular</span><span class="p">,</span> <span class="n">graph_gt_tabular</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem_tabular</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>\
+                                            <span class="n">noise_fn</span><span class="o">=</span><span class="p">[</span><span class="n">noise_fn_a</span><span class="p">,</span> <span class="n">noise_fn_b</span><span class="p">,</span> <span class="n">noise_fn_c</span><span class="p">])</span>
+
+<span class="n">data_time_series</span><span class="p">,</span> <span class="n">var_names_time_series</span><span class="p">,</span> <span class="n">graph_gt_time_series</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem_time_series</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span>\
+                                                            <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_graph</span><span class="p">(</span><span class="n">graph_gt_tabular</span><span class="p">)</span>
+<span class="n">graph_gt_tabular</span><span class="p">,</span> <span class="n">var_names_tabular</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_Data_Generator_10_0.png" src="../_images/tutorials_Data_Generator_10_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+({&#39;a&#39;: [], &#39;b&#39;: [&#39;a&#39;], &#39;c&#39;: [&#39;a&#39;, &#39;b&#39;]}, [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_graph</span><span class="p">(</span><span class="n">graph_gt_time_series</span><span class="p">)</span>
+<span class="n">graph_gt_time_series</span><span class="p">,</span> <span class="n">var_names_time_series</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_Data_Generator_11_0.png" src="../_images/tutorials_Data_Generator_11_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+({&#39;a&#39;: [], &#39;b&#39;: [(&#39;a&#39;, -1)], &#39;c&#39;: [(&#39;a&#39;, -2), (&#39;b&#39;, -2)]}, [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;])
+</pre></div></div>
+</div>
+</section>
+<section id="Data-Generation-with-intervention">
+<h3>Data Generation with intervention<a class="headerlink" href="#Data-Generation-with-intervention" title="Permalink to this heading"></a></h3>
+<p>It is also possible to generate data with interventions. For instance, below is the code that generates data without any intervention.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span>
+<span class="n">F1</span><span class="o">=</span><span class="n">F2</span><span class="o">=</span><span class="n">F3</span> <span class="o">=</span> <span class="n">fn</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">k1</span><span class="o">=</span><span class="n">k2</span><span class="o">=</span><span class="n">k3</span><span class="o">=</span><span class="n">k</span>
+<span class="n">sem_tabular</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">k1</span><span class="p">,</span> <span class="n">F1</span><span class="p">)],</span>
+        <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">k2</span><span class="p">,</span> <span class="n">F2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">k3</span><span class="p">,</span> <span class="n">F3</span><span class="p">)],</span>
+        <span class="p">}</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">5000</span> <span class="c1"># number of samples in case of tabular data, and length of time series in case of time series data</span>
+<span class="n">data_tabular</span><span class="p">,</span> <span class="n">var_names_tabular</span><span class="p">,</span> <span class="n">graph_gt_tabular</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem_tabular</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_tabular</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_Data_Generator_13_0.png" src="../_images/tutorials_Data_Generator_13_0.png" />
+</div>
+</div>
+<p>Now, if we want to generate data corresponding to the same data generating process as above, except, we now want to intervene a specific variable, it can be done by specifying the argument intervention as follows.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span><span class="o">=</span><span class="s1">&#39;b&#39;</span>
+
+<span class="n">intervention</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+<span class="n">intervention_data</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem_tabular</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">intervention</span><span class="o">=</span><span class="p">{</span><span class="n">t</span><span class="p">:</span><span class="n">intervention</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<p>Note how the value of the argument seed is the same in both the data generation with and without intervention. This is important to ensure that the data is generated via the same process in both case, with the only difference being the intervention in the latter case.</p>
+<p>We verify that the variable has been intervened and set to the specified value by plotting it below.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">intervention_data</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_Data_Generator_17_0.png" src="../_images/tutorials_Data_Generator_17_0.png" />
+</div>
+</div>
+<p>This kind of intervention data can be used to calculate ground truth values in the case of causal inference estimation. Such examples can be found in the tutorials on causal inference.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Data%20objects.html" class="btn btn-neutral float-left" title="Data Object" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="PC_Algorithm_TimeSeries.html" class="btn btn-neutral float-right" title="PC algorithm for time series causal discovery" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, salesforce.com, inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

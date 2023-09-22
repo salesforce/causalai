@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PC Tabular module &mdash; Salesforce CausalAI Library 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Salesforce CausalAI Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Prior%20Knowledge.html">Prior Knowledge</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20objects.html">Data Object</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20Generator.html">Data Generator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_TimeSeries.html">PC algorithm for time series causal discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/LINGAM_Algorithm_Tabular.html">LINGAM for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GIN_Algorithm_Tabular.html">Generalized Independent Noise (GIN)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrowShrink_Algorithm_Tabular.html">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20TimeSeries.html">Benchmark Time Series Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Tabular%20Data.html">Causal Inference for Tabular Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Salesforce CausalAI Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">PC Tabular module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/models.tabular.pc.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-causalai.models.tabular">
+<span id="pc-tabular-module"></span><h1>PC Tabular module<a class="headerlink" href="#module-causalai.models.tabular" title="Permalink to this heading"></a></h1>
+<section id="module-causalai.models.tabular.pc">
+<span id="causalai-models-tabular-pc"></span><h2>causalai.models.tabular.pc<a class="headerlink" href="#module-causalai.models.tabular.pc" title="Permalink to this heading"></a></h2>
+<p>The Peter-Clark (PC) algorithm is one of the most general purpose algorithms for causal discovery that can be used for both tabular and time series data, 
+of both continuous and discrete types. Briefly, the PC algorithm works in two steps, it first identifies the undirected causal graph, and then (partially) 
+directs the edges. In the first step, we check for the existence of a causal connection between every pair of variables by checking if there exists a condition 
+set (a subset of variables excluding the two said variables), conditioned on which, the two variables are independent. In the second step, the edges are directed 
+by identifying colliders. Note that the edge orientation strategy of the PC algorithm may result in partially directed graphs.</p>
+<p>The PC algorithm makes four core assumptions: 1. Causal Markov condition, which implies that two variables that are d-separated in a causal graph are 
+probabilistically independent, 2. faithfulness, i.e., no conditional independence can hold unless the Causal Markov condition is met, 3. no hidden 
+confounders, and 4. no cycles in the causal graph.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="causalai.models.tabular.pc.PCSingle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">causalai.models.tabular.pc.</span></span><span class="sig-name descname"><span class="pre">PCSingle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data:</span> <span class="pre">~causalai.data.tabular.TabularData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_knowledge:</span> <span class="pre">~causalai.models.common.prior_knowledge.PriorKnowledge</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CI_test:</span> <span class="pre">~causalai.models.common.CI_tests.partial_correlation.PartialCorrelation</span> <span class="pre">|</span> <span class="pre">~causalai.models.common.CI_tests.kci.KCI</span> <span class="pre">|</span> <span class="pre">~causalai.models.common.CI_tests.discrete_ci_tests.DiscreteCI_tests</span> <span class="pre">=</span> <span class="pre">&lt;causalai.models.common.CI_tests.partial_correlation.PartialCorrelation</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_multiprocessing:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.models.tabular.pc.PCSingle" title="Permalink to this definition"></a></dt>
+<dd><p>Peter-Clark (PC) algorithm for estimating parents of single variable.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.models.tabular.pc.PCSingle.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data:</span> <span class="pre">~causalai.data.tabular.TabularData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_knowledge:</span> <span class="pre">~causalai.models.common.prior_knowledge.PriorKnowledge</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CI_test:</span> <span class="pre">~causalai.models.common.CI_tests.partial_correlation.PartialCorrelation</span> <span class="pre">|</span> <span class="pre">~causalai.models.common.CI_tests.kci.KCI</span> <span class="pre">|</span> <span class="pre">~causalai.models.common.CI_tests.discrete_ci_tests.DiscreteCI_tests</span> <span class="pre">=</span> <span class="pre">&lt;causalai.models.common.CI_tests.partial_correlation.PartialCorrelation</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_multiprocessing:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.models.tabular.pc.PCSingle.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>PC algorithm for estimating parents of single variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>TabularData object</em>) -- this is a TabularData object and contains attributes likes data.data_arrays, which is a 
+list of numpy array of shape (observations N, variables D).</p></li>
+<li><p><strong>prior_knowledge</strong> (<em>PriorKnowledge object</em>) -- Specify prior knoweledge to the causal discovery process by either
+forbidding links that are known to not exist, or adding back links that do exist
+based on expert knowledge. See the PriorKnowledge class for more details.</p></li>
+<li><p><strong>CI_test</strong> (<a class="reference internal" href="models.common.CI_tests.partial_correlation.html#causalai.models.common.CI_tests.partial_correlation.PartialCorrelation" title="causalai.models.common.CI_tests.partial_correlation.PartialCorrelation"><em>PartialCorrelation</em></a><em> or </em><em>KCI object</em>) -- This object perform conditional independence tests (default: PartialCorrelation). 
+See object class for more details.</p></li>
+<li><p><strong>use_multiprocessing</strong> (<em>bool</em>) -- If True, computations are performed using multi-processing which makes the algorithm faster.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.models.tabular.pc.PCSingle.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue_thres</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_condition_set_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_cd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ResultInfoTabularSingle</span></span></span><a class="headerlink" href="#causalai.models.tabular.pc.PCSingle.run" title="Permalink to this definition"></a></dt>
+<dd><p>Runs PC algorithm for estimating the causal stength of all potential parents of a single variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_var</strong> (<em>int</em><em> or </em><em>str</em>) -- Target variable index or name for which parents need to be estimated.</p></li>
+<li><p><strong>pvalue_thres</strong> (<em>float</em>) -- Significance level used for hypothesis testing (default: 0.05). Candidate parents with pvalues above pvalue_thres
+are ignored, and the rest are returned as the cause of the target_var.</p></li>
+<li><p><strong>max_condition_set_size</strong> (<em>int</em>) -- If not None, independence tests using condition sets of 
+size {0,1,...max_condition_set_size} are performed
+(which are cheaper) before using condition sets involving all the candidate parents (default: 4).
+For example, max_condition_set_size = 0 implies that the greedy procedure 
+will only consider condition sets of size 0 to eliminate causal links between the target_var
+and a specific variable, if the pvalue between them turns out to be larger than pvalue_thres=0.05.
+Similarly max_condition_set_size=1 will consider condition sets of size 0 and 1. 
+The value of max_condition_set_size can be at maximum the total number of parents-1. If a value larger 
+than this is specified, max_condition_set_size is chosen as min(max_condition_set_size, len(all_parents)-1).
+If None is given, then condition sets involving all the candidate parents are used. While each CI test in 
+this case becomes more expensive than the greedy case, the number of CI tests in this cases is limited to 
+the number of candidate parents, which is less than the greedy case.</p></li>
+<li><p><strong>full_cd</strong> (<em>bool</em>) -- This variable is only meant for internal use to handle multiprocessing if set to True (default: False).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Dictionay has three keys:</p>
+<ul class="simple">
+<li><p>parents : List of estimated parents.</p></li>
+<li><p>value_dict : Dictionary of form {var3_name:float, ...} containing the test statistic of a link.</p></li>
+<li><p>pvalue_dict : Dictionary of form {var3_name:float, ...} containing the p-value corresponding to the above test statistic.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="causalai.models.tabular.pc.PC">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">causalai.models.tabular.pc.</span></span><span class="sig-name descname"><span class="pre">PC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data:</span> <span class="pre">~causalai.data.tabular.TabularData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_knowledge:</span> <span class="pre">~causalai.models.common.prior_knowledge.PriorKnowledge</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CI_test:</span> <span class="pre">~causalai.models.common.CI_tests.partial_correlation.PartialCorrelation</span> <span class="pre">|</span> <span class="pre">~causalai.models.common.CI_tests.kci.KCI</span> <span class="pre">|</span> <span class="pre">~causalai.models.common.CI_tests.discrete_ci_tests.DiscreteCI_tests</span> <span class="pre">=</span> <span class="pre">&lt;causalai.models.common.CI_tests.partial_correlation.PartialCorrelation</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_multiprocessing:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.models.tabular.pc.PC" title="Permalink to this definition"></a></dt>
+<dd><p>Peter-Clark (PC) algorithm for estimating parents of single variable.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.models.tabular.pc.PC.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data:</span> <span class="pre">~causalai.data.tabular.TabularData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_knowledge:</span> <span class="pre">~causalai.models.common.prior_knowledge.PriorKnowledge</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CI_test:</span> <span class="pre">~causalai.models.common.CI_tests.partial_correlation.PartialCorrelation</span> <span class="pre">|</span> <span class="pre">~causalai.models.common.CI_tests.kci.KCI</span> <span class="pre">|</span> <span class="pre">~causalai.models.common.CI_tests.discrete_ci_tests.DiscreteCI_tests</span> <span class="pre">=</span> <span class="pre">&lt;causalai.models.common.CI_tests.partial_correlation.PartialCorrelation</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_multiprocessing:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.models.tabular.pc.PC.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>PC algorithm for estimating parents of all variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>TabularData object</em>) -- this is a TabularData object and contains attributes likes data.data_arrays, which is a 
+list of numpy array of shape (observations N, variables D).</p></li>
+<li><p><strong>prior_knowledge</strong> (<em>PriorKnowledge object</em>) -- Specify prior knoweledge to the causal discovery process by either
+forbidding links that are known to not exist, or adding back links that do exist
+based on expert knowledge. See the PriorKnowledge class for more details.</p></li>
+<li><p><strong>CI_test</strong> (<a class="reference internal" href="models.common.CI_tests.partial_correlation.html#causalai.models.common.CI_tests.partial_correlation.PartialCorrelation" title="causalai.models.common.CI_tests.partial_correlation.PartialCorrelation"><em>PartialCorrelation</em></a><em> or </em><em>KCI object</em>) -- This object perform conditional independence tests (default: PartialCorrelation). 
+See object class for more details.</p></li>
+<li><p><strong>use_multiprocessing</strong> (<em>bool</em>) -- If True, computations are performed using multi-processing which makes the algorithm faster.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.models.tabular.pc.PC.get_parents">
+<span class="sig-name descname"><span class="pre">get_parents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pvalue_thres</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#causalai.models.tabular.pc.PC.get_parents" title="Permalink to this definition"></a></dt>
+<dd><p>Assuming run() function has been called, get_parents function returns a dictionary. The keys of this
+dictionary are the variable names, and the corresponding values are the list of 
+parent names that cause the target variable under the given pvalue_thres.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pvalue_thres</strong> (<em>float</em>) -- This pvalue_thres is the significance level used for hypothesis testing (default: 0.05).</p></li>
+<li><p><strong>target_var</strong> (<em>str</em><em> or </em><em>int</em><em>, </em><em>optional</em>) -- If specified (must be one of the data variable names), the parents of only this variable
+are returned as a list, otherwise a dictionary is returned where each key is a target variable
+name, and the corresponding values is the list of its parents.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionay has D keys, where D is the number of variables. The value corresponding each key is 
+the list of parent names that cause the target variable under the given pvalue_thres.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.models.tabular.pc.PC.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pvalue_thres</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_condition_set_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ResultInfoTabularFull</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#causalai.models.tabular.pc.PC.run" title="Permalink to this definition"></a></dt>
+<dd><p>Runs PC algorithm for estimating the causal stength of all potential parents of all the variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pvalue_thres</strong> (<em>float</em>) -- Significance level used for hypothesis testing (default: 0.05). Candidate parents with pvalues above pvalue_thres
+are ignored, and the rest are returned as the cause of the target_var.</p></li>
+<li><p><strong>max_condition_set_size</strong> (<em>int</em>) -- If not None, independence tests using condition sets of 
+size {0,1,...max_condition_set_size} are performed
+(which are cheaper) before using condition sets involving all the candidate parents (default: 4).
+For example, max_condition_set_size = 0 implies that the greedy procedure 
+will only consider condition sets of size 0 to eliminate causal links between the target_var
+and a specific variable, if the pvalue between them turns out to be larger than pvalue_thres=0.05.
+Similarly max_condition_set_size=1 will consider condition sets of size 0 and 1. 
+The value of max_condition_set_size can be at maximum the total number of parents-1. If a value larger 
+than this is specified, max_condition_set_size is chosen as min(max_condition_set_size, len(all_parents)-1).
+If None is given, then condition sets involving all the candidate parents are used. While each CI test in 
+this case becomes more expensive than the greedy case, the number of CI tests in this cases is limited to 
+the number of candidate parents, which is less than the greedy case.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionay has D keys, where D is the number of variables. The value corresponding each key is 
+the dictionary output of PCSingle.run.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, salesforce.com, inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

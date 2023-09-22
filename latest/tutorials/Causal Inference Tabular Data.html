@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Causal Inference for Tabular Data &mdash; Salesforce CausalAI Library 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Causal Inference for Time Series" href="Causal%20Inference%20Time%20Series%20Data.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Salesforce CausalAI Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="Prior%20Knowledge.html">Prior Knowledge</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Data%20objects.html">Data Object</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Data%20Generator.html">Data Generator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PC_Algorithm_TimeSeries.html">PC algorithm for time series causal discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="LINGAM_Algorithm_Tabular.html">LINGAM for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GIN_Algorithm_Tabular.html">Generalized Independent Noise (GIN)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GrowShrink_Algorithm_Tabular.html">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking%20TimeSeries.html">Benchmark Time Series Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Causal Inference for Tabular Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Causal-Inferencne-methods-supported-by-CausalAI">Causal Inferencne methods supported by CausalAI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#causal_path-method-(defaut)">causal_path method (defaut)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Backdoor-method">Backdoor method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Continuous-Data">Continuous Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Discrete-Data">Discrete Data</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Salesforce CausalAI Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Causal Inference for Tabular Data</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/Causal Inference Tabular Data.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Causal-Inference-for-Tabular-Data">
+<h1>Causal Inference for Tabular Data<a class="headerlink" href="#Causal-Inference-for-Tabular-Data" title="Permalink to this heading"></a></h1>
+<p>Causal inference involves finding the effect of intervention on one set of variables, on another variable. For instance, if A-&gt;B-&gt;C. Then all the three variables may be correlated, but intervention on C, does not affect the values of B, since C is not a causal ancestor of of B. But on the other hand, interventions on A or B, both affect the values of C.</p>
+<p>While there are many different kinds of causal inference questions one may be interested in, we currently support three kinds– 1. Average Treatment Effect (ATE), 2. Conditional ATE (CATE), and 3. Couterfactuals.</p>
+<p>In <strong>ATE</strong>, we intervene on one set of variables with a treatment value and a control value, and estimate the expected change in value of some specified target variable. Mathematically,</p>
+<div class="math notranslate nohighlight">
+\[\texttt{ATE} = \mathbb{E}[Y | \texttt{do}(X=x_t)] - \mathbb{E}[Y | \texttt{do}(X=x_c)]\]</div>
+<p>where <span class="math notranslate nohighlight">\(\texttt{do}\)</span> denotes the intervention operation. In words, ATE aims to determine the relative expected difference in the value of <span class="math notranslate nohighlight">\(Y\)</span> when we intervene <span class="math notranslate nohighlight">\(X\)</span> to be <span class="math notranslate nohighlight">\(x_t\)</span> compared to when we intervene <span class="math notranslate nohighlight">\(X\)</span> to be <span class="math notranslate nohighlight">\(x_c\)</span>. Here <span class="math notranslate nohighlight">\(x_t\)</span> and <span class="math notranslate nohighlight">\(x_c\)</span> are respectively the treatment value and control value.</p>
+<p><strong>CATE</strong> makes a similar estimate, but under some condition specified for a set of variables. Mathematically,</p>
+<div class="math notranslate nohighlight">
+\[\texttt{CATE} = \mathbb{E}[Y | \texttt{do}(X=x_t), C=c] - \mathbb{E}[Y | \texttt{do}(X=x_c), C=c]\]</div>
+<p>where we condition on some set of variables <span class="math notranslate nohighlight">\(C\)</span> taking value <span class="math notranslate nohighlight">\(c\)</span>. Notice here that <span class="math notranslate nohighlight">\(X\)</span> is intervened but <span class="math notranslate nohighlight">\(C\)</span> is not.</p>
+<p>While ATE and CATE estimate expectation over the population, <strong>Counterfactuals</strong> aim at estimating the effect of an intervention on a specific instance or sample. Suppose we have a specific instance of a system of random variables <span class="math notranslate nohighlight">\((X_1, X_2,...,X_N)\)</span> given by <span class="math notranslate nohighlight">\((X_1=x_1, X_2=x_2,...,X_N=x_N)\)</span>, then in a counterfactual, we want to know the effect an intervention (say) <span class="math notranslate nohighlight">\(X_1=k\)</span> would have had on some other variable(s) (say <span class="math notranslate nohighlight">\(X_2\)</span>), holding all the remaining variables fixed.
+Mathematically, this can be expressed as,</p>
+<div class="math notranslate nohighlight">
+\[\texttt{Counterfactual} = X_2 | \texttt{do}(X_1=k), X_3=x_3, X_4=4,\cdots,X_N=x_N\]</div>
+<p>To understand how causal inference works in the case of time series, let’s consider the following graph as an example:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">causalai.misc.misc</span> <span class="kn">import</span> <span class="n">plot_graph</span>
+<span class="kn">from</span> <span class="nn">causalai.data.data_generator</span> <span class="kn">import</span> <span class="n">DataGenerator</span>
+
+
+<span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span>
+<span class="n">coef</span> <span class="o">=</span> <span class="mf">1.</span>
+<span class="n">sem</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),],</span>
+        <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),],</span>
+        <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),],</span>
+        <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),],</span>
+        <span class="p">}</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="n">data</span><span class="p">,</span><span class="n">var_names</span><span class="p">,</span><span class="n">graph_gt</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plot_graph</span><span class="p">(</span><span class="n">graph_gt</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_Causal_Inference_Tabular_Data_2_0.png" src="../_images/tutorials_Causal_Inference_Tabular_Data_2_0.png" />
+</div>
+</div>
+<p>Given this graph with 5 variables– a b, c, d and e, and some observational tabular data in the form for a <span class="math notranslate nohighlight">\(T \times 4\)</span> matrix, suppose we want to estimate the causal effect of interventions of the variable b on variable d. The SCM for this graph takes the form:</p>
+<div class="math notranslate nohighlight">
+\[a = n_a\]</div>
+<div class="math notranslate nohighlight">
+\[b = f_b(a) + n_b\]</div>
+<div class="math notranslate nohighlight">
+\[c = f_c(b,e) + n_c\]</div>
+<div class="math notranslate nohighlight">
+\[d = f_d(c) + n_d\]</div>
+<div class="math notranslate nohighlight">
+\[e = n_e\]</div>
+<p>Here <span class="math notranslate nohighlight">\(n_x\)</span> are noise terms. Then intervening the values of the variable b at each time step, i.e., <span class="math notranslate nohighlight">\(do(b)\)</span>, causally affects the values of <span class="math notranslate nohighlight">\(d\)</span>. This is because <span class="math notranslate nohighlight">\(d\)</span> directly depends on <span class="math notranslate nohighlight">\(c\)</span>, and <span class="math notranslate nohighlight">\(c\)</span> depends on <span class="math notranslate nohighlight">\(b\)</span>, thus there is an indirect causal effect.</p>
+<p>Notice that if we were to intervene both <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>, the intervention of <span class="math notranslate nohighlight">\(a\)</span> would not have any impact on <span class="math notranslate nohighlight">\(d\)</span> because it is blocked by <span class="math notranslate nohighlight">\(b\)</span>, which is also intervened. On the other hand, if we were to intervene <span class="math notranslate nohighlight">\(c\)</span> in addition to <span class="math notranslate nohighlight">\(b\)</span> or <span class="math notranslate nohighlight">\(e\)</span>, then the intervention on <span class="math notranslate nohighlight">\(b\)</span> and <span class="math notranslate nohighlight">\(e\)</span> would not have any impact on <span class="math notranslate nohighlight">\(d\)</span> because it would be blocked by <span class="math notranslate nohighlight">\(c\)</span>.</p>
+<p>Coming back to the example shown in the above graph, we have established that an intervention on the values of <span class="math notranslate nohighlight">\(b\)</span> impacts the values of <span class="math notranslate nohighlight">\(d\)</span>. Now suppose we want to calculate the treatment effect (say ATE) of this intervention on <span class="math notranslate nohighlight">\(d\)</span>. For the purpose of this exposition, let’s consider just one of the terms in the ATE formula above, since both the terms have the same form. Specifically, we want to calculate,</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{E}[d | \texttt{do}(b)]\]</div>
+<p>Conceptually, this is achieved by setting the value of <span class="math notranslate nohighlight">\(b=v\)</span> (<span class="math notranslate nohighlight">\(v\)</span> is the desired intervention value) in the observational data for all samples, then traverse the causal graph in the order <span class="math notranslate nohighlight">\(b\)</span>, <span class="math notranslate nohighlight">\(c\)</span>, and <span class="math notranslate nohighlight">\(d\)</span> (the causal order), for each observation. At edge <span class="math notranslate nohighlight">\(b-&gt;c\)</span>, we use the function <span class="math notranslate nohighlight">\(f_c\)</span>, to predict the causal effect of the intervened values of <span class="math notranslate nohighlight">\(b\)</span> along with the observed value of <span class="math notranslate nohighlight">\(e\)</span> on <span class="math notranslate nohighlight">\(c\)</span>. And similarly, at edge <span class="math notranslate nohighlight">\(c-&gt;d\)</span>, we use
+the function <span class="math notranslate nohighlight">\(f_d\)</span>, to predict the causal effect of the new values of <span class="math notranslate nohighlight">\(c\)</span> on <span class="math notranslate nohighlight">\(d\)</span>. This finally yields the causal effect of the intervention of <span class="math notranslate nohighlight">\(b\)</span> on the variable <span class="math notranslate nohighlight">\(d\)</span> for all obervaational data. To compute the expectation <span class="math notranslate nohighlight">\(\mathbb{E}[d | \texttt{do}(b)]\)</span>, we simply take the average effect on <span class="math notranslate nohighlight">\(d\)</span> over all the observational data.</p>
+<p>Notice that we do not need to evaluate the equation for <span class="math notranslate nohighlight">\(a\)</span> in this process because its value has on impact on <span class="math notranslate nohighlight">\(d\)</span> once we intervene <span class="math notranslate nohighlight">\(b\)</span>. This saves computation. We would similarly have ignored any other variable during this computation if it was either not affected by the intervention, or if there was no causal path from that variable to the target variable <span class="math notranslate nohighlight">\(d\)</span>.</p>
+<p>Now that we have a conceptual understanding, we point out that in reality, the functions <span class="math notranslate nohighlight">\(f_x\)</span> for <span class="math notranslate nohighlight">\(x \in \{b,c,d \}\)</span> are unknown in practice. In fact, given only observational data, we do not even know the causal graph as the one shown in the example above. Therefore, causal inference is treated as a two step process. First we estimate the causal graph using the observational data. We then use one of the various techniques to perform causal inference given both the observational
+data and the causal graph.</p>
+<section id="Causal-Inferencne-methods-supported-by-CausalAI">
+<h2>Causal Inferencne methods supported by CausalAI<a class="headerlink" href="#Causal-Inferencne-methods-supported-by-CausalAI" title="Permalink to this heading"></a></h2>
+<p>In our library, for tabular data, we support two methods for perform causal inference– the <strong>backdoor adjustment set method</strong>, and another method that simulates the conceptual process described above for causal inference, that we will refer to as <strong>causal_path method</strong>.</p>
+<section id="causal_path-method-(defaut)">
+<h3>causal_path method (defaut)<a class="headerlink" href="#causal_path-method-(defaut)" title="Permalink to this heading"></a></h3>
+<p>Let’s begin with the causal_path method. Conceptually, this method works in two steps. For illustration, let’s use the causal graph shown above as our example. 1. We train two models <span class="math notranslate nohighlight">\(P_{\theta_1}(c|b)\)</span> and <span class="math notranslate nohighlight">\(P_{\theta_2}(d|c)\)</span> to predict c from b, and d from c, using the observational data. We have not used the intervention information in this step. 2. we set the value of <span class="math notranslate nohighlight">\(b=v\)</span> (<span class="math notranslate nohighlight">\(v\)</span> is the desired intervention value) for all the samples in the observational data, then
+traverse the causal graph in the order <span class="math notranslate nohighlight">\(b\)</span>, <span class="math notranslate nohighlight">\(c\)</span>, and <span class="math notranslate nohighlight">\(d\)</span> (the causal order), for each observation. For each of the nodes c and d, we use the corresponding trained models <span class="math notranslate nohighlight">\(P_{\theta_1}(c|b)\)</span> and <span class="math notranslate nohighlight">\(P_{\theta_2}(d|c)\)</span> as proxies for the unknown functions <span class="math notranslate nohighlight">\(f_c\)</span> and <span class="math notranslate nohighlight">\(f_d\)</span>, and follow the steps described above to estimate the causal effect.</p>
+</section>
+<section id="Backdoor-method">
+<h3>Backdoor method<a class="headerlink" href="#Backdoor-method" title="Permalink to this heading"></a></h3>
+<p>Given an intervention variable <span class="math notranslate nohighlight">\(X\)</span> and a target variable <span class="math notranslate nohighlight">\(Y\)</span>, the backdoor method tries to find an adjustment set <span class="math notranslate nohighlight">\(Z\)</span>, that blocks all the backdoor paths between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, which are essentially the non-causal paths from <span class="math notranslate nohighlight">\(X\)</span> to <span class="math notranslate nohighlight">\(Y\)</span>. Given such a set <span class="math notranslate nohighlight">\(Z\)</span>, we can use the the following result (Theorem 1) from Pearl 1995 (Causal diagrams for empirical research):</p>
+<div class="math notranslate nohighlight">
+\[P(y | do(X)) = \sum_z P(y | X, Z). P(Z) \approx (1/T) . P(y | X, Z)\]</div>
+<p>The backdoor criterion is defined as follows: A set of variables <span class="math notranslate nohighlight">\(Z\)</span> satisfies the back-door criterion relative to an ordered pair of variables <span class="math notranslate nohighlight">\((X_i,X_j)\)</span> in a directed acyclic graph G if: (i) no node in <span class="math notranslate nohighlight">\(Z\)</span> is a descendant of <span class="math notranslate nohighlight">\(X_i\)</span>, and (ii) <span class="math notranslate nohighlight">\(Z\)</span> blocks every path between <span class="math notranslate nohighlight">\(X\)</span>, and <span class="math notranslate nohighlight">\(X_j\)</span> which contains an arrow into <span class="math notranslate nohighlight">\(X\)</span>,. If <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are two disjoint sets of nodes in G, <span class="math notranslate nohighlight">\(Z\)</span> is said to satisfy the back-door criterion relative to
+<span class="math notranslate nohighlight">\((X, Y)\)</span> if it satisfies it relative to any pair <span class="math notranslate nohighlight">\((X_i,X_j)\)</span> such that <span class="math notranslate nohighlight">\(X_i \in X\)</span> and <span class="math notranslate nohighlight">\(X_j \in Y\)</span>.</p>
+<p>For the causal graph in the example, the path <span class="math notranslate nohighlight">\(b &lt;- a -&gt; e -&gt; c -&gt; d\)</span> is a valid backdoor path, since it contains an arrow into the intervention variable <span class="math notranslate nohighlight">\(b\)</span>, and <span class="math notranslate nohighlight">\(b\)</span> and <span class="math notranslate nohighlight">\(d\)</span> are the two end points of the path. The backdoor adjustment set corresponding to this path would be any one of <span class="math notranslate nohighlight">\(\{ a,e \}\)</span>, <span class="math notranslate nohighlight">\(\{ a \}\)</span>, and <span class="math notranslate nohighlight">\(\{ e \}\)</span>. This is because conditioning on any one of these sets blocks the path from aforementioned backdoor path. Note that variable <span class="math notranslate nohighlight">\(c\)</span>
+cannot be part of the adjustment set as it is a descendant of the intervention variable <span class="math notranslate nohighlight">\(b\)</span>. For more details, see the documentation on tabular causal inference.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">pickle</span> <span class="k">as</span> <span class="nn">pkl</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+
+<span class="kn">from</span> <span class="nn">causalai.data.data_generator</span> <span class="kn">import</span> <span class="n">DataGenerator</span><span class="p">,</span> <span class="n">ConditionalDataGenerator</span>
+<span class="kn">from</span> <span class="nn">causalai.models.tabular.causal_inference</span> <span class="kn">import</span> <span class="n">CausalInference</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.neural_network</span> <span class="kn">import</span> <span class="n">MLPRegressor</span>
+<span class="kn">from</span> <span class="nn">causalai.misc.misc</span> <span class="kn">import</span> <span class="n">plot_graph</span>
+
+<span class="k">def</span> <span class="nf">define_treatments</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
+    <span class="n">treatment</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">var_name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">treatment_value</span><span class="o">=</span><span class="n">t</span><span class="p">,</span>
+                    <span class="n">control_value</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">treatment</span>
+<br/><br/></pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Continuous-Data">
+<h2>Continuous Data<a class="headerlink" href="#Continuous-Data" title="Permalink to this heading"></a></h2>
+<p>For this example, we will use synthetic data that has linear dependence among data variables.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span>
+<span class="n">coef</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">sem</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="p">}</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plot_graph</span><span class="p">(</span><span class="n">graph_gt</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">graph_gt</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_Causal_Inference_Tabular_Data_7_0.png" src="../_images/tutorials_Causal_Inference_Tabular_Data_7_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;a&#39;: [],
+ &#39;b&#39;: [&#39;a&#39;, &#39;f&#39;],
+ &#39;c&#39;: [&#39;b&#39;, &#39;f&#39;],
+ &#39;d&#39;: [&#39;b&#39;, &#39;g&#39;],
+ &#39;e&#39;: [&#39;f&#39;],
+ &#39;f&#39;: [],
+ &#39;g&#39;: []}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="c1"># Notice c does not depend on a if we intervene on b. Hence intervening a has no effect in this case.</span>
+<span class="c1"># This can be verified by changing the intervention values of variable a, which should have no impact on the</span>
+<span class="c1"># counterfactual.</span>
+<span class="c1"># (see graph_gt above)</span>
+<span class="n">t1</span><span class="o">=</span><span class="s1">&#39;a&#39;</span>
+<span class="n">t2</span><span class="o">=</span><span class="s1">&#39;b&#39;</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;c&#39;</span>
+<span class="n">target_var</span> <span class="o">=</span> <span class="n">var_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+
+<span class="c1"># treatment values</span>
+<span class="n">intervention11</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+<span class="n">intervention21</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+<span class="n">intervention_data1</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                        <span class="n">intervention</span><span class="o">=</span><span class="p">{</span><span class="n">t1</span><span class="p">:</span><span class="n">intervention11</span><span class="p">,</span> <span class="n">t2</span><span class="p">:</span><span class="n">intervention21</span><span class="p">})</span>
+
+<span class="c1"># control values</span>
+<span class="n">intervention12</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+<span class="n">intervention22</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+<span class="n">intervention_data2</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                        <span class="n">intervention</span><span class="o">=</span><span class="p">{</span><span class="n">t1</span><span class="p">:</span><span class="n">intervention12</span><span class="p">,</span> <span class="n">t2</span><span class="p">:</span><span class="n">intervention22</span><span class="p">})</span>
+
+
+
+<span class="n">true_effect</span> <span class="o">=</span> <span class="p">(</span><span class="n">intervention_data1</span><span class="p">[:,</span><span class="n">target_var</span><span class="p">]</span> <span class="o">-</span> <span class="n">intervention_data2</span><span class="p">[:,</span><span class="n">target_var</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;True ATE = </span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span><span class="k">true_effect</span>)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True ATE = 6.00
+</pre></div></div>
+</div>
+<p>We support two causal inference method– backdoor method, and an in-house method that we call causal_path. We use both below.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">treatments</span> <span class="o">=</span> <span class="p">[</span><span class="n">define_treatments</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">intervention11</span><span class="p">,</span><span class="n">intervention12</span><span class="p">),</span>\
+             <span class="n">define_treatments</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span> <span class="n">intervention21</span><span class="p">,</span><span class="n">intervention22</span><span class="p">)]</span>
+
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="c1"># CausalInference_ = CausalInference(data, var_names, graph_gt,\</span>
+<span class="c1">#         partial(MLPRegressor, hidden_layer_sizes=(100,100)) , False)</span>
+<span class="n">CausalInference_</span> <span class="o">=</span> <span class="n">CausalInference</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span><span class="p">,</span> <span class="n">LinearRegression</span> <span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;causal_path&#39;</span><span class="p">)</span>
+
+<span class="n">ate</span><span class="p">,</span> <span class="n">y_treat</span><span class="p">,</span><span class="n">y_control</span> <span class="o">=</span> <span class="n">CausalInference_</span><span class="o">.</span><span class="n">ate</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">treatments</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Estimated ATE using causal_path method: </span><span class="si">{</span><span class="n">ate</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">s&#39;</span><span class="p">)</span>
+
+
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="c1"># CausalInference_ = CausalInference(data, var_names, graph_gt,\</span>
+<span class="c1">#         partial(MLPRegressor, hidden_layer_sizes=(100,100)) , False)</span>
+<span class="n">CausalInference_</span> <span class="o">=</span> <span class="n">CausalInference</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span><span class="p">,</span> <span class="n">LinearRegression</span> <span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;backdoor&#39;</span><span class="p">)</span>
+
+<span class="n">ate</span><span class="p">,</span> <span class="n">y_treat</span><span class="p">,</span><span class="n">y_control</span> <span class="o">=</span> <span class="n">CausalInference_</span><span class="o">.</span><span class="n">ate</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">treatments</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Estimated ATE using backdoor method: </span><span class="si">{</span><span class="n">ate</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">s&#39;</span><span class="p">)</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Estimated ATE using causal_path method: 6.38
+0.01s
+Estimated ATE using backdoor method: 7.21
+0.01s
+</pre></div></div>
+</div>
+<p><strong>NOTE</strong>: We find the backdoor method to exhibit a high variance in the ATE etimation, and this variance reduces with larger number of data samples. Therefore, the results from the Backdoor method may seem off at times, especially with smaller sample size. We find the causal_path method on the other hand to be much more robust.</p>
+<p>The data is generated using the following structural equation model:</p>
+<div class="math notranslate nohighlight">
+\[C = noise\]</div>
+<div class="math notranslate nohighlight">
+\[W = C + noise\]</div>
+<div class="math notranslate nohighlight">
+\[X = C*W + noise\]</div>
+<div class="math notranslate nohighlight">
+\[Y = C*X + noise\]</div>
+<p>We will treat C as the condition variable, X as the intervention variable, and Y as the target variable in our example below. The noise used in our example is sampled from the standard Gaussian distribution.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span><span class="o">=</span><span class="mi">500</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span> <span class="o">=</span> <span class="n">ConditionalDataGenerator</span><span class="p">(</span><span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;tabular&#39;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1"># var_names = [&#39;C&#39;, &#39;W&#39;, &#39;X&#39;, &#39;Y&#39;]</span>
+<span class="n">treatment_var</span><span class="o">=</span><span class="s1">&#39;X&#39;</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;Y&#39;</span>
+<span class="n">target_idx</span> <span class="o">=</span> <span class="n">var_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+
+
+<span class="n">intervention1</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">intervention_data1</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">ConditionalDataGenerator</span><span class="p">(</span><span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;tabular&#39;</span><span class="p">,</span>\
+                                    <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">intervention</span><span class="o">=</span><span class="p">{</span><span class="n">treatment_var</span><span class="p">:</span><span class="n">intervention1</span><span class="p">},</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">intervention2</span> <span class="o">=</span> <span class="mf">0.9</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">intervention_data2</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">ConditionalDataGenerator</span><span class="p">(</span><span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;tabular&#39;</span><span class="p">,</span>\
+                                    <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">intervention</span><span class="o">=</span><span class="p">{</span><span class="n">treatment_var</span><span class="p">:</span><span class="n">intervention2</span><span class="p">},</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">graph_gt</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;C&#39;: [], &#39;W&#39;: [&#39;C&#39;], &#39;X&#39;: [&#39;C&#39;, &#39;W&#39;], &#39;Y&#39;: [&#39;C&#39;, &#39;X&#39;]}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">condition_state</span><span class="o">=</span><span class="mf">2.1</span>
+<span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">condition_state</span><span class="p">)</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
+<span class="c1"># assert diff[idx]&lt;0.1, f&#39;No observational data exists for the conditional variable close to {condition_state}&#39;</span>
+
+
+<span class="n">cate_gt</span> <span class="o">=</span> <span class="p">(</span><span class="n">intervention_data1</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="n">target_idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">intervention_data2</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="n">target_idx</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Approx True CATE: </span><span class="si">{</span><span class="n">cate_gt</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1">####</span>
+<span class="n">treatments</span> <span class="o">=</span> <span class="n">define_treatments</span><span class="p">(</span><span class="n">treatment_var</span><span class="p">,</span> <span class="n">intervention1</span><span class="p">,</span><span class="n">intervention2</span><span class="p">)</span>
+<span class="n">conditions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;var_name&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;condition_value&#39;</span><span class="p">:</span> <span class="n">condition_state</span><span class="p">}</span>
+
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">MLPRegressor</span><span class="p">,</span> <span class="n">hidden_layer_sizes</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">CausalInference_</span> <span class="o">=</span> <span class="n">CausalInference</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;causal_path&#39;</span><span class="p">)</span><span class="c1">#</span>
+
+<span class="n">cate</span> <span class="o">=</span> <span class="n">CausalInference_</span><span class="o">.</span><span class="n">cate</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">treatments</span><span class="p">,</span> <span class="n">conditions</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Estimated CATE using causal_path method: </span><span class="si">{</span><span class="n">cate</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time taken: </span><span class="si">{</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">s&#39;</span><span class="p">)</span>
+
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">MLPRegressor</span><span class="p">,</span> <span class="n">hidden_layer_sizes</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">CausalInference_</span> <span class="o">=</span> <span class="n">CausalInference</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;backdoor&#39;</span><span class="p">)</span><span class="c1">#</span>
+
+<span class="n">cate</span> <span class="o">=</span> <span class="n">CausalInference_</span><span class="o">.</span><span class="n">cate</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">treatments</span><span class="p">,</span> <span class="n">conditions</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Estimated CATE using backdoor method: </span><span class="si">{</span><span class="n">cate</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time taken: </span><span class="si">{</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">s&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Approx True CATE: -1.65
+Estimated CATE using causal_path method: -1.61
+Time taken: 0.54s
+Estimated CATE using backdoor method: -1.31
+Time taken: 0.45s
+</pre></div></div>
+</div>
+<p>NOTE: We find the backdoor method to exhibit a high variance, and this variance reduces with larger number of data samples. Therefore, the results from the Backdoor method may seem off at times, especially with smaller sample size. We find the causal_path method on the other hand to be much more robust.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="c1"># sem_dict = GenerateRandomTabularSEM(var_names=[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;],\</span>
+<span class="c1">#                                max_num_parents=4, seed=3, fn = lambda x:x, coef=0.8)</span>
+<span class="c1"># data, var_names, graph_gt = DataGenerator(sem_dict, T=10000, noise_fn=None,\</span>
+<span class="c1">#                                     intervention=None, discrete=False, nstates=10, seed=1)</span>
+
+<span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span>
+<span class="n">coef</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">sem</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="p">}</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">400</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plot_graph</span><span class="p">(</span><span class="n">graph_gt</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">graph_gt</span>
+
+<span class="n">intervention</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">10.</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="p">),</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="p">)}</span>
+<span class="n">target_var</span> <span class="o">=</span> <span class="s1">&#39;c&#39;</span>
+
+<span class="n">sample</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">noise_fn</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>\
+                                    <span class="n">intervention</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nstates</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sample_intervened</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">noise_fn</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>\
+                                    <span class="n">intervention</span><span class="o">=</span><span class="n">intervention</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nstates</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">sample</span><span class="o">=</span><span class="n">sample</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sample_intervened</span><span class="o">=</span><span class="n">sample_intervened</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">var_orig</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="n">var_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">target_var</span><span class="p">)]</span>
+<span class="n">var_counterfactual_gt</span> <span class="o">=</span> <span class="n">sample_intervened</span><span class="p">[</span><span class="n">var_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">target_var</span><span class="p">)]</span>
+<span class="c1"># print(f&#39;Original value of var {target_var}: {var_orig:.2f}&#39;)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_Causal_Inference_Tabular_Data_17_0.png" src="../_images/tutorials_Causal_Inference_Tabular_Data_17_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">interventions</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">intervention</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;True counterfactual </span><span class="si">{</span><span class="n">var_counterfactual_gt</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># model = partial(MLPRegressor, hidden_layer_sizes=(100,100), max_iter=200)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span>
+
+<span class="n">CausalInference_</span> <span class="o">=</span> <span class="n">CausalInference</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;causal_path&#39;</span><span class="p">)</span>
+<span class="c1"># model = None</span>
+<span class="n">counterfactual_et</span> <span class="o">=</span> <span class="n">CausalInference_</span><span class="o">.</span><span class="n">counterfactual</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">target_var</span><span class="p">,</span> <span class="n">interventions</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Estimated counterfactual using the causal_path method </span><span class="si">{</span><span class="n">counterfactual_et</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="n">CausalInference_</span> <span class="o">=</span> <span class="n">CausalInference</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;backdoor&#39;</span><span class="p">)</span>
+<span class="c1"># model = None</span>
+<span class="n">counterfactual_et</span> <span class="o">=</span> <span class="n">CausalInference_</span><span class="o">.</span><span class="n">counterfactual</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">target_var</span><span class="p">,</span> <span class="n">interventions</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Estimated counterfactual using the backdoor method </span><span class="si">{</span><span class="n">counterfactual_et</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True counterfactual 3.33
+Estimated counterfactual using the causal_path method 3.13
+Estimated counterfactual using the backdoor method 1.45
+</pre></div></div>
+</div>
+<p>NOTE: We find the backdoor method to exhibit a high variance, and this variance reduces with larger number of data samples. Therefore, the results from the Backdoor method may seem off at times, especially with smaller sample size. We find the causal_path method on the other hand to be much more robust.</p>
+</section>
+<section id="Discrete-Data">
+<h2>Discrete Data<a class="headerlink" href="#Discrete-Data" title="Permalink to this heading"></a></h2>
+<p>The synthetic data generation procedure for the ATE, CATE and Counterfactual examples below are identical to the procedure followed above for the continuous case, except that the generated data is discrete in the cases below.</p>
+<p><strong>Importantly</strong>, when referring as discrete, we only treat the intervention variables as discrete in this case. The target variables and other variables are considered as continuous. Specifically, it doesn’t make sense for the target variable to be discrete when we compute ATE or CATE, because it involves estimating the difference in states of the target variable, and for discrete variables, the difference between two states is not a meaningful quantity (as discrete states are symbolic in
+nature).</p>
+<p>For this example, we will use synthetic data that has linear dependence among data variables.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">pickle</span> <span class="k">as</span> <span class="nn">pkl</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+
+<span class="kn">from</span> <span class="nn">causalai.data.data_generator</span> <span class="kn">import</span> <span class="n">DataGenerator</span><span class="p">,</span> <span class="n">ConditionalDataGenerator</span>
+<span class="kn">from</span> <span class="nn">causalai.models.tabular.causal_inference</span> <span class="kn">import</span> <span class="n">CausalInference</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.neural_network</span> <span class="kn">import</span> <span class="n">MLPRegressor</span>
+<span class="kn">from</span> <span class="nn">causalai.misc.misc</span> <span class="kn">import</span> <span class="n">plot_graph</span>
+
+<span class="k">def</span> <span class="nf">define_treatments</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
+    <span class="n">treatment</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">var_name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">treatment_value</span><span class="o">=</span><span class="n">t</span><span class="p">,</span>
+                    <span class="n">control_value</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">treatment</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span>
+<span class="n">coef</span> <span class="o">=</span> <span class="mf">0.6</span>
+<span class="n">sem</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="p">}</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">5000</span>
+
+<span class="n">t1</span><span class="o">=</span><span class="s1">&#39;a&#39;</span>
+<span class="n">t2</span><span class="o">=</span><span class="s1">&#39;b&#39;</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;c&#39;</span>
+<span class="n">discrete</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="kc">True</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="n">t1</span><span class="p">,</span><span class="n">t2</span><span class="p">]</span> <span class="k">else</span> <span class="kc">False</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">sem</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+
+<span class="n">data</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="n">discrete</span><span class="p">,</span> <span class="n">nstates</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">graph_gt</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;a&#39;: [],
+ &#39;b&#39;: [&#39;a&#39;, &#39;f&#39;],
+ &#39;c&#39;: [&#39;b&#39;, &#39;f&#39;],
+ &#39;d&#39;: [&#39;b&#39;, &#39;b&#39;, &#39;g&#39;],
+ &#39;e&#39;: [&#39;f&#39;],
+ &#39;f&#39;: [],
+ &#39;g&#39;: []}
+</pre></div></div>
+</div>
+<p>Notice how we specify the variable discrete above. We specify the intervention variables as discrete, while the others as continuous, as per our explanation above.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><br/><span></span><span class="n">target_var</span> <span class="o">=</span> <span class="n">var_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+<span class="c1"># note that states can be [0,1,...,9], so the multiples below must be in this range</span>
+<span class="n">intervention11</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">intervention21</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">intervention_data1</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                            <span class="n">intervention</span><span class="o">=</span><span class="p">{</span><span class="n">t1</span><span class="p">:</span> <span class="n">intervention11</span><span class="p">,</span> <span class="n">t2</span><span class="p">:</span><span class="n">intervention21</span><span class="p">},</span> <span class="n">discrete</span><span class="o">=</span><span class="n">discrete</span><span class="p">,</span> <span class="n">nstates</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">intervention12</span> <span class="o">=</span> <span class="mi">9</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">intervention22</span> <span class="o">=</span> <span class="mi">9</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">intervention_data2</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                            <span class="n">intervention</span><span class="o">=</span><span class="p">{</span><span class="n">t1</span><span class="p">:</span><span class="n">intervention12</span><span class="p">,</span> <span class="n">t2</span><span class="p">:</span><span class="n">intervention22</span><span class="p">},</span> <span class="n">discrete</span><span class="o">=</span><span class="n">discrete</span><span class="p">,</span> <span class="n">nstates</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">true_effect</span> <span class="o">=</span> <span class="p">(</span><span class="n">intervention_data1</span><span class="p">[:,</span><span class="n">target_var</span><span class="p">]</span> <span class="o">-</span> <span class="n">intervention_data2</span><span class="p">[:,</span><span class="n">target_var</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ground truth ATE = </span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span><span class="k">true_effect</span>)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Ground truth ATE = -2.83
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="n">treatments</span> <span class="o">=</span> <span class="p">[</span><span class="n">define_treatments</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">intervention11</span><span class="p">,</span><span class="n">intervention12</span><span class="p">),</span>\
+             <span class="n">define_treatments</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span> <span class="n">intervention21</span><span class="p">,</span><span class="n">intervention22</span><span class="p">)]</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">MLPRegressor</span><span class="p">,</span> <span class="n">hidden_layer_sizes</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span> <span class="c1"># LinearRegression</span>
+<span class="n">CausalInference_</span> <span class="o">=</span> <span class="n">CausalInference</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="c1">#</span>
+<span class="n">o</span><span class="p">,</span> <span class="n">y_treat</span><span class="p">,</span><span class="n">y_control</span> <span class="o">=</span> <span class="n">CausalInference_</span><span class="o">.</span><span class="n">ate</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">treatments</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Estimated ATE: </span><span class="si">{</span><span class="n">o</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time taken: </span><span class="si">{</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">s&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Estimated ATE: -2.17
+Time taken: 1.41s
+</pre></div></div>
+</div>
+<p>For this example we will use synthetic data that has non-linear dependence among data variables.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span><span class="o">=</span><span class="mi">5000</span>
+<span class="n">treatment_var</span><span class="o">=</span><span class="s1">&#39;X&#39;</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;Y&#39;</span>
+<span class="n">target_idx</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;W&#39;</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+
+<span class="n">discrete</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="kc">True</span> <span class="k">if</span> <span class="n">name</span><span class="o">==</span><span class="n">treatment_var</span> <span class="k">else</span> <span class="kc">False</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;W&#39;</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">]}</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span> <span class="o">=</span> <span class="n">ConditionalDataGenerator</span><span class="p">(</span><span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;tabular&#39;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="n">discrete</span><span class="p">,</span> <span class="n">nstates</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="c1"># var_names = [&#39;C&#39;, &#39;W&#39;, &#39;X&#39;, &#39;Y&#39;]</span>
+
+
+
+<span class="c1"># note that states can be [0,1,...,9], so the multiples below must be in this range</span>
+<span class="n">intervention1</span> <span class="o">=</span> <span class="mi">9</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">intervention_data1</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">ConditionalDataGenerator</span><span class="p">(</span><span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;tabular&#39;</span><span class="p">,</span>\
+                                    <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">intervention</span><span class="o">=</span><span class="p">{</span><span class="n">treatment_var</span><span class="p">:</span><span class="n">intervention1</span><span class="p">},</span> <span class="n">discrete</span><span class="o">=</span><span class="n">discrete</span><span class="p">,</span> <span class="n">nstates</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">intervention2</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">intervention_data2</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">ConditionalDataGenerator</span><span class="p">(</span><span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;tabular&#39;</span><span class="p">,</span>\
+                                    <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">intervention</span><span class="o">=</span><span class="p">{</span><span class="n">treatment_var</span><span class="p">:</span><span class="n">intervention2</span><span class="p">},</span> <span class="n">discrete</span><span class="o">=</span><span class="n">discrete</span><span class="p">,</span> <span class="n">nstates</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">graph_gt</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;C&#39;: [], &#39;W&#39;: [&#39;C&#39;], &#39;X&#39;: [&#39;C&#39;, &#39;W&#39;], &#39;Y&#39;: [&#39;C&#39;, &#39;X&#39;]}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">condition_var</span> <span class="o">=</span> <span class="s1">&#39;C&#39;</span>
+<span class="n">condition_var_idx</span> <span class="o">=</span> <span class="n">var_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">condition_var</span><span class="p">)</span>
+<span class="c1"># print(data[:,condition_var_idx].min(), data[:,condition_var_idx].max())</span>
+<span class="n">condition_state</span><span class="o">=</span><span class="mf">0.5</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span><span class="n">condition_var_idx</span><span class="p">]</span><span class="o">-</span><span class="n">condition_state</span><span class="p">))</span>
+<span class="n">cate_gt</span> <span class="o">=</span> <span class="p">(</span><span class="n">intervention_data1</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="n">target_idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">intervention_data2</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="n">target_idx</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Approx True CATE: </span><span class="si">{</span><span class="n">cate_gt</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1">####</span>
+<span class="n">treatments</span> <span class="o">=</span> <span class="n">define_treatments</span><span class="p">(</span><span class="n">treatment_var</span><span class="p">,</span> <span class="n">intervention1</span><span class="p">,</span><span class="n">intervention2</span><span class="p">)</span>
+<span class="n">conditions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;var_name&#39;</span><span class="p">:</span> <span class="n">condition_var</span><span class="p">,</span> <span class="s1">&#39;condition_value&#39;</span><span class="p">:</span> <span class="n">condition_state</span><span class="p">}</span>
+
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">MLPRegressor</span><span class="p">,</span> <span class="n">hidden_layer_sizes</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">CausalInference_</span> <span class="o">=</span> <span class="n">CausalInference</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">cate</span> <span class="o">=</span> <span class="n">CausalInference_</span><span class="o">.</span><span class="n">cate</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">treatments</span><span class="p">,</span> <span class="n">conditions</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Estimated CATE: </span><span class="si">{</span><span class="n">cate</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time taken: </span><span class="si">{</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">s&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Approx True CATE: 4.61
+Estimated CATE: 1.55
+Time taken: 5.98s
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span>
+<span class="n">coef</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">sem</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="p">}</span>
+
+<span class="n">intervention</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="p">),</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="p">)}</span>
+<span class="n">target_var</span> <span class="o">=</span> <span class="s1">&#39;c&#39;</span>
+<span class="n">discrete</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="kc">True</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">intervention</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="kc">False</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">sem</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="n">discrete</span><span class="p">)</span>
+<span class="c1"># plot_graph(graph_gt, node_size=500)</span>
+<span class="c1"># graph_gt</span>
+
+
+<span class="n">sample</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">noise_fn</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>\
+                                    <span class="n">intervention</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="n">discrete</span><span class="p">,</span> <span class="n">nstates</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sample_intervened</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">noise_fn</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>\
+                                    <span class="n">intervention</span><span class="o">=</span><span class="n">intervention</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="n">discrete</span><span class="p">,</span> <span class="n">nstates</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">sample</span><span class="o">=</span><span class="n">sample</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">sample_intervened</span><span class="o">=</span><span class="n">sample_intervened</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">var_orig</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="n">var_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">target_var</span><span class="p">)]</span>
+<span class="n">var_counterfactual_gt</span> <span class="o">=</span> <span class="n">sample_intervened</span><span class="p">[</span><span class="n">var_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">target_var</span><span class="p">)]</span>
+<span class="c1"># print(f&#39;Original value of target var {target_var}: {var_orig:.2f}&#39;)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">interventions</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">intervention</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+<span class="c1"># model = partial(MLPRegressor, hidden_layer_sizes=(100,100), max_iter=200)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span>
+<span class="c1"># model=None</span>
+<span class="n">CausalInference_</span> <span class="o">=</span> <span class="n">CausalInference</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">counterfactual_et</span> <span class="o">=</span> <span class="n">CausalInference_</span><span class="o">.</span><span class="n">counterfactual</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">target_var</span><span class="p">,</span> <span class="n">interventions</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;True counterfactual </span><span class="si">{</span><span class="n">var_counterfactual_gt</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Estimated counterfactual </span><span class="si">{</span><span class="n">counterfactual_et</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True counterfactual -0.68
+Estimated counterfactual -0.75
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Causal%20Inference%20Time%20Series%20Data.html" class="btn btn-neutral float-left" title="Causal Inference for Time Series" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, salesforce.com, inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

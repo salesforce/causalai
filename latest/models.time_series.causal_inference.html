@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TimeSeries Causal Inference module &mdash; Salesforce CausalAI Library 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Salesforce CausalAI Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Prior%20Knowledge.html">Prior Knowledge</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20objects.html">Data Object</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20Generator.html">Data Generator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_TimeSeries.html">PC algorithm for time series causal discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/LINGAM_Algorithm_Tabular.html">LINGAM for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GIN_Algorithm_Tabular.html">Generalized Independent Noise (GIN)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrowShrink_Algorithm_Tabular.html">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20TimeSeries.html">Benchmark Time Series Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Tabular%20Data.html">Causal Inference for Tabular Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Salesforce CausalAI Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">TimeSeries Causal Inference module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/models.time_series.causal_inference.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-causalai.models.time_series">
+<span id="timeseries-causal-inference-module"></span><h1>TimeSeries Causal Inference module<a class="headerlink" href="#module-causalai.models.time_series" title="Permalink to this heading"></a></h1>
+<section id="causalai-models-time-series-causal-inference">
+<h2>causalai.models.time_series.causal_inference<a class="headerlink" href="#causalai-models-time-series-causal-inference" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="causalai.models.time_series.causal_inference.CausalInference">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">causalai.models.time_series.causal_inference.</span></span><span class="sig-name descname"><span class="pre">CausalInference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">causal_graph</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prediction_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_multiprocessing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'causal_path'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.models.time_series.causal_inference.CausalInference" title="Permalink to this definition"></a></dt>
+<dd><p>This class implements causal inference for time series data, for both continuous and discrete data. 
+Specifically, it supports average treatment effect (ATE), conditional ATE, and Counterfactual. To perform causal inference,
+this class requires the observational data, causal graph for the data, a prediction model of choice which
+is used for learning the mapping between variables in the causal graph, and specifying whether the data
+is discrete or continuous. This class also supports the use of multi-processing to speed up computation.
+Typically multi-processing is only helpful when the size of the relevant graph (depending on the
+treatment variables and the target variables) is large (mode than 10) or when the prediction model is
+heavy (e.g. MLP).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.models.time_series.causal_inference.CausalInference.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">causal_graph</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prediction_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_multiprocessing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'causal_path'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.models.time_series.causal_inference.CausalInference.__init__" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>ndarray</em>) -- The observational data of size (N,D) where N is the number of observations and D is the 
+number of variables.</p></li>
+<li><p><strong>var_names</strong> (<em>list</em>) -- List of variable names. The number of variables must be the same as the number of columns
+in data.</p></li>
+<li><p><strong>causal_graph</strong> (<em>dict</em>) -- The underlyig causal graph for the given data array. causal_graph is a
+dictionary with variable names as keys and the list of parent nodes of each key as
+the corresponding values.</p></li>
+<li><p><strong>prediction_model</strong> (<em>model class</em>) -- A model class (e.g. Sklearn`s LinearRegression) that has fit and predict method. Do not pass
+an instantiated class object, rather an uninstantiated one. None may be specified when discrete=True, 
+in which case our default prediction model for discrete data is used. Otherwise, For data with linear 
+dependence between variables, typically Sklearn`s LinearRegression works, and for non-linear dependence, 
+Sklearn`s MLPRegressor works.</p></li>
+<li><p><strong>use_multiprocessing</strong> (<em>bool</em>) -- If true multi-processing is used to speed up computation.</p></li>
+<li><p><strong>discrete</strong> (<em>bool</em>) -- Set to true if the intervention variables discrete. Non-intervetion variables are expected to 
+be continuous. Note that the states for a discrete variable must take value in [0,1,...K-1], where K is 
+the number of states for that variable. Discrete variables may have different number of states.</p></li>
+<li><p><strong>method</strong> (<em>str</em>) -- The method used to estimate the causal effect of interventions. The supported option is
+'causal_path'. See the function ate_causal_path for details.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.models.time_series.causal_inference.CausalInference.ate">
+<span class="sig-name descname"><span class="pre">ate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TreatmentInfo</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">TreatmentInfo</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#causalai.models.time_series.causal_inference.CausalInference.ate" title="Permalink to this definition"></a></dt>
+<dd><p>Mathematically Average Treatmet Effect (ATE) is expressed as,</p>
+<blockquote>
+<div><p>𝙰𝚃𝙴 = 𝔼[𝑌|𝚍𝚘(𝑋=𝑥𝑡)]−𝔼[𝑌|𝚍𝚘(𝑋=𝑥𝑐)]</p>
+</div></blockquote>
+<p>where  𝚍𝚘 denotes the intervention operation. In words, ATE aims to determine the relative expected difference 
+in the value of  𝑌 when we intervene  𝑋 to be  𝑥𝑡 compared to when we intervene  𝑋 to be  𝑥𝑐. Here  𝑥𝑡 and  𝑥𝑐
+are respectively the treatment value and control value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_var</strong> (<em>int</em><em> or </em><em>str</em>) -- Specify the name of the target variable of interest on which the effect of the treatment is to be estimated.</p></li>
+<li><p><strong>treatments</strong> (<em>dict</em><em> or </em><em>list</em><em> of </em><em>dict</em>) -- Each treatment is specified as a dictionary in which the keys are var_name, treatment_value, control_value.
+The value of var_name is a str or int depending on var_names specified during class object creation, and
+treatment_value and control_value are 1D arrays of length equal to the number of observations in data (specified
+during class object creation).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Returns a tuple of 3 items:</p>
+<ul class="simple">
+<li><p>ate: The average treatment effect on target_var.</p></li>
+<li><p>y_treat: The individual effect of treatment value for each observation.</p></li>
+<li><p>y_treat: The individual effect of control value for each observation.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, ndarray, ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.models.time_series.causal_inference.CausalInference.ate_causal_path">
+<span class="sig-name descname"><span class="pre">ate_causal_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TreatmentInfo</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">TreatmentInfo</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#causalai.models.time_series.causal_inference.CausalInference.ate_causal_path" title="Permalink to this definition"></a></dt>
+<dd><p>In this implementation, we learn a set of relevant conditional models that are together able to simulate 
+the data generating process, and we then use this process to estimate ATE by performing interventions 
+explicitly in this process, using the learned models. For instance, consider a simple causal graph with 
+three variables A,B,C: A[t-1]-&gt;B[t]-&gt;C[t]. If we wanted to estimate the causal effect of intervetion on A, on the 
+target variable C, then in this estimator, we first fit two conditional model P(B[t]|A[t-1]) and P(C[t]|B[t]), using 
+the given observational data. We then replace the intervention variable (A) in the observation data 
+with the given intervention values (treatment and control values) and form 2 different datasets this way. 
+We then perform inference using the learned models on this intervention data along the causal path to 
+estimate the effect of the interventions on A, on C. Specifically, we first estimate B_treat using 
+P(B[t]|A[t-1]=A_treat). We then use this B_treat to estimate C_treat using P(C[t]|B[t]=B_treat). We similarly compute 
+B_control and C_control using A_control. We then estimate ATE as the mean of (C_treat - C_control).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_var</strong> (<em>int</em><em> or </em><em>str</em>) -- Specify the name of the target variable of interest on which the effect of the treatment is to be estimated.</p></li>
+<li><p><strong>treatments</strong> (<em>dict</em><em> or </em><em>list</em><em> of </em><em>dict</em>) -- Each treatment is specified as a dictionary in which the keys are var_name, treatment_value, control_value.
+The value of var_name is a str or int depending on var_names specified during class object creation, and
+treatment_value and control_value are 1D arrays of length equal to the number of observations in data (specified
+during class object creation).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Returns a tuple of 3 items:</p>
+<ul class="simple">
+<li><p>ate: The average treatment effect on target_var.</p></li>
+<li><p>y_treat: The individual effect of treatment value for each observation.</p></li>
+<li><p>y_treat: The individual effect of control value for each observation.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, ndarray, ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.models.time_series.causal_inference.CausalInference.cate">
+<span class="sig-name descname"><span class="pre">cate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TreatmentInfo</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">TreatmentInfo</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conditions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ConditionalInfo</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ConditionalInfo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition_prediction_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#causalai.models.time_series.causal_inference.CausalInference.cate" title="Permalink to this definition"></a></dt>
+<dd><p>Mathematically Conditional Average Treatmet Effect (CATE) is expressed as,</p>
+<blockquote>
+<div><p>𝙲𝙰𝚃𝙴 = 𝔼[𝑌|𝚍𝚘(𝑋=𝑥𝑡),𝐶=𝑐]−𝔼[𝑌|𝚍𝚘(𝑋=𝑥𝑐),𝐶=𝑐]</p>
+</div></blockquote>
+<p>where  𝚍𝚘 denotes the intervention operation. In words, CATE aims to determine the relative expected difference 
+in the value of  𝑌 when we intervene  𝑋 to be 𝑥𝑡 compared to when we intervene  𝑋 to be 𝑥𝑐, 
+where we condition on some set of variables  𝐶 taking value 𝑐. Notice here that  𝑋 is intervened but  𝐶 
+is not. Here 𝑥𝑡 and 𝑥𝑐 are respectively the treatment value and control value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_var</strong> (<em>int</em><em> or </em><em>str</em>) -- Specify the name of the target variable of interest on which the effect of the treatment is to be estimated.</p></li>
+<li><p><strong>treatments</strong> (<em>dict</em><em> or </em><em>list</em><em> of </em><em>dict</em>) -- Each treatment is specified as a dictionary in which the keys are var_name, treatment_value, control_value.
+The value of var_name is a str or int depending on var_names specified during class object creation, and
+treatment_value and control_value are 1D arrays of length equal to the number of observations in data (specified
+during class object creation).</p></li>
+<li><p><strong>conditions</strong> (<em>dict</em><em> or </em><em>list</em><em> of </em><em>dict</em>) -- Each condition is specified as a dictionary in which the keys are var_name, and condition_value.
+The value of var_name is a str or int depending on var_names specified during class object creation, and
+condition_value is a scalar value (float for continuous data and integer for discrete data).</p></li>
+<li><p><strong>condition_prediction_model</strong> (<em>model class</em>) -- A model class (e.g. Sklearn`s LinearRegression) that has fit and predict method. Do not pass
+an instantiated class object, rather an uninstantiated one. None may be specified when discrete=True, 
+in which case our default prediction model for discrete data is used. Otherwise, For data with linear 
+dependence between variables, typically Sklearn`s LinearRegression works, and for non-linear dependence, 
+Sklearn`s MLPRegressor works.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns CATE-- The conditional average treatment effect on target_var.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.models.time_series.causal_inference.CausalInference.counterfactual">
+<span class="sig-name descname"><span class="pre">counterfactual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interventions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">counterfactual_prediction_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.models.time_series.causal_inference.CausalInference.counterfactual" title="Permalink to this definition"></a></dt>
+<dd><p>Counterfactuals aim at estimating the effect of an intervention on a specific instance or sample. 
+Suppose we have a specific instance of a system of random variables  (𝑋1,𝑋2,...,𝑋𝑁) given by  (𝑋1=𝑥1,𝑋2=𝑥2,...,𝑋𝑁=𝑥𝑁)
+, then in a counterfactual, we want to know the effect an intervention (say)  𝑋1=𝑘 would have had on some other variable(s) 
+(say  𝑋2), holding all the remaining variables fixed. Mathematically, this can be expressed as,</p>
+<p>𝙲𝚘𝚞𝚗𝚝𝚎𝚛𝚏𝚊𝚌𝚝𝚞𝚊𝚕 = 𝑋2|𝚍𝚘(𝑋1=𝑘),𝑋3=𝑥3,𝑋4=4,⋯,𝑋𝑁=𝑥𝑁</p>
+<p>Similar to tabular data, when performing a counterfactual inference on time series, we intervene only on one sample, 
+which in this case is a single time step. Therefore, notce that if a time series only has time lagged causal depedencies,
+then the intervention will not have any effect on the target variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample</strong> (<em>ndarray</em>) -- A 1D array of data sample where the ith index corresponds to the ith variable name in var_names (specified 
+in the causal inference object constructor).</p></li>
+<li><p><strong>target_var</strong> (<em>int</em><em> or </em><em>str</em>) -- Specify the name of the target variable of interest on which the effect of the treatment is to be estimated.</p></li>
+<li><p><strong>interventions</strong> (<em>dict</em>) -- A dictionary in which keys are var_names, and the corresponding values are the scalar interventions.</p></li>
+<li><p><strong>counterfactual_prediction_model</strong> (<em>model class</em>) -- A model class (e.g. Sklearn`s LinearRegression) that has fit and predict method. Do not pass
+an instantiated class object, rather an uninstantiated one.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns the counterfactual on the given sample for the specified interventions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, salesforce.com, inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
