@@ -59,7 +59,7 @@ Contents
 	- Tabular
 		- :doc:`Tabular Distribution Shift Detector Class <application.tabular_distribution_shift_detector>`
 	- Time Series
-		- :doc:`Root Cause Detector Class <application.root_cause_detector.rst>`
+		- :doc:`Root Cause Detector Class <application.root_cause_detector>`
 
 6. Benchmarking
 	- Tabular
