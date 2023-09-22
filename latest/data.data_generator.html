@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Generator module &mdash; Salesforce CausalAI Library 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Salesforce CausalAI Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Prior%20Knowledge.html">Prior Knowledge</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20objects.html">Data Object</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20Generator.html">Data Generator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_TimeSeries.html">PC algorithm for time series causal discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/LINGAM_Algorithm_Tabular.html">LINGAM for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GIN_Algorithm_Tabular.html">Generalized Independent Noise (GIN)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrowShrink_Algorithm_Tabular.html">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20TimeSeries.html">Benchmark Time Series Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Tabular%20Data.html">Causal Inference for Tabular Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Salesforce CausalAI Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Data Generator module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/data.data_generator.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-causalai.data">
+<span id="data-generator-module"></span><h1>Data Generator module<a class="headerlink" href="#module-causalai.data" title="Permalink to this heading"></a></h1>
+<section id="module-causalai.data.data_generator">
+<span id="causalai-data-data-generator"></span><h2>causalai.data.data_generator<a class="headerlink" href="#module-causalai.data.data_generator" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="causalai.data.data_generator.ConditionalDataGenerator">
+<span class="sig-prename descclassname"><span class="pre">causalai.data.data_generator.</span></span><span class="sig-name descname"><span class="pre">ConditionalDataGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time_series'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_fn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intervention</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nstates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.data.data_generator.ConditionalDataGenerator" title="Permalink to this definition"></a></dt>
+<dd><p>Generate data that is useful for testing CATE (conditional average treatment estimation) for causal inference.</p>
+<p>The data is generated using the following structural equation model:</p>
+<p>C = noise</p>
+<p>W = C + noise</p>
+<p>X = C*W + noise</p>
+<p>Y = C*X + noise</p>
+<p>Note that the depence between variables in the generated data is instantaneous only (no time lagged dependence)
+for simplicity. Hence this data can be used both for tabular and timeseries cases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T</strong> (<em>int</em>) -- Number of samples.</p></li>
+<li><p><strong>data_type</strong> (<em>str</em>) -- String (time_series, or tabular) that specifies whether the generated data causal graph should be 
+specified as tabular or time series (default: time_series).</p></li>
+<li><p><strong>noise_fn</strong> (<em>list</em><em> of </em><em>callables</em><em>, </em><em>optional</em>) -- List of functions each of which takes t as input and that returns a random vector of length t.
+(default: list of np.random.randn)</p></li>
+<li><p><strong>intervention</strong> (<em>dict</em>) -- Dictionary of format: {<code class="docutils literal notranslate"><span class="pre">W</span></code>:np.array, ...} containing only keys of intervened
+variables with the value being the array of length T with interventional values.
+Set values to np.nan to leave specific time points of a variable un-intervened.</p></li>
+<li><p><strong>discrete</strong> (<em>bool</em><em> or </em><em>dict</em>) -- When bool, it specifies whether all the variables are discrete or all of them are continuous.
+If true, the generated data is discretized into nstates uniform bins (default: False). Alternatively, if discrete is specified 
+as a dictionary, then the keys of this dictionary must be the variable names and the value corresponding to
+each key must be True or False. A value of False implies the variable is continuous, and discrete otherwise.</p></li>
+<li><p><strong>nstates</strong> (<em>int</em>) -- When discrete is True, the nstates specifies the number of bins to use for discretizing
+the data (default=10).</p></li>
+<li><p><strong>seed</strong> (<em>int</em>) -- Set the seed value for random number generation for reproduciblity (default: 1).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>A tuple of 3 items--</p>
+<ul class="simple">
+<li><p>data: Generated data array of shape (T, 4).</p></li>
+<li><p>var_names: List of variable names corresponding to the columns of data</p></li>
+<li><p>graph: The causal graph that was used to generate the data array. graph is a dictionary with variable names as keys and the list of parent nodes of each key as the corresponding values.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[ndarray, list, dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="causalai.data.data_generator.DataGenerator">
+<span class="sig-prename descclassname"><span class="pre">causalai.data.data_generator.</span></span><span class="sig-name descname"><span class="pre">DataGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sem_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_fn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intervention</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nstates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.data.data_generator.DataGenerator" title="Permalink to this definition"></a></dt>
+<dd><p>Use structural equation model to generate time series and tabular data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sem_dict</strong> (<em>dict</em>) -- Structural equation model (SEM) provided as a dictionary
+of format: {&lt;child node&gt;: (&lt;parent node&gt;, coefficient, function)}. Notice that
+the values are lists containing tuples of the form (&lt;parent node&gt;, coefficient, function).
+The parent node must be a tuple of size 2 for time series data, where the 1st element (str) 
+specifies the parent node, while the 2nd element is the time lag (must be non-positive). If this lag is 0,
+it means the the parent is at the same time step as the child (instantaneous effect). For tabular data,
+the parent node is simply a str. Finally, the coefficient must 
+be of type float, and func is a python callable function that takes one float argument as
+input. For example in sem_dict = {a:[((b, -2), 0.2, func)], b:[((b, -1), 0.5, func),...]}, 
+the item a:[((b,-2), 0.2, func)] implies:
+v(a,t) = func(v(b, -2)*0.2), where the v(a,t) denotes the value of node a at time t, and
+v(b, -2) denotes the value of node b at time t-2. For tabular data example 
+sem_dict = {a:[(b, 0.2, func)], b:[(c, 0.5, func),...]}, 
+the item a:[(b, 0.2, func)] implies: v(a) = func(v(b)*0.2).</p></li>
+<li><p><strong>T</strong> (<em>int</em>) -- Number of samples.</p></li>
+<li><p><strong>noise_fn</strong> (<em>list</em><em> of </em><em>callables</em><em>, </em><em>optional</em>) -- List of functions each of which takes t as input and that returns a random vector of length t.
+(default: list of np.random.randn)</p></li>
+<li><p><strong>intervention</strong> (<em>dict</em>) -- Dictionary of format: {1:np.array, ...} containing only keys of intervened
+variables with the value being the array of length T with interventional values.
+Set values to np.nan to leave specific time points of a variable un-intervened.</p></li>
+<li><p><strong>discrete</strong> (<em>bool</em><em> or </em><em>dict</em>) -- When bool, it specifies whether all the variables are discrete or all of them are continuous.
+If true, the generated data is discretized into nstates uniform bins (default: False). Alternatively, if discrete is specified 
+as a dictionary, then the keys of this dictionary must be the variable names and the value corresponding to
+each key must be True or False. A value of False implies the variable is continuous, and discrete otherwise.</p></li>
+<li><p><strong>nstates</strong> (<em>int</em>) -- When discrete is True, the nstates specifies the number of bins to use for discretizing
+the data (default=10).</p></li>
+<li><p><strong>seed</strong> (<em>int</em>) -- Set the seed value for random number generation for reproduciblity (default: 1).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>A tuple of 3 items--</p>
+<ul class="simple">
+<li><p>data: Generated data array of shape (T, number of variables).</p></li>
+<li><p>var_names: List of variable names corresponding to the columns of data</p></li>
+<li><p>graph: The causal graph that was used to generate the data array. graph is a dictionary with variable names as keys and the list of parent nodes of each key as the corresponding values.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[ndarray, list, dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="causalai.data.data_generator.GenerateRandomTabularSEM">
+<span class="sig-prename descclassname"><span class="pre">causalai.data.data_generator.</span></span><span class="sig-name descname"><span class="pre">GenerateRandomTabularSEM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">var_names=['a',</span> <span class="pre">'b',</span> <span class="pre">'c',</span> <span class="pre">'d',</span> <span class="pre">'e',</span> <span class="pre">'f'],</span> <span class="pre">max_num_parents=4,</span> <span class="pre">seed=0,</span> <span class="pre">fn:</span> <span class="pre">~typing.Callable</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">coef:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.data.data_generator.GenerateRandomTabularSEM" title="Permalink to this definition"></a></dt>
+<dd><p>Generate a random structural equation model (SEM) for tabular data using the following procedure:
+Randomly divide variables into non-overlapping groups of size between 3 and num_vars. Then randomly
+create edges between a preceeding group and a following group such that max_num_parents is never exceeded.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var_names</strong> (<em>list</em>) -- Names of variables in the SEM in the form of a list of str.</p></li>
+<li><p><strong>max_num_parents</strong> (<em>int</em>) -- Maximum number of causal parents allowed in the randomly generated SEM.</p></li>
+<li><p><strong>seed</strong> (<em>int</em>) -- Random seed used for reproducibility.</p></li>
+<li><p><strong>fn</strong> (<em>Callable</em>) -- Function applied to a parent variable when generating child variable data. Default: Linear 
+function for linear causal relation.</p></li>
+<li><p><strong>coef</strong> (<em>float</em>) -- coefficient of parent variables in the randomly generated SEM.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="causalai.data.data_generator.GenerateRandomTimeseriesSEM">
+<span class="sig-prename descclassname"><span class="pre">causalai.data.data_generator.</span></span><span class="sig-name descname"><span class="pre">GenerateRandomTimeseriesSEM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">var_names=['a',</span> <span class="pre">'b',</span> <span class="pre">'c',</span> <span class="pre">'d',</span> <span class="pre">'e'],</span> <span class="pre">max_num_parents=4,</span> <span class="pre">max_lag=4,</span> <span class="pre">seed=0,</span> <span class="pre">fn:</span> <span class="pre">~typing.Callable</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">coef:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.data.data_generator.GenerateRandomTimeseriesSEM" title="Permalink to this definition"></a></dt>
+<dd><p>Generate a random structural equation model (SEM) for time series data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var_names</strong> (<em>list</em>) -- Names of variables in the SEM in the form of a list of str.</p></li>
+<li><p><strong>max_num_parents</strong> (<em>int</em>) -- Maximum number of causal parents allowed in the randomly generated SEM.</p></li>
+<li><p><strong>max_lag</strong> (<em>int</em>) -- Maximum time lag between parent and child variable allowed in the randomly generated SEM. Must be non-negative.</p></li>
+<li><p><strong>seed</strong> (<em>int</em>) -- Random seed used for reproducibility.</p></li>
+<li><p><strong>fn</strong> (<em>Callable</em>) -- Function applied to a parent variable when generating child variable data. Default: Linear 
+function for linear causal relation.</p></li>
+<li><p><strong>coef</strong> (<em>float</em>) -- coefficient of parent variables in the randomly generated SEM.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="causalai.data.data_generator.GenerateSparseTabularSEM">
+<span class="sig-prename descclassname"><span class="pre">causalai.data.data_generator.</span></span><span class="sig-name descname"><span class="pre">GenerateSparseTabularSEM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">var_names=['a',</span> <span class="pre">'b',</span> <span class="pre">'c',</span> <span class="pre">'d',</span> <span class="pre">'e',</span> <span class="pre">'f'],</span> <span class="pre">graph_density=0.1,</span> <span class="pre">seed=0,</span> <span class="pre">fn:</span> <span class="pre">~typing.Callable</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">coef:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.data.data_generator.GenerateSparseTabularSEM" title="Permalink to this definition"></a></dt>
+<dd><p>Generate a structural equation model (SEM) for tabular data using the following procedure:
+For N nodes, enumerate them from 0-N. For all i,j between 0-N, if i &lt; j, the edge from vi 
+to vj exists with probability graph_density, and if i &gt;= j there cannot be an edge betwen them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var_names</strong> (<em>list</em>) -- Names of variables in the SEM in the form of a list of str.</p></li>
+<li><p><strong>graph_density</strong> (<em>float in the range</em><em> (</em><em>0</em><em>,</em><em>1</em><em>]</em>) -- Probability that an edge between node i and j exists.</p></li>
+<li><p><strong>seed</strong> (<em>int</em>) -- Random seed used for reproducibility.</p></li>
+<li><p><strong>fn</strong> (<em>Callable</em>) -- Function applied to a parent variable when generating child variable data. Default: Linear 
+function for linear causal relation.</p></li>
+<li><p><strong>coef</strong> (<em>float</em>) -- coefficient of parent variables in the randomly generated SEM.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="causalai.data.data_generator.GenerateSparseTimeSeriesSEM">
+<span class="sig-prename descclassname"><span class="pre">causalai.data.data_generator.</span></span><span class="sig-name descname"><span class="pre">GenerateSparseTimeSeriesSEM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">var_names=['a',</span> <span class="pre">'b',</span> <span class="pre">'c',</span> <span class="pre">'d',</span> <span class="pre">'e'],</span> <span class="pre">graph_density=0.1,</span> <span class="pre">max_lag=4,</span> <span class="pre">seed=0,</span> <span class="pre">fn:</span> <span class="pre">~typing.Callable</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">coef:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.data.data_generator.GenerateSparseTimeSeriesSEM" title="Permalink to this definition"></a></dt>
+<dd><p>Generate a structural equation model (SEM) for time series data using the following procedure:
+For N nodes, enumerate them from 0-N. For each time lag (until max_lag), for all i,j between 0-N, if i &lt; j, 
+the edge from vi to vj exists with probability graph_density, and if i &gt;= j there cannot be an edge 
+betwen them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var_names</strong> (<em>list</em>) -- Names of variables in the SEM in the form of a list of str.</p></li>
+<li><p><strong>graph_density</strong> (<em>float in the range</em><em> (</em><em>0</em><em>,</em><em>1</em><em>]</em>) -- Probability that an edge between node i and j exists.</p></li>
+<li><p><strong>max_lag</strong> (<em>int</em>) -- Maximum time lag between parent and child variable allowed in the randomly generated SEM.</p></li>
+<li><p><strong>seed</strong> (<em>int</em>) -- Random seed used for reproducibility.</p></li>
+<li><p><strong>fn</strong> (<em>Callable</em>) -- Function applied to a parent variable when generating child variable data. Default: Linear 
+function for linear causal relation.</p></li>
+<li><p><strong>coef</strong> -- coefficient of parent variables in the randomly generated SEM. Note: larger values may 
+cause exploding values in data array for some seeds.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, salesforce.com, inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

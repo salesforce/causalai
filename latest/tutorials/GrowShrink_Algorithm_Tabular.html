@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grow-Shrink Algorithm for Tabular Markov Blanket Discovery &mdash; Salesforce CausalAI Library 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Benchmark Tabular Causal Discovery Algorithms" href="Benchmarking%20Tabular.html" />
+    <link rel="prev" title="Generalized Independent Noise (GIN)" href="GIN_Algorithm_Tabular.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Salesforce CausalAI Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="Prior%20Knowledge.html">Prior Knowledge</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Data%20objects.html">Data Object</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Data%20Generator.html">Data Generator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PC_Algorithm_TimeSeries.html">PC algorithm for time series causal discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="LINGAM_Algorithm_Tabular.html">LINGAM for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GIN_Algorithm_Tabular.html">Generalized Independent Noise (GIN)</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Load-and-Visualize-Data">Load and Visualize Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Markov-Blanket-(MB)-Discovery">Markov Blanket (MB) Discovery</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#MB-Discovery-for-continuous-data">MB Discovery for continuous data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#MB-Discovery-for-Discrete-Data">MB Discovery for Discrete Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Prior-Knowledge-Usage">Prior Knowledge Usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking%20TimeSeries.html">Benchmark Time Series Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Causal%20Inference%20Tabular%20Data.html">Causal Inference for Tabular Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Salesforce CausalAI Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/GrowShrink_Algorithm_Tabular.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Grow-Shrink-Algorithm-for-Tabular-Markov-Blanket-Discovery">
+<h1>Grow-Shrink Algorithm for Tabular Markov Blanket Discovery<a class="headerlink" href="#Grow-Shrink-Algorithm-for-Tabular-Markov-Blanket-Discovery" title="Permalink to this heading"></a></h1>
+<p>The Grow-Shrink algorithm can be used for discovering the minimal Markov blanket (MB) of a target variable in tabular data. A MB is a minimal conditioning set making the target variable independent of all other variables; under the assumption of faithfulness, which we make here, the MB is unique and corresponds to the set of parents, children and co-parents of the target variable. The MB can be used for feature selection.</p>
+<p>The Grow-Shrink algorithm operates in two phases, called growth and shrink. The growth phase first adds to the MB estimation variables unconditionally dependent on the target variable, then conditions on those variables and adds the conditionally dependent variables to the estimation. Assuming perfect conditional independence testing, this yields a superset of the actual MB. The shrink phase then removes from the estimated MB variables independent from the target variable conditional on all
+other variables in the MB estimation. The algorithm does not partition the estimated MB into parents/children/co-parents.</p>
+<p>The assumptions we make for the growth-shrink algorithm are: 1. Causal Markov condition, which implies that two variables that are d-separated in a causal graph are probabilistically independent 2. faithfulness, i.e., no conditional independence can hold unless the Causal Markov condition is met 3. no hidden confounders 4. no cycles in the causal graph.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">pickle</span> <span class="k">as</span> <span class="nn">pkl</span>
+<span class="kn">import</span> <span class="nn">time</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="kn">from</span> <span class="nn">causalai.models.tabular.grow_shrink</span> <span class="kn">import</span> <span class="n">GrowShrink</span>
+<span class="kn">from</span> <span class="nn">causalai.models.common.CI_tests.partial_correlation</span> <span class="kn">import</span> <span class="n">PartialCorrelation</span>
+<span class="kn">from</span> <span class="nn">causalai.models.common.CI_tests.discrete_ci_tests</span> <span class="kn">import</span> <span class="n">DiscreteCI_tests</span>
+<span class="kn">from</span> <span class="nn">causalai.models.common.CI_tests.kci</span> <span class="kn">import</span> <span class="n">KCI</span>
+
+
+<span class="c1"># also importing data object, and prior knowledge object, and the graph plotting function</span>
+<span class="kn">from</span> <span class="nn">causalai.data.data_generator</span> <span class="kn">import</span> <span class="n">DataGenerator</span><span class="p">,</span> <span class="n">GenerateRandomTabularSEM</span>
+<span class="kn">from</span> <span class="nn">causalai.data.tabular</span> <span class="kn">import</span> <span class="n">TabularData</span>
+<span class="kn">from</span> <span class="nn">causalai.data.transforms.time_series</span> <span class="kn">import</span> <span class="n">StandardizeTransform</span>
+<span class="kn">from</span> <span class="nn">causalai.models.common.prior_knowledge</span> <span class="kn">import</span> <span class="n">PriorKnowledge</span>
+<span class="kn">from</span> <span class="nn">causalai.misc.misc</span> <span class="kn">import</span> <span class="n">plot_graph</span><span class="p">,</span> <span class="n">get_precision_recall</span><span class="p">,</span> <span class="n">get_precision_recall_skeleton</span><span class="p">,</span> <span class="n">make_symmetric</span><span class="p">,</span>\
+                               <span class="n">_get_precision_recall_single</span>
+
+<span class="c1"># Helper functions to compute ground truth</span>
+
+<span class="kn">from</span> <span class="nn">causalai.tests.data.transforms.networkx_helper_functions</span> <span class="kn">import</span> <span class="n">causalai2networkx</span><span class="p">,</span> <span class="n">compute_markov_blanket</span>
+</pre></div>
+</div>
+</div>
+<section id="Load-and-Visualize-Data">
+<h2>Load and Visualize Data<a class="headerlink" href="#Load-and-Visualize-Data" title="Permalink to this heading"></a></h2>
+<p>Load the dataset and visualize the ground truth causal graph. For the purpose of this example, we will use a synthetic dataset available in our repository.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span>
+<span class="n">coef</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">sem</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="p">}</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">5000</span>
+
+<span class="c1"># var_names = [str(i) for i in range(5)]</span>
+<span class="c1"># sem = GenerateRandomTabularSEM(var_names=var_names, max_num_parents=2, seed=1)</span>
+<span class="n">data_array</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">graph_gt</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;a&#39;: [],
+ &#39;b&#39;: [&#39;a&#39;, &#39;f&#39;],
+ &#39;c&#39;: [&#39;b&#39;, &#39;f&#39;],
+ &#39;d&#39;: [&#39;b&#39;, &#39;g&#39;],
+ &#39;e&#39;: [&#39;f&#39;],
+ &#39;f&#39;: [],
+ &#39;g&#39;: []}
+</pre></div></div>
+</div>
+<p>Now we perform the following operations: 1. Standardize the data arrays 2. Create the data object</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><br/><span></span><span class="c1"># 1.</span>
+<span class="n">StandardizeTransform_</span> <span class="o">=</span> <span class="n">StandardizeTransform</span><span class="p">()</span>
+<span class="n">StandardizeTransform_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+<span class="n">data_trans</span> <span class="o">=</span> <span class="n">StandardizeTransform_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+<span class="c1"># 2.</span>
+<span class="n">data_obj</span> <span class="o">=</span> <span class="n">TabularData</span><span class="p">(</span><span class="n">data_trans</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="n">var_names</span><span class="p">)</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<p>We visualize the data and graph below:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><br/><span></span><span class="n">plot_graph</span><span class="p">(</span><span class="n">graph_gt</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">var_names</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_trans</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">:,</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_GrowShrink_Algorithm_Tabular_9_0.png" src="../_images/tutorials_GrowShrink_Algorithm_Tabular_9_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_GrowShrink_Algorithm_Tabular_9_1.png" src="../_images/tutorials_GrowShrink_Algorithm_Tabular_9_1.png" />
+</div>
+</div>
+</section>
+<section id="Markov-Blanket-(MB)-Discovery">
+<h2>Markov Blanket (MB) Discovery<a class="headerlink" href="#Markov-Blanket-(MB)-Discovery" title="Permalink to this heading"></a></h2>
+<p>Enable/Disable Multi-Processing:</p>
+<p>When we instantiate our MB discovery model, we need to decide if we want to use multi-processing. Multi-processing typically provides a significant speed-up for the PC algorithm. In order to use multi-processing in our causal discovery library, we pass the argument use_multiprocessing=True to the model constructor. It’s default value is False.</p>
+<section id="MB-Discovery-for-continuous-data">
+<h3>MB Discovery for continuous data<a class="headerlink" href="#MB-Discovery-for-continuous-data" title="Permalink to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prior_knowledge</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1">#  PriorKnowledge(forbidden_links={&#39;a&#39;: [&#39;b&#39;]})</span>
+
+<span class="n">pvalue_thres</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">CI_test</span> <span class="o">=</span> <span class="n">PartialCorrelation</span><span class="p">()</span>
+<span class="c1"># CI_test = KCI(chunk_size=100) # use if the causal relationship is expected to be non-linear</span>
+<span class="n">gs</span> <span class="o">=</span> <span class="n">GrowShrink</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data_obj</span><span class="p">,</span>
+        <span class="n">prior_knowledge</span><span class="o">=</span><span class="n">prior_knowledge</span><span class="p">,</span>
+        <span class="n">CI_test</span><span class="o">=</span><span class="n">CI_test</span><span class="p">,</span>
+        <span class="n">use_multiprocessing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">update_shrink</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+
+<span class="n">target_var</span> <span class="o">=</span> <span class="s1">&#39;b&#39;</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">target_var</span><span class="o">=</span><span class="n">target_var</span><span class="p">,</span> <span class="n">pvalue_thres</span><span class="o">=</span><span class="n">pvalue_thres</span><span class="p">)</span>
+
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time taken: </span><span class="si">{</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">s</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; target var </span><span class="si">{</span><span class="n">target_var</span><span class="si">}</span><span class="se">\&#39;</span><span class="s2">s estimated MB is: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;markov_blanket&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">ground_truth_mb</span> <span class="o">=</span> <span class="n">compute_markov_blanket</span><span class="p">(</span><span class="n">causalai2networkx</span><span class="p">(</span><span class="n">graph_gt</span><span class="p">),</span> <span class="n">target_var</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; target var </span><span class="si">{</span><span class="n">target_var</span><span class="si">}</span><span class="se">\&#39;</span><span class="s2">s true MB is: </span><span class="si">{</span><span class="n">ground_truth_mb</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">f1_score</span> <span class="o">=</span> <span class="n">_get_precision_recall_single</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;markov_blanket&#39;</span><span class="p">],</span> <span class="n">ground_truth_mb</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Precision </span><span class="si">{</span><span class="n">precision</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, Recall: </span><span class="si">{</span><span class="n">recall</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, F1 score: </span><span class="si">{</span><span class="n">f1_score</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Time taken: 0.03s
+
+ target var b&#39;s estimated MB is: [&#39;f&#39;, &#39;d&#39;, &#39;a&#39;, &#39;c&#39;]
+ target var b&#39;s true MB is: {&#39;f&#39;, &#39;d&#39;, &#39;g&#39;, &#39;a&#39;, &#39;c&#39;}
+Precision 1.00, Recall: 0.80, F1 score: 0.89
+</pre></div></div>
+</div>
+<p>The output <em>result</em> is a dictionary contains the estimated MB under result['markov blanket']. Under result['value_dict'] and result['pvalue_dict'], it contains a dictionary of link strengths between target_var and each each other variable, and a dictionary of the p-value of said strengths respectively. Under result['full_record_values'] and result['full_record_pvalues'], it contains the full history of raw/pvalue of CI tests performed in their order of performance ('value_dict' and 'pvalue_dict'
+will contain the result of the last such CI test for each variable).</p>
+</section>
+<section id="MB-Discovery-for-Discrete-Data">
+<h3>MB Discovery for Discrete Data<a class="headerlink" href="#MB-Discovery-for-Discrete-Data" title="Permalink to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span>
+<span class="n">coef</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">sem</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="p">}</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">data_array</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plot_graph</span><span class="p">(</span><span class="n">graph_gt</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">graph_gt</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_GrowShrink_Algorithm_Tabular_16_0.png" src="../_images/tutorials_GrowShrink_Algorithm_Tabular_16_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;a&#39;: [],
+ &#39;b&#39;: [&#39;a&#39;, &#39;f&#39;],
+ &#39;c&#39;: [&#39;b&#39;, &#39;f&#39;],
+ &#39;d&#39;: [&#39;b&#39;, &#39;g&#39;],
+ &#39;e&#39;: [&#39;f&#39;],
+ &#39;f&#39;: [],
+ &#39;g&#39;: []}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">data_obj</span> <span class="o">=</span> <span class="n">TabularData</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="n">var_names</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">var_names</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_array</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">:,</span><span class="n">i</span><span class="p">],</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_GrowShrink_Algorithm_Tabular_18_0.png" src="../_images/tutorials_GrowShrink_Algorithm_Tabular_18_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><br/><span></span><span class="n">prior_knowledge</span> <span class="o">=</span><span class="kc">None</span><span class="c1"># PriorKnowledge(forbidden_links={&#39;c&#39;: [&#39;e&#39;]}) # g cannot be a parent of c</span>
+
+<span class="n">pvalue_thres</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">CI_test</span> <span class="o">=</span> <span class="n">DiscreteCI_tests</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;pearson&quot;</span><span class="p">)</span>
+<span class="n">gs</span> <span class="o">=</span> <span class="n">GrowShrink</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data_obj</span><span class="p">,</span>
+        <span class="n">prior_knowledge</span><span class="o">=</span><span class="n">prior_knowledge</span><span class="p">,</span>
+        <span class="n">CI_test</span><span class="o">=</span><span class="n">CI_test</span><span class="p">,</span>
+        <span class="n">use_multiprocessing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">update_shrink</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+
+<span class="n">target_var</span> <span class="o">=</span> <span class="s1">&#39;c&#39;</span>
+
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">target_var</span><span class="o">=</span><span class="n">target_var</span><span class="p">,</span> <span class="n">pvalue_thres</span><span class="o">=</span><span class="n">pvalue_thres</span><span class="p">)</span>
+
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time taken: </span><span class="si">{</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">s</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Time taken: 0.94s
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; target var </span><span class="si">{</span><span class="n">target_var</span><span class="si">}</span><span class="se">\&#39;</span><span class="s2">s estimated MB is: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;markov_blanket&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">ground_truth_mb</span> <span class="o">=</span> <span class="n">compute_markov_blanket</span><span class="p">(</span><span class="n">causalai2networkx</span><span class="p">(</span><span class="n">graph_gt</span><span class="p">),</span> <span class="n">target_var</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; target var </span><span class="si">{</span><span class="n">target_var</span><span class="si">}</span><span class="se">\&#39;</span><span class="s2">s true MB is: </span><span class="si">{</span><span class="n">ground_truth_mb</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">f1_score</span> <span class="o">=</span> <span class="n">_get_precision_recall_single</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;markov_blanket&#39;</span><span class="p">],</span> <span class="n">ground_truth_mb</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Precision </span><span class="si">{</span><span class="n">precision</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, Recall: </span><span class="si">{</span><span class="n">recall</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, F1 score: </span><span class="si">{</span><span class="n">f1_score</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ target var c&#39;s estimated MB is: [&#39;f&#39;, &#39;b&#39;, &#39;e&#39;]
+ target var c&#39;s true MB is: {&#39;f&#39;, &#39;b&#39;}
+Precision 0.67, Recall: 1.00, F1 score: 0.80
+</pre></div></div>
+</div>
+</section>
+<section id="Prior-Knowledge-Usage">
+<h3>Prior Knowledge Usage<a class="headerlink" href="#Prior-Knowledge-Usage" title="Permalink to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># recreating continuous data from earlier</span>
+
+<span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span>
+<span class="n">coef</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">sem</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="p">}</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">5000</span>
+
+<span class="c1"># var_names = [str(i) for i in range(5)]</span>
+<span class="c1"># sem = GenerateRandomTabularSEM(var_names=var_names, max_num_parents=2, seed=1)</span>
+<span class="n">data_array</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">StandardizeTransform_</span> <span class="o">=</span> <span class="n">StandardizeTransform</span><span class="p">()</span>
+<span class="n">StandardizeTransform_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+<span class="n">data_trans</span> <span class="o">=</span> <span class="n">StandardizeTransform_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+<span class="n">data_obj</span> <span class="o">=</span> <span class="n">TabularData</span><span class="p">(</span><span class="n">data_trans</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="n">var_names</span><span class="p">)</span>
+
+<span class="n">plot_graph</span><span class="p">(</span><span class="n">graph_gt</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">var_names</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_trans</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">:,</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_GrowShrink_Algorithm_Tabular_22_0.png" src="../_images/tutorials_GrowShrink_Algorithm_Tabular_22_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_GrowShrink_Algorithm_Tabular_22_1.png" src="../_images/tutorials_GrowShrink_Algorithm_Tabular_22_1.png" />
+</div>
+</div>
+<p><strong>Prior Knowledge</strong>: specifying inclusion in MB. This can be done by specifying existing_co_parents or existing_links (or both). Note that without prior knowledge, the algorithm misses a in f’s MB, but with prior knowledge that mistake is corrected.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### without Prior knowledge</span>
+
+<span class="n">prior_knowledge</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="n">pvalue_thres</span> <span class="o">=</span> <span class="mf">0.01</span>
+
+<span class="n">CI_test</span> <span class="o">=</span> <span class="n">PartialCorrelation</span><span class="p">()</span>
+
+<span class="n">gs</span> <span class="o">=</span> <span class="n">GrowShrink</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data_obj</span><span class="p">,</span>
+        <span class="n">prior_knowledge</span><span class="o">=</span><span class="n">prior_knowledge</span><span class="p">,</span>
+        <span class="n">CI_test</span><span class="o">=</span><span class="n">CI_test</span><span class="p">,</span>
+        <span class="n">use_multiprocessing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">update_shrink</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+
+<span class="n">target_var</span> <span class="o">=</span> <span class="s1">&#39;f&#39;</span>
+
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">target_var</span><span class="o">=</span><span class="n">target_var</span><span class="p">,</span> <span class="n">pvalue_thres</span><span class="o">=</span><span class="n">pvalue_thres</span><span class="p">)</span>
+
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time taken without prior knowledge: </span><span class="si">{</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">s</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;target var </span><span class="si">{</span><span class="n">target_var</span><span class="si">}</span><span class="se">\&#39;</span><span class="s2">s estimated MB without prior knowledge is: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;markov_blanket&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">ground_truth_mb</span> <span class="o">=</span> <span class="n">compute_markov_blanket</span><span class="p">(</span><span class="n">causalai2networkx</span><span class="p">(</span><span class="n">graph_gt</span><span class="p">),</span> <span class="n">target_var</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;target var </span><span class="si">{</span><span class="n">target_var</span><span class="si">}</span><span class="se">\&#39;</span><span class="s2">s true MB is: </span><span class="si">{</span><span class="n">ground_truth_mb</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">f1_score</span> <span class="o">=</span> <span class="n">_get_precision_recall_single</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;markov_blanket&#39;</span><span class="p">],</span> <span class="n">ground_truth_mb</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Precision </span><span class="si">{</span><span class="n">precision</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, Recall: </span><span class="si">{</span><span class="n">recall</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, F1 score: </span><span class="si">{</span><span class="n">f1_score</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="c1">### with Prior knowledge</span>
+<span class="n">prior_knowledge</span> <span class="o">=</span> <span class="n">PriorKnowledge</span><span class="p">(</span><span class="n">existing_co_parents</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]})</span>
+
+<span class="n">gs</span> <span class="o">=</span> <span class="n">GrowShrink</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data_obj</span><span class="p">,</span>
+        <span class="n">prior_knowledge</span><span class="o">=</span><span class="n">prior_knowledge</span><span class="p">,</span>
+        <span class="n">CI_test</span><span class="o">=</span><span class="n">CI_test</span><span class="p">,</span>
+        <span class="n">use_multiprocessing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">update_shrink</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">target_var</span><span class="o">=</span><span class="n">target_var</span><span class="p">,</span> <span class="n">pvalue_thres</span><span class="o">=</span><span class="n">pvalue_thres</span><span class="p">)</span>
+
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time taken with prior knowledge: </span><span class="si">{</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">s</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;target var </span><span class="si">{</span><span class="n">target_var</span><span class="si">}</span><span class="se">\&#39;</span><span class="s2">s estimated MB with prior knowledge is: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;markov_blanket&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">f1_score</span> <span class="o">=</span> <span class="n">_get_precision_recall_single</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;markov_blanket&#39;</span><span class="p">],</span> <span class="n">ground_truth_mb</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Precision </span><span class="si">{</span><span class="n">precision</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, Recall: </span><span class="si">{</span><span class="n">recall</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, F1 score: </span><span class="si">{</span><span class="n">f1_score</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Time taken without prior knowledge: 0.02s
+
+target var f&#39;s estimated MB without prior knowledge is: [&#39;b&#39;, &#39;c&#39;, &#39;e&#39;]
+target var f&#39;s true MB is: {&#39;b&#39;, &#39;a&#39;, &#39;c&#39;, &#39;e&#39;}
+Precision 1.00, Recall: 0.75, F1 score: 0.86
+
+Time taken with prior knowledge: 0.02s
+
+target var f&#39;s estimated MB with prior knowledge is: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;e&#39;]
+Precision 1.00, Recall: 1.00, F1 score: 1.00
+</pre></div></div>
+</div>
+<p><strong>Prior Knowledge</strong>: specifying exclusion from MB. This can be done by specifying forbidden_co_parents and forbidden_links: note that PriorKnowledge needs to forbid a variable from being a <em>co-parent</em>, <em>and</em> from being a <em>parent</em>, <em>and</em> from being a <em>child</em> of the target variable to guarantee exclusion from MB (if any of these three are missing, the variable would be considered as a valid candidate for inclusion in the MB).</p>
+<p>Note that without prior knowledge, the algorithm includes c and d in a’s MB, but with prior knowledge that mistake is corrected. The large pvalue_thres chosen is merely for demonstration purposes.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[111]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### without Prior knowledge</span>
+<span class="n">prior_knowledge</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="n">pvalue_thres</span> <span class="o">=</span> <span class="mf">0.2</span>
+
+<span class="n">CI_test</span> <span class="o">=</span> <span class="n">PartialCorrelation</span><span class="p">()</span>
+
+<span class="n">gs</span> <span class="o">=</span> <span class="n">GrowShrink</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data_obj</span><span class="p">,</span>
+        <span class="n">prior_knowledge</span><span class="o">=</span><span class="n">prior_knowledge</span><span class="p">,</span>
+        <span class="n">CI_test</span><span class="o">=</span><span class="n">CI_test</span><span class="p">,</span>
+        <span class="n">use_multiprocessing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">update_shrink</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+
+<span class="n">target_var</span> <span class="o">=</span> <span class="s1">&#39;a&#39;</span>
+
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">target_var</span><span class="o">=</span><span class="n">target_var</span><span class="p">,</span> <span class="n">pvalue_thres</span><span class="o">=</span><span class="n">pvalue_thres</span><span class="p">)</span>
+
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time taken without prior knowledge: </span><span class="si">{</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">s</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;target var </span><span class="si">{</span><span class="n">target_var</span><span class="si">}</span><span class="se">\&#39;</span><span class="s2">s estimated MB without prior knowledge is: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;markov_blanket&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">ground_truth_mb</span> <span class="o">=</span> <span class="n">compute_markov_blanket</span><span class="p">(</span><span class="n">causalai2networkx</span><span class="p">(</span><span class="n">graph_gt</span><span class="p">),</span> <span class="n">target_var</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;target var </span><span class="si">{</span><span class="n">target_var</span><span class="si">}</span><span class="se">\&#39;</span><span class="s2">s true MB is: </span><span class="si">{</span><span class="n">ground_truth_mb</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">f1_score</span> <span class="o">=</span> <span class="n">_get_precision_recall_single</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;markov_blanket&#39;</span><span class="p">],</span> <span class="n">ground_truth_mb</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Precision </span><span class="si">{</span><span class="n">precision</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, Recall: </span><span class="si">{</span><span class="n">recall</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, F1 score: </span><span class="si">{</span><span class="n">f1_score</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1">### with Prior knowledge</span>
+<span class="n">prior_knowledge</span> <span class="o">=</span> <span class="n">PriorKnowledge</span><span class="p">(</span><span class="n">forbidden_co_parents</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">]},</span>
+                                 <span class="n">forbidden_links</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">],</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">],</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]})</span>
+
+<span class="n">gs</span> <span class="o">=</span> <span class="n">GrowShrink</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data_obj</span><span class="p">,</span>
+        <span class="n">prior_knowledge</span><span class="o">=</span><span class="n">prior_knowledge</span><span class="p">,</span>
+        <span class="n">CI_test</span><span class="o">=</span><span class="n">CI_test</span><span class="p">,</span>
+        <span class="n">use_multiprocessing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">update_shrink</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">target_var</span><span class="o">=</span><span class="n">target_var</span><span class="p">,</span> <span class="n">pvalue_thres</span><span class="o">=</span><span class="n">pvalue_thres</span><span class="p">)</span>
+
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time taken with prior knowledge: </span><span class="si">{</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">s</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;target var </span><span class="si">{</span><span class="n">target_var</span><span class="si">}</span><span class="se">\&#39;</span><span class="s2">s estimated MB with prior knowledge is: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;markov_blanket&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">f1_score</span> <span class="o">=</span> <span class="n">_get_precision_recall_single</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;markov_blanket&#39;</span><span class="p">],</span> <span class="n">ground_truth_mb</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Precision </span><span class="si">{</span><span class="n">precision</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, Recall: </span><span class="si">{</span><span class="n">recall</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, F1 score: </span><span class="si">{</span><span class="n">f1_score</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Time taken without prior knowledge: 0.05s
+
+target var a&#39;s estimated MB without prior knowledge is: [&#39;c&#39;, &#39;b&#39;, &#39;d&#39;, &#39;f&#39;]
+target var a&#39;s true MB is: {&#39;b&#39;, &#39;f&#39;}
+Precision 0.50, Recall: 1.00, F1 score: 0.67
+
+Time taken with prior knowledge: 0.02s
+
+target var a&#39;s estimated MB with prior knowledge is: [&#39;b&#39;, &#39;f&#39;]
+Precision 1.00, Recall: 1.00, F1 score: 1.00
+</pre></div></div>
+</div>
+<p>It should be noted that GrowShrink considers prior knowledge ex-ante rather than ex-post. In other words, the algorithm takes the prior knowledge into consideration in its decision making process, rather than just apply it to the predicted MB after the fact. Therefore, given an imperfect CI test, it is possible for correct prior knowledge to cause the algorithm to make mistakes it would not have made without the prior knowledge. Nevertheless, our recommendation is to include all correct prior
+knowledge as input.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="GIN_Algorithm_Tabular.html" class="btn btn-neutral float-left" title="Generalized Independent Noise (GIN)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Benchmarking%20Tabular.html" class="btn btn-neutral float-right" title="Benchmark Tabular Causal Discovery Algorithms" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, salesforce.com, inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

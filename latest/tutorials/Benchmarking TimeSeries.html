@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Benchmark Time Series Causal Discovery Algorithms &mdash; Salesforce CausalAI Library 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Causal Inference for Time Series" href="Causal%20Inference%20Time%20Series%20Data.html" />
+    <link rel="prev" title="Benchmark Tabular Causal Discovery Algorithms" href="Benchmarking%20Tabular.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Salesforce CausalAI Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="Prior%20Knowledge.html">Prior Knowledge</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Data%20objects.html">Data Object</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Data%20Generator.html">Data Generator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PC_Algorithm_TimeSeries.html">PC algorithm for time series causal discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="LINGAM_Algorithm_Tabular.html">LINGAM for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GIN_Algorithm_Tabular.html">Generalized Independent Noise (GIN)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GrowShrink_Algorithm_Tabular.html">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Benchmark Time Series Causal Discovery Algorithms</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#How-to-specify-causal-discovery-algorithms?">How to specify causal discovery algorithms?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Useful-Methods-and-Attributes">Useful Methods and Attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#custom_metric_dict">custom_metric_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Custom-Algorithms">Custom Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Custom-Data">Custom Data</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Causal%20Inference%20Tabular%20Data.html">Causal Inference for Tabular Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Salesforce CausalAI Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Benchmark Time Series Causal Discovery Algorithms</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/Benchmarking TimeSeries.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Benchmark-Time-Series-Causal-Discovery-Algorithms">
+<h1>Benchmark Time Series Causal Discovery Algorithms<a class="headerlink" href="#Benchmark-Time-Series-Causal-Discovery-Algorithms" title="Permalink to this heading"></a></h1>
+<p>The benchmarking module for continuous data is <strong>BenchmarkContinuousTimeSeries</strong> and for discrete data is <strong>BenchmarkDiscreteTimeSeries</strong>. We import them as follows:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">causalai.benchmark.time_series.continuous</span> <span class="kn">import</span> <span class="n">BenchmarkContinuousTimeSeries</span>
+<span class="kn">from</span> <span class="nn">causalai.benchmark.time_series.discrete</span> <span class="kn">import</span> <span class="n">BenchmarkDiscreteTimeSeries</span>
+</pre></div>
+</div>
+</div>
+<p>Bechmarking modules allow benchmarking causal discovery algorithms on synthetically generated data across various aspects. For tabular data, the supported methods for the aforementioned modules:</p>
+<ol class="arabic simple">
+<li><p><strong>benchmark_variable_complexity</strong>: variable complexity (BenchmarkDiscreteTimeSeries and BenchmarkContinuousTimeSeries)</p></li>
+<li><p><strong>benchmark_sample_complexity</strong>: sample complexity (BenchmarkDiscreteTimeSeries and BenchmarkContinuousTimeSeries)</p></li>
+<li><p><strong>benchmark_graph_density</strong>: graph density (BenchmarkDiscreteTimeSeries and BenchmarkContinuousTimeSeries)</p></li>
+<li><p><strong>benchmark_data_max_lag</strong>: maximum data lag (BenchmarkDiscreteTimeSeries and BenchmarkContinuousTimeSeries)</p></li>
+<li><p><strong>benchmark_noise_type</strong>: noise type (BenchmarkContinuousTimeSeries)</p></li>
+<li><p><strong>benchmark_snr</strong>: signal to noise ratio (BenchmarkContinuousTimeSeries)</p></li>
+</ol>
+<p>In addition to bechmarking on synthetic data, we also support benchmarking algorithms on user provided data. This is discussed in more detail under the section <strong>Custom Data</strong>.</p>
+<p>The main purpose of synthetic data benchmarking is to evaluate two aspects:</p>
+<ol class="arabic simple">
+<li><p>how a specific caual discovery algorithm performs for different values of a variant (the above listed aspects).</p></li>
+<li><p>how different algorithms compare against each other in a particular setting.</p></li>
+</ol>
+<section id="How-to-specify-causal-discovery-algorithms?">
+<h2>How to specify causal discovery algorithms?<a class="headerlink" href="#How-to-specify-causal-discovery-algorithms?" title="Permalink to this heading"></a></h2>
+<p>Specifying causal discovery algorithms supported by the CausalAI library is very easy as shown below. Users also have the option to specify a custom algorithm as long as it adheres to the basic requirements. This is discussed on more detail under the section <strong>Custom Algorithms</strong>.</p>
+<p>Let’s begin with a simple example, in which we want to benchmark causal discovery algorithms on synthetically generated discrete data.</p>
+<p>We begin by importing the supported algorithms for discrete data:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">causalai.models.time_series.pc</span> <span class="kn">import</span> <span class="n">PCSingle</span><span class="p">,</span> <span class="n">PC</span>
+<span class="kn">from</span> <span class="nn">causalai.models.common.CI_tests.partial_correlation</span> <span class="kn">import</span> <span class="n">PartialCorrelation</span>
+<span class="kn">from</span> <span class="nn">causalai.models.common.CI_tests.kci</span> <span class="kn">import</span> <span class="n">KCI</span>
+<span class="kn">from</span> <span class="nn">causalai.data.data_generator</span> <span class="kn">import</span> <span class="n">DataGenerator</span><span class="p">,</span> <span class="n">GenerateRandomTimeseriesSEM</span>
+<span class="kn">from</span> <span class="nn">causalai.models.common.CI_tests.discrete_ci_tests</span> <span class="kn">import</span> <span class="n">DiscreteCI_tests</span>
+
+<span class="kn">from</span> <span class="nn">causalai.models.time_series.granger</span> <span class="kn">import</span> <span class="n">Granger</span>
+<span class="kn">from</span> <span class="nn">causalai.models.time_series.var_lingam</span> <span class="kn">import</span> <span class="n">VARLINGAM</span>
+
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+<p>Next, we create a Python dictionary of these algorithms in a format that the benchmarking module requires. Then we run the benchmarking module for sample complexity.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">algo_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;PC-PartialCorr&#39;</span><span class="p">:</span><span class="n">partial</span><span class="p">(</span><span class="n">PC</span><span class="p">,</span> <span class="n">CI_test</span><span class="o">=</span><span class="n">PartialCorrelation</span><span class="p">(),</span> <span class="n">use_multiprocessing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                      <span class="n">prior_knowledge</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+            <span class="s1">&#39;Granger&#39;</span><span class="p">:</span><span class="n">partial</span><span class="p">(</span><span class="n">Granger</span><span class="p">,</span> <span class="n">use_multiprocessing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">prior_knowledge</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+            <span class="s1">&#39;VARLINGAM&#39;</span><span class="p">:</span><span class="n">partial</span><span class="p">(</span><span class="n">VARLINGAM</span><span class="p">,</span> <span class="n">use_multiprocessing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">prior_knowledge</span><span class="o">=</span><span class="kc">None</span><span class="p">)}</span>
+
+<span class="n">kargs_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;PC-PartialCorr&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;max_condition_set_size&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;pvalue_thres&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s1">&#39;max_lag&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span>
+            <span class="s1">&#39;Granger&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;pvalue_thres&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s1">&#39;max_lag&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span>
+            <span class="s1">&#39;VARLINGAM&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;pvalue_thres&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s1">&#39;max_lag&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}}</span>
+</pre></div>
+</div>
+</div>
+<p><strong>algo_dict</strong> specifies the algorithms. Specifically, keys are the names of the algorithms, and values are the algorithm class. We use partial in order to pre-specify some arguments of the algorithm class constructor– CI_test, use_multiprocessing, and prior_knowledge in the above cases.</p>
+<p>All these algorithms have a .run() method that performs the causal discovery. The benchmarking module internally calls this run method. This run method may have some arguments of its own. These arguments are pre-specified using <strong>kargs_dict</strong> above, and passed to the benchmarking module below. Of course, the kargs_dict is algorithm specific, and may be optional.</p>
+<p><strong>Default algo_dict and kargs_dict</strong>: If algo_dict and kargs_dict are not specified (pass None for both), then there are default algo_dict and kargs_dict, that are used by the benchmarking modules, which include all the currently supported algorithms. The default algo_dict and kargs_dict for the BenchmarkDiscreteTabular module can be accessed through:</p>
+<p>BenchmarkDiscreteTimeSeries.default_algo_dict and BenchmarkDiscreteTimeSeries.default_kargs_dict</p>
+<p>Similarly, the default algo_dict and kargs_dict for the BenchmarkContinuousTimeSeries module can be accessed through:</p>
+<p>BenchmarkContinuousTimeSeries.default_algo_dict and BenchmarkContinuousTimeSeries.default_kargs_dict</p>
+<p>We run the benchmark_sample_complexity method of the module below,</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">BenchmarkContinuousTimeSeries</span><span class="p">(</span><span class="n">algo_dict</span><span class="o">=</span><span class="n">algo_dict</span><span class="p">,</span> <span class="n">kargs_dict</span><span class="o">=</span><span class="n">kargs_dict</span><span class="p">,</span>
+                             <span class="n">num_exp</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">custom_metric_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">b</span><span class="o">.</span><span class="n">benchmark_sample_complexity</span><span class="p">(</span><span class="n">T_list</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">5000</span><span class="p">],</span> <span class="n">num_vars</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">graph_density</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>\
+                           <span class="n">data_max_lag</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                           <span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">noise_fn</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">)</span> <span class="c1"># default arguments in the library</span>
+<span class="c1"># note that the first argument for all the benchmarking methods is always the list of values of the variant</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+  0%|                                                                                                                              | 0/10 [00:00&lt;?, ?it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 10%|███████████▊                                                                                                          | 1/10 [00:00&lt;00:02,  3.23it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 20%|███████████████████████▌                                                                                              | 2/10 [00:00&lt;00:02,  3.50it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 30%|███████████████████████████████████▍                                                                                  | 3/10 [00:00&lt;00:02,  3.49it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 40%|███████████████████████████████████████████████▏                                                                      | 4/10 [00:01&lt;00:01,  3.44it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 50%|███████████████████████████████████████████████████████████                                                           | 5/10 [00:01&lt;00:01,  3.47it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 60%|██████████████████████████████████████████████████████████████████████▊                                               | 6/10 [00:01&lt;00:01,  3.48it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 70%|██████████████████████████████████████████████████████████████████████████████████▌                                   | 7/10 [00:02&lt;00:00,  3.51it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 80%|██████████████████████████████████████████████████████████████████████████████████████████████▍                       | 8/10 [00:02&lt;00:00,  3.56it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 90%|██████████████████████████████████████████████████████████████████████████████████████████████████████████▏           | 9/10 [00:02&lt;00:00,  3.53it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:02&lt;00:00,  3.47it/s]
+  0%|                                                                                                                              | 0/10 [00:00&lt;?, ?it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 10%|███████████▊                                                                                                          | 1/10 [00:00&lt;00:02,  3.44it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 20%|███████████████████████▌                                                                                              | 2/10 [00:00&lt;00:02,  3.46it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 30%|███████████████████████████████████▍                                                                                  | 3/10 [00:00&lt;00:02,  3.36it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 40%|███████████████████████████████████████████████▏                                                                      | 4/10 [00:01&lt;00:01,  3.40it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 50%|███████████████████████████████████████████████████████████                                                           | 5/10 [00:01&lt;00:01,  3.41it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 60%|██████████████████████████████████████████████████████████████████████▊                                               | 6/10 [00:01&lt;00:01,  3.40it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 70%|██████████████████████████████████████████████████████████████████████████████████▌                                   | 7/10 [00:02&lt;00:00,  3.37it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 80%|██████████████████████████████████████████████████████████████████████████████████████████████▍                       | 8/10 [00:02&lt;00:00,  3.33it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 90%|██████████████████████████████████████████████████████████████████████████████████████████████████████████▏           | 9/10 [00:02&lt;00:00,  3.30it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:02&lt;00:00,  3.34it/s]
+  0%|                                                                                                                              | 0/10 [00:00&lt;?, ?it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 10%|███████████▊                                                                                                          | 1/10 [00:00&lt;00:04,  2.24it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 20%|███████████████████████▌                                                                                              | 2/10 [00:00&lt;00:03,  2.38it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 30%|███████████████████████████████████▍                                                                                  | 3/10 [00:01&lt;00:02,  2.44it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 40%|███████████████████████████████████████████████▏                                                                      | 4/10 [00:01&lt;00:02,  2.45it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 50%|███████████████████████████████████████████████████████████                                                           | 5/10 [00:02&lt;00:02,  2.40it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 60%|██████████████████████████████████████████████████████████████████████▊                                               | 6/10 [00:02&lt;00:01,  2.32it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 70%|██████████████████████████████████████████████████████████████████████████████████▌                                   | 7/10 [00:02&lt;00:01,  2.31it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 80%|██████████████████████████████████████████████████████████████████████████████████████████████▍                       | 8/10 [00:03&lt;00:00,  2.32it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 90%|██████████████████████████████████████████████████████████████████████████████████████████████████████████▏           | 9/10 [00:03&lt;00:00,  2.32it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:04&lt;00:00,  2.33it/s]
+  0%|                                                                                                                              | 0/10 [00:00&lt;?, ?it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 10%|███████████▊                                                                                                          | 1/10 [00:00&lt;00:05,  1.52it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 20%|███████████████████████▌                                                                                              | 2/10 [00:01&lt;00:04,  1.63it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 30%|███████████████████████████████████▍                                                                                  | 3/10 [00:01&lt;00:04,  1.67it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 40%|███████████████████████████████████████████████▏                                                                      | 4/10 [00:02&lt;00:03,  1.62it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 50%|███████████████████████████████████████████████████████████                                                           | 5/10 [00:03&lt;00:03,  1.61it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 60%|██████████████████████████████████████████████████████████████████████▊                                               | 6/10 [00:03&lt;00:02,  1.59it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 70%|██████████████████████████████████████████████████████████████████████████████████▌                                   | 7/10 [00:04&lt;00:01,  1.60it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 80%|██████████████████████████████████████████████████████████████████████████████████████████████▍                       | 8/10 [00:04&lt;00:01,  1.62it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 90%|██████████████████████████████████████████████████████████████████████████████████████████████████████████▏           | 9/10 [00:05&lt;00:00,  1.63it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:06&lt;00:00,  1.61it/s]
+</pre></div></div>
+</div>
+<p>Here, in addition to algo_dict and kargs_dict, we have passed two additional arguments– num_exp and custom_metric_dict to the benchmarking module constructer.</p>
+<p>num_exp specifies the number of experiments (each with a different random seed) to run per configuration.</p>
+<p>custom_metric_dict can be used to specify any metric to record in addition to the default metrics that are recorded for the experiments conducted– f1_score, precision, recall, and time_taken. We provide more detail about this below under the section <strong>custom_metric_dict</strong>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">=</span><span class="n">b</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;f1_score&#39;</span><span class="p">,</span> <span class="n">xaxis_mode</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># plt.savefig(&#39;myfig.pdf&#39;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_Benchmarking_TimeSeries_10_0.png" src="../_images/tutorials_Benchmarking_TimeSeries_10_0.png" />
+</div>
+</div>
+</section>
+<section id="Useful-Methods-and-Attributes">
+<h2>Useful Methods and Attributes<a class="headerlink" href="#Useful-Methods-and-Attributes" title="Permalink to this heading"></a></h2>
+<p>The benchmarking modules have the following attributes that users may find useful:</p>
+<ol class="arabic simple">
+<li><p>results_full: stores the results for all the experiments conducted when calling a benchmarking method (e.g. benchmark_sample_complexity). The results are stored as a List. The length of this list is the number of variants provided in the benchmarking method (4 in the above example– 100, 500,1000,5000). Each item is a list of dictionary. The length of this inner list is num_exp. Finally, each dictionary has keys same as the algorithm names (PC-PartialCorr, Granger and VARLINGAM in the above
+example), and their corresponding values are the computed metrics.</p></li>
+<li><p>default_algo_dict: Python dictionary containing the default algorithms for causal discovery benchmarking.</p></li>
+<li><p>default_kargs_dict: Python dictionary containing the default algorithms' arguments passed to the corresponding algorithm’s run method.</p></li>
+</ol>
+<p>The benchmarking modules have the following methods that users may find useful:</p>
+<ol class="arabic simple">
+<li><p>aggregate_results: This method takes metric name as input and computes attributes results_mean and results_std which matrices of shape num_algorithms x num_variants, and contain the mean and standard deviation of the results of each algorithm and variant.</p></li>
+<li><p>plot: This method takes metric_name and xaxis_mode as inputs, and returns the matplotlib object for the plot, which cann be used to plot or save the figure. metric_name can be one of f1_score, precision, recall, and time_taken, or a custom metric (if one was specified to the benchmarking module). xaxis_mode can be either 0 or 1 (default). When 0, x-axis is algorithm names, and when 1, x-axis is the values of the variant. Variant denotes the configurations of the argument being varied (e.g. in
+benchmark_variable_complexity, the number of variables).</p></li>
+<li><p>bechmark_custom_dataset: This method can be used to benchmark causal discovery algorithms on user provided datasets. More details can be found below under the section <strong>Custom Data</strong>.</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="custom_metric_dict">
+<h2>custom_metric_dict<a class="headerlink" href="#custom_metric_dict" title="Permalink to this heading"></a></h2>
+<p>In the benchmarking module constructor, users may specify their custom metrics in the argument custom_metric_dict. The argument must be a Python dictionary with the metric name (str) as keys, and the corresponding values must be a callable function. This function takes 2 arguments– graph_est, graph_gt, where graph_est is the estimated graph and graph_gt is the ground truth graph. Both graphs are in the form of a Python dictionary where keys are variable names and values are list of parent
+names. The output of this function must be a scalar, the metric, which will get aggregated by the bechmarking module.</p>
+<p>As an example, here is a dummy custom_metric_dict and how we use it:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mymetric_fn1</span><span class="p">(</span><span class="n">graph_est</span><span class="p">,</span> <span class="n">graph_gt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    graph_est, graph_gt are of the following form: {&#39;a&#39;: [(&#39;b&#39;,-2), (&#39;c&#39;,-1)], &#39;b&#39;: [], &#39;c&#39;: []}</span>
+<span class="sd">    where keys are children and values specify the list of parents.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># do something</span>
+    <span class="k">return</span> <span class="mf">0.5</span>
+<span class="k">def</span> <span class="nf">mymetric_fn2</span><span class="p">(</span><span class="n">graph_est</span><span class="p">,</span> <span class="n">graph_gt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    graph_est, graph_gt are of the following form: {&#39;a&#39;: [(&#39;b&#39;,-2), (&#39;c&#39;,-1)], &#39;b&#39;: [], &#39;c&#39;: []}</span>
+<span class="sd">    where keys are children and values specify the list of parents.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># do something</span>
+    <span class="k">return</span> <span class="mi">1</span>
+
+<span class="n">custom_metric_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mymetric1&#39;</span><span class="p">:</span> <span class="n">mymetric_fn1</span><span class="p">,</span> <span class="s1">&#39;mymetric2&#39;</span><span class="p">:</span> <span class="n">mymetric_fn2</span><span class="p">}</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">BenchmarkContinuousTimeSeries</span><span class="p">(</span><span class="n">algo_dict</span><span class="o">=</span><span class="n">algo_dict</span><span class="p">,</span> <span class="n">kargs_dict</span><span class="o">=</span><span class="n">kargs_dict</span><span class="p">,</span>
+                             <span class="n">num_exp</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">custom_metric_dict</span><span class="o">=</span><span class="n">custom_metric_dict</span><span class="p">)</span>
+<span class="n">b</span><span class="o">.</span><span class="n">benchmark_sample_complexity</span><span class="p">(</span><span class="n">T_list</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span> <span class="n">num_vars</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">graph_density</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">data_max_lag</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>\
+                           <span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">noise_fn</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">)</span> <span class="c1"># default arguments in the library</span>
+<span class="n">plt</span><span class="o">=</span><span class="n">b</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;mymetric1&#39;</span><span class="p">,</span> <span class="n">xaxis_mode</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+  0%|                                                                                                                              | 0/10 [00:00&lt;?, ?it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 10%|███████████▊                                                                                                          | 1/10 [00:00&lt;00:02,  3.11it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 20%|███████████████████████▌                                                                                              | 2/10 [00:00&lt;00:02,  3.44it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 30%|███████████████████████████████████▍                                                                                  | 3/10 [00:00&lt;00:02,  3.44it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 40%|███████████████████████████████████████████████▏                                                                      | 4/10 [00:01&lt;00:01,  3.45it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 50%|███████████████████████████████████████████████████████████                                                           | 5/10 [00:01&lt;00:01,  3.44it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 60%|██████████████████████████████████████████████████████████████████████▊                                               | 6/10 [00:01&lt;00:01,  3.45it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 70%|██████████████████████████████████████████████████████████████████████████████████▌                                   | 7/10 [00:02&lt;00:00,  3.47it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 80%|██████████████████████████████████████████████████████████████████████████████████████████████▍                       | 8/10 [00:02&lt;00:00,  3.45it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 90%|██████████████████████████████████████████████████████████████████████████████████████████████████████████▏           | 9/10 [00:02&lt;00:00,  3.46it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:02&lt;00:00,  3.42it/s]
+  0%|                                                                                                                              | 0/10 [00:00&lt;?, ?it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 10%|███████████▊                                                                                                          | 1/10 [00:00&lt;00:02,  3.21it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 20%|███████████████████████▌                                                                                              | 2/10 [00:00&lt;00:02,  3.26it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 30%|███████████████████████████████████▍                                                                                  | 3/10 [00:00&lt;00:02,  3.30it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 40%|███████████████████████████████████████████████▏                                                                      | 4/10 [00:01&lt;00:01,  3.21it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 50%|███████████████████████████████████████████████████████████                                                           | 5/10 [00:01&lt;00:01,  3.21it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 60%|██████████████████████████████████████████████████████████████████████▊                                               | 6/10 [00:01&lt;00:01,  3.23it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 70%|██████████████████████████████████████████████████████████████████████████████████▌                                   | 7/10 [00:02&lt;00:00,  3.20it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 80%|██████████████████████████████████████████████████████████████████████████████████████████████▍                       | 8/10 [00:02&lt;00:00,  3.20it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 90%|██████████████████████████████████████████████████████████████████████████████████████████████████████████▏           | 9/10 [00:02&lt;00:00,  3.17it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:03&lt;00:00,  3.20it/s]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_Benchmarking_TimeSeries_16_1.png" src="../_images/tutorials_Benchmarking_TimeSeries_16_1.png" />
+</div>
+</div>
+</section>
+<section id="Custom-Algorithms">
+<h2>Custom Algorithms<a class="headerlink" href="#Custom-Algorithms" title="Permalink to this heading"></a></h2>
+<p>Users may specify their own algorthms in the benchmarking module. Here we show the format such an algorithm must adhere to in order for the benchmarking module to fuction properly. Users may use this as a template to specify their own algorithm.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">causalai.data.tabular</span> <span class="kn">import</span> <span class="n">TabularData</span>
+
+<span class="k">class</span> <span class="nc">myAlgorithm</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        :param data: this is a TabularData object and contains attributes likes data.data_arrays, which is a</span>
+<span class="sd">            list of numpy array of shape (observations N, variables D).</span>
+<span class="sd">        :type data: TabularData object</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="c1"># do something</span>
+
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">kargs</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;parents&#39;</span><span class="p">:</span> <span class="p">[]}</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">var_names</span><span class="p">}</span> <span class="c1"># result must follow this format</span>
+        <span class="c1"># do something and compute parents</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="n">algo_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;my_algorithm1&#39;</span><span class="p">:</span><span class="n">myAlgorithm</span><span class="p">,</span>
+            <span class="s1">&#39;Granger&#39;</span><span class="p">:</span><span class="n">partial</span><span class="p">(</span><span class="n">Granger</span><span class="p">,</span> <span class="n">use_multiprocessing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">prior_knowledge</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+            <span class="s1">&#39;VARLINGAM&#39;</span><span class="p">:</span><span class="n">partial</span><span class="p">(</span><span class="n">VARLINGAM</span><span class="p">,</span> <span class="n">use_multiprocessing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">prior_knowledge</span><span class="o">=</span><span class="kc">None</span><span class="p">)}</span>
+
+<span class="n">kargs_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;my_algorithm1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">4</span><span class="p">},</span>
+            <span class="s1">&#39;Granger&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;pvalue_thres&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s1">&#39;max_lag&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span>
+            <span class="s1">&#39;VARLINGAM&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;pvalue_thres&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s1">&#39;max_lag&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}}</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">BenchmarkContinuousTimeSeries</span><span class="p">(</span><span class="n">algo_dict</span><span class="o">=</span><span class="n">algo_dict</span><span class="p">,</span> <span class="n">kargs_dict</span><span class="o">=</span><span class="n">kargs_dict</span><span class="p">,</span>
+                             <span class="n">num_exp</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">custom_metric_dict</span><span class="o">=</span><span class="n">custom_metric_dict</span><span class="p">)</span>
+<span class="n">b</span><span class="o">.</span><span class="n">benchmark_variable_complexity</span><span class="p">(</span><span class="n">num_vars_list</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="n">graph_density</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">data_max_lag</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span>\
+                           <span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">noise_fn</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">=</span><span class="n">b</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;f1_score&#39;</span><span class="p">,</span> <span class="n">xaxis_mode</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+  0%|                                                                                                                              | 0/10 [00:00&lt;?, ?it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 10%|███████████▊                                                                                                          | 1/10 [00:00&lt;00:04,  1.98it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 20%|███████████████████████▌                                                                                              | 2/10 [00:01&lt;00:04,  1.99it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 30%|███████████████████████████████████▍                                                                                  | 3/10 [00:01&lt;00:03,  1.99it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 40%|███████████████████████████████████████████████▏                                                                      | 4/10 [00:02&lt;00:03,  1.95it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 50%|███████████████████████████████████████████████████████████                                                           | 5/10 [00:02&lt;00:02,  1.95it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 60%|██████████████████████████████████████████████████████████████████████▊                                               | 6/10 [00:03&lt;00:02,  1.93it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 70%|██████████████████████████████████████████████████████████████████████████████████▌                                   | 7/10 [00:03&lt;00:01,  1.92it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 80%|██████████████████████████████████████████████████████████████████████████████████████████████▍                       | 8/10 [00:04&lt;00:01,  1.93it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 90%|██████████████████████████████████████████████████████████████████████████████████████████████████████████▏           | 9/10 [00:04&lt;00:00,  1.90it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:05&lt;00:00,  1.92it/s]
+  0%|                                                                                                                              | 0/10 [00:00&lt;?, ?it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 10%|███████████▊                                                                                                          | 1/10 [00:01&lt;00:14,  1.58s/it]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 20%|███████████████████████▌                                                                                              | 2/10 [00:03&lt;00:12,  1.62s/it]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 30%|███████████████████████████████████▍                                                                                  | 3/10 [00:04&lt;00:11,  1.58s/it]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 40%|███████████████████████████████████████████████▏                                                                      | 4/10 [00:06&lt;00:09,  1.58s/it]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 50%|███████████████████████████████████████████████████████████                                                           | 5/10 [00:07&lt;00:07,  1.59s/it]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 60%|██████████████████████████████████████████████████████████████████████▊                                               | 6/10 [00:09&lt;00:06,  1.60s/it]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 70%|██████████████████████████████████████████████████████████████████████████████████▌                                   | 7/10 [00:11&lt;00:04,  1.60s/it]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 80%|██████████████████████████████████████████████████████████████████████████████████████████████▍                       | 8/10 [00:12&lt;00:03,  1.61s/it]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 90%|██████████████████████████████████████████████████████████████████████████████████████████████████████████▏           | 9/10 [00:14&lt;00:01,  1.61s/it]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:16&lt;00:00,  1.61s/it]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_Benchmarking_TimeSeries_18_1.png" src="../_images/tutorials_Benchmarking_TimeSeries_18_1.png" />
+</div>
+</div>
+<p>my_algorithm1 is a dummy algorithm which always returns a graph without no edges as the estimated causal graph. As expected, comparing it with the Granger and VARLINGAM algorithms in CausalAI for continuous tabular data shows Granger and VARLINGAM outperforming my_algorithm1 on the variable complexity benchmark.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Custom-Data">
+<h2>Custom Data<a class="headerlink" href="#Custom-Data" title="Permalink to this heading"></a></h2>
+<p>Users may use their own data to benchmark causal discovery algorithms instead of using synthetic data generated in our benchmarking module. For this, we support the bechmark_custom_dataset method. This method takes as input a list of datasets, where each item in the list is a triplet– (data_array, var_names, graph_gt), where data_array is a 2D Numpy data array of shape (samples x variables), var_names is a list of variable names, and graph_gt is the ground truth causal graph in the form of a
+Python dictionary, where keys are the variable names, and the corresponding values are a list of parent names.</p>
+<p>To illustrate how it works, we manually generate a list of synthetic datasets below, and call the bechmark_custom_dataset method.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">causalai.data.data_generator</span> <span class="kn">import</span> <span class="n">DataGenerator</span><span class="p">,</span> <span class="n">GenerateSparseTimeSeriesSEM</span>
+
+<span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span>
+<span class="n">coef</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">5000</span>
+
+<span class="n">data_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">))]</span>
+    <span class="n">sem</span> <span class="o">=</span> <span class="n">GenerateSparseTimeSeriesSEM</span><span class="p">(</span><span class="n">var_names</span><span class="o">=</span><span class="n">var_names</span><span class="p">,</span> <span class="n">graph_density</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">max_lag</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">data_array</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                                    <span class="n">noise_fn</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">var_names</span><span class="p">)))</span>
+    <span class="n">data_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">data_array</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span><span class="p">))</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># use default algorithms</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">BenchmarkContinuousTimeSeries</span><span class="p">(</span><span class="n">algo_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kargs_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">custom_metric_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">b</span><span class="o">.</span><span class="n">bechmark_custom_dataset</span><span class="p">(</span><span class="n">data_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+  0%|                                                                                                                               | 0/5 [00:00&lt;?, ?it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 20%|███████████████████████▊                                                                                               | 1/5 [00:00&lt;00:03,  1.04it/s]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 40%|███████████████████████████████████████████████▌                                                                       | 2/5 [00:02&lt;00:03,  1.29s/it]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 60%|███████████████████████████████████████████████████████████████████████▍                                               | 3/5 [00:03&lt;00:02,  1.21s/it]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+ 80%|███████████████████████████████████████████████████████████████████████████████████████████████▏                       | 4/5 [00:04&lt;00:01,  1.22s/it]/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+/Users/darpit/miniconda3/envs/causal_ai_env/lib/python3.9/site-packages/statsmodels/tsa/tsatools.py:821: FutureWarning: trend &#39;nc&#39; has been renamed to &#39;n&#39; after 0.14 is released. Use &#39;n&#39; now to avoid this warning.
+  warnings.warn(
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:05&lt;00:00,  1.19s/it]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;f1_score&#39;</span><span class="p">,</span> <span class="n">xaxis_mode</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_Benchmarking_TimeSeries_24_1.png" src="../_images/tutorials_Benchmarking_TimeSeries_24_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Benchmarking%20Tabular.html" class="btn btn-neutral float-left" title="Benchmark Tabular Causal Discovery Algorithms" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Causal%20Inference%20Time%20Series%20Data.html" class="btn btn-neutral float-right" title="Causal Inference for Time Series" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, salesforce.com, inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

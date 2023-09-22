@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LINGAM for Tabular Causal Discovery &mdash; Salesforce CausalAI Library 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Generalized Independent Noise (GIN)" href="GIN_Algorithm_Tabular.html" />
+    <link rel="prev" title="GES for Tabular Causal Discovery" href="GES_Algorithm_Tabular.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Salesforce CausalAI Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="Prior%20Knowledge.html">Prior Knowledge</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Data%20objects.html">Data Object</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Data%20Generator.html">Data Generator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PC_Algorithm_TimeSeries.html">PC algorithm for time series causal discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">LINGAM for Tabular Causal Discovery</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Load-and-Visualize-Data">Load and Visualize Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Causal-Discovery-(CD)">Causal Discovery (CD)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Full-Causal-Discovery">Full Causal Discovery</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GIN_Algorithm_Tabular.html">Generalized Independent Noise (GIN)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GrowShrink_Algorithm_Tabular.html">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking%20TimeSeries.html">Benchmark Time Series Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Causal%20Inference%20Tabular%20Data.html">Causal Inference for Tabular Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Salesforce CausalAI Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">LINGAM for Tabular Causal Discovery</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/LINGAM_Algorithm_Tabular.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="LINGAM-for-Tabular-Causal-Discovery">
+<h1>LINGAM for Tabular Causal Discovery<a class="headerlink" href="#LINGAM-for-Tabular-Causal-Discovery" title="Permalink to this heading"></a></h1>
+<p>LINGAM can be used for causal discovery in tabular data. The algorithm works by first performing independent component analysis (ICA) on the observational data matrix X (#variables x #samples) to extract the mixing matrix A over the independent components (noise matrix) E (same size as X), i.e. solving X=AE. Then their algorithm uses the insight that to find the causal order, each sample x can be decomposed as, x = Bx + e, where B is a lower triangular matrix and e are the independent noise
+samples. Noticing that B = (I - A^-1), we solve for B, and find the permutation matrix P, such that PBP' is as close to a lower triangular matrix as possible.</p>
+<p>This algorithm makes the following assumptions: 1. linear relationship between variables, 2. non-Gaussianity of the error (regression residuals), 3. The causal graph is a DAG, 4. no hidden confounders. We do not support multi-processing for this algorithm.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">pickle</span> <span class="k">as</span> <span class="nn">pkl</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">causalai.models.tabular.lingam</span> <span class="kn">import</span> <span class="n">LINGAM</span>
+
+<span class="kn">from</span> <span class="nn">causalai.data.data_generator</span> <span class="kn">import</span> <span class="n">DataGenerator</span>
+<span class="c1"># also importing data object, data transform object, and prior knowledge object, and the graph plotting function</span>
+<span class="kn">from</span> <span class="nn">causalai.data.tabular</span> <span class="kn">import</span> <span class="n">TabularData</span>
+<span class="kn">from</span> <span class="nn">causalai.data.transforms.tabular</span> <span class="kn">import</span> <span class="n">StandardizeTransform</span>
+<span class="kn">from</span> <span class="nn">causalai.models.common.prior_knowledge</span> <span class="kn">import</span> <span class="n">PriorKnowledge</span>
+<span class="kn">from</span> <span class="nn">causalai.misc.misc</span> <span class="kn">import</span> <span class="n">plot_graph</span><span class="p">,</span> <span class="n">get_precision_recall</span><span class="p">,</span> <span class="n">get_precision_recall_skeleton</span><span class="p">,</span> <span class="n">make_symmetric</span>
+</pre></div>
+</div>
+</div>
+<section id="Load-and-Visualize-Data">
+<h2>Load and Visualize Data<a class="headerlink" href="#Load-and-Visualize-Data" title="Permalink to this heading"></a></h2>
+<p>Load the dataset and visualize the ground truth causal graph. For the purpose of this example, we will use a synthetic dataset available in our repository.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span>
+<span class="n">coef</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">sem</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="p">}</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">5000</span>
+
+<span class="c1"># var_names = [str(i) for i in range(5)]</span>
+<span class="c1"># sem = GenerateRandomTabularSEM(var_names=var_names, max_num_parents=2, seed=1)</span>
+<span class="n">data_array</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                                <span class="n">noise_fn</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">sem</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+<span class="c1"># data_array = np.random.randn(T, 7)</span>
+<span class="c1"># var_names = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;, &#39;g&#39;]</span>
+
+<span class="n">graph_gt</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;a&#39;: [],
+ &#39;b&#39;: [&#39;a&#39;, &#39;f&#39;],
+ &#39;c&#39;: [&#39;b&#39;, &#39;f&#39;],
+ &#39;d&#39;: [&#39;b&#39;, &#39;g&#39;],
+ &#39;e&#39;: [&#39;f&#39;],
+ &#39;f&#39;: [],
+ &#39;g&#39;: []}
+</pre></div></div>
+</div>
+<p>Now we perform the following operations:</p>
+<ol class="arabic simple">
+<li><p>Standardize the data arrays</p></li>
+<li><p>Create the data object</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><br/><span></span><span class="c1"># 1.</span>
+<span class="n">StandardizeTransform_</span> <span class="o">=</span> <span class="n">StandardizeTransform</span><span class="p">()</span>
+<span class="n">StandardizeTransform_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+<span class="n">data_trans</span> <span class="o">=</span> <span class="n">StandardizeTransform_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+<span class="c1"># 2.</span>
+<span class="n">data_obj</span> <span class="o">=</span> <span class="n">TabularData</span><span class="p">(</span><span class="n">data_trans</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="n">var_names</span><span class="p">)</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<p>We visualize the data and graph below:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><br/><span></span><span class="n">plot_graph</span><span class="p">(</span><span class="n">graph_gt</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">var_names</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_trans</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">:,</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_LINGAM_Algorithm_Tabular_9_0.png" src="../_images/tutorials_LINGAM_Algorithm_Tabular_9_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_LINGAM_Algorithm_Tabular_9_1.png" src="../_images/tutorials_LINGAM_Algorithm_Tabular_9_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Causal-Discovery-(CD)">
+<h2>Causal Discovery (CD)<a class="headerlink" href="#Causal-Discovery-(CD)" title="Permalink to this heading"></a></h2>
+<p>For LINGAM algorithm, causal discovery can be performed for the whole graph (Full Causal Discovery). Targeted causal discovery (finding parents of a specific target variable) is not supported like some of the other algorithms in our library.</p>
+<p>Multiprocessing is not supported in LINGAM.</p>
+<p>Prior Knowledge is supported in LINGAM.</p>
+<section id="Full-Causal-Discovery">
+<h3>Full Causal Discovery<a class="headerlink" href="#Full-Causal-Discovery" title="Permalink to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">prior_knowledge</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1">#  PriorKnowledge(forbidden_links={&#39;f&#39;: [&#39;e&#39;]})</span>
+
+<span class="n">lingam</span> <span class="o">=</span> <span class="n">LINGAM</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data_obj</span><span class="p">,</span>
+        <span class="n">prior_knowledge</span><span class="o">=</span><span class="n">prior_knowledge</span>
+        <span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">lingam</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">pvalue_thres</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time taken: </span><span class="si">{</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">s</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39; The output result has keys: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39; The output result[&quot;a&quot;] has keys: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Time taken: 0.17s
+
+ The output result has keys: dict_keys([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;, &#39;g&#39;])
+ The output result[&#34;a&#34;] has keys: dict_keys([&#39;value_dict&#39;, &#39;pvalue_dict&#39;, &#39;parents&#39;])
+</pre></div></div>
+</div>
+<p>The output <em>result</em> has the variable names as its keys, and the value corresponding to each key is a dictionary with 3 keys, parents, value_dict and pvalue_dict. The first one is a list of the causal parents. The dictionary result['value_dict'] contains the strength of the link between the targeted variable and each of the candidate parents. The dictionary result['pvalue_dict'] contains the p-values of the said strength.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Predicted parents:&#39;</span><span class="p">)</span>
+<span class="n">graph_est</span><span class="o">=</span><span class="p">{</span><span class="n">n</span><span class="p">:[]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">parents</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;parents&#39;</span><span class="p">]</span>
+    <span class="n">graph_est</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">parents</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">parents</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Ground truth parents:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">graph_gt</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">graph_gt</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">f1_score</span> <span class="o">=</span> <span class="n">get_precision_recall</span><span class="p">(</span><span class="n">graph_est</span><span class="p">,</span> <span class="n">graph_gt</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Precision </span><span class="si">{</span><span class="n">precision</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, Recall: </span><span class="si">{</span><span class="n">recall</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, F1 score: </span><span class="si">{</span><span class="n">f1_score</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Predicted parents:
+a: []
+b: [&#39;f&#39;, &#39;a&#39;]
+c: [&#39;f&#39;, &#39;b&#39;]
+d: [&#39;g&#39;, &#39;b&#39;]
+e: [&#39;f&#39;]
+f: []
+g: []
+
+Ground truth parents:
+a: []
+b: [&#39;a&#39;, &#39;f&#39;]
+c: [&#39;b&#39;, &#39;f&#39;]
+d: [&#39;b&#39;, &#39;g&#39;]
+e: [&#39;f&#39;]
+f: []
+g: []
+Precision 1.00, Recall: 1.00, F1 score: 1.00
+</pre></div></div>
+</div>
+<p>In general, we find that for tabular data, edge orientation in the causal discovery process is not as reliable as that in the case of time series data. This is because in time series, edges always go from past to future. But such information is absent in tabular data, which makes the edge orintation problem harder.</p>
+<p>However, we find that this is not for LIGAM algorithm, which recovers the edge orientation much more reliably compared to the other algorithms supported by CausalAI. Note however, that this is not a fair comparision because most of the other algorithms for continuous data assume Gaussian noise as opposed to non-Gaussian noise, which is the case for LINGAM.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="GES_Algorithm_Tabular.html" class="btn btn-neutral float-left" title="GES for Tabular Causal Discovery" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="GIN_Algorithm_Tabular.html" class="btn btn-neutral float-right" title="Generalized Independent Noise (GIN)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, salesforce.com, inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

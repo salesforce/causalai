@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Object &mdash; Salesforce CausalAI Library 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data Generator" href="Data%20Generator.html" />
+    <link rel="prev" title="Prior Knowledge" href="Prior%20Knowledge.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Salesforce CausalAI Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="Prior%20Knowledge.html">Prior Knowledge</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Data Object</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Time-Series-Data">Time Series Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Multi-Data-Object">Multi-Data Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Data-object-Methods">Data object Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Tabular-Data">Tabular Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Data-Pre-processing">Data Pre-processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#StandardizeTransform">StandardizeTransform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Heterogeneous2DiscreteTransform">Heterogeneous2DiscreteTransform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DifferenceTransform">DifferenceTransform</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Data%20Generator.html">Data Generator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PC_Algorithm_TimeSeries.html">PC algorithm for time series causal discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="LINGAM_Algorithm_Tabular.html">LINGAM for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GIN_Algorithm_Tabular.html">Generalized Independent Noise (GIN)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GrowShrink_Algorithm_Tabular.html">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking%20TimeSeries.html">Benchmark Time Series Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Causal%20Inference%20Tabular%20Data.html">Causal Inference for Tabular Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Salesforce CausalAI Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Data Object</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/Data objects.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Data-Object">
+<h1>Data Object<a class="headerlink" href="#Data-Object" title="Permalink to this heading"></a></h1>
+<p>In order to feed observational data to the causal discovery algorithms in our API, the raw data– NumPy arrays and a list of variable names (optional), is used to instantiate a CausalAI data object. Note that any data transformation must be applied to the NumPy array prior to instantiating a data object. For time series and tabular data, <span class="math notranslate nohighlight">\(\texttt{TimeSeriesData}\)</span> and <span class="math notranslate nohighlight">\(\texttt{TabularData}\)</span> must be initialized with the aforementioned data respectively.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+<section id="Time-Series-Data">
+<h2>Time Series Data<a class="headerlink" href="#Time-Series-Data" title="Permalink to this heading"></a></h2>
+<p>Let’s begin by importing the modules</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">causalai.data.time_series</span> <span class="kn">import</span> <span class="n">TimeSeriesData</span>
+<span class="kn">from</span> <span class="nn">causalai.data.transforms.time_series</span> <span class="kn">import</span> <span class="n">StandardizeTransform</span><span class="p">,</span> <span class="n">DifferenceTransform</span><span class="p">,</span> <span class="n">Heterogeneous2DiscreteTransform</span>
+<br/></pre></div>
+</div>
+</div>
+<p>We will now instantiate a random numpy array and define a data object using our time series data class, and look at its important attributes and methods. Let’s say our time series has length 100, and there are 2 variables.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="n">data_obj</span> <span class="o">=</span> <span class="n">TimeSeriesData</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;This time series object has length </span><span class="si">{</span><span class="n">data_obj</span><span class="o">.</span><span class="n">length</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;This time series object has dimensions </span><span class="si">{</span><span class="n">data_obj</span><span class="o">.</span><span class="n">dim</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;This time series object has variables with names </span><span class="si">{</span><span class="n">data_obj</span><span class="o">.</span><span class="n">var_names</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+This time series object has length [100]
+This time series object has dimensions 2
+This time series object has variables with names [0, 1]
+</pre></div></div>
+</div>
+<p>There are a few things to notice: 1. We are assuming that both the variables are sampled at the same temporal rate (i.e., the same temporal resolution). We currently do not support time series in which different variables have different temporal resolution. 2. Since we did not define any variable names, by default it is enumerated by the variable index values. 3. The data object’s length is returned as a list. We discuss this below under Multi-Data object.</p>
+<p>We can alternatively define variable names by passing it to the data object constructor as follows:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">]</span>
+
+<span class="n">data_obj</span> <span class="o">=</span> <span class="n">TimeSeriesData</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="n">var_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;This time series object has length </span><span class="si">{</span><span class="n">data_obj</span><span class="o">.</span><span class="n">length</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;This time series object has dimensions </span><span class="si">{</span><span class="n">data_obj</span><span class="o">.</span><span class="n">dim</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;This time series object has variables with names </span><span class="si">{</span><span class="n">data_obj</span><span class="o">.</span><span class="n">var_names</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+This time series object has length [100]
+This time series object has dimensions 2
+This time series object has variables with names [&#39;A&#39;, &#39;B&#39;]
+</pre></div></div>
+</div>
+<p>Finally, the data array can be retrieved as:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_array_ret</span><span class="p">,</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">data_arrays</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Retrieving data array from the data object and making sure they are exactly the same:&#39;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">data_array_ret</span><span class="o">==</span><span class="n">data_array</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_array_ret</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+Retrieving data array from the data object and making sure they are exactly the same:
+(100, 2)
+(100, 2)
+</pre></div></div>
+</div>
+<section id="Multi-Data-Object">
+<h3>Multi-Data Object<a class="headerlink" href="#Multi-Data-Object" title="Permalink to this heading"></a></h3>
+<p>In time series case, there can be use cases where we have multiple disjoint time series for the same dataset. For instance, the first time series is from January-March, and the second time series is from July-September. In this case, concatenating the two time series would be incorrect.</p>
+<p>To support such use cases in our library, one can pass multiple numpy arrays to the data object constructor as follows:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_array1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">data_array2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">24</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">]</span>
+
+<span class="n">data_obj</span> <span class="o">=</span> <span class="n">TimeSeriesData</span><span class="p">(</span><span class="n">data_array1</span><span class="p">,</span> <span class="n">data_array2</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="n">var_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;This time series object has length </span><span class="si">{</span><span class="n">data_obj</span><span class="o">.</span><span class="n">length</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;This time series object has dimensions </span><span class="si">{</span><span class="n">data_obj</span><span class="o">.</span><span class="n">dim</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;This time series object has variables with names </span><span class="si">{</span><span class="n">data_obj</span><span class="o">.</span><span class="n">var_names</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Retrieving data array from the data object and making sure they are exactly the same:&#39;</span><span class="p">)</span>
+<span class="n">data_array1_ret</span><span class="p">,</span><span class="n">data_array2_ret</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">data_arrays</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">data_array1_ret</span><span class="o">==</span><span class="n">data_array1</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">data_array2_ret</span><span class="o">==</span><span class="n">data_array2</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_array1</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">data_array2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_array1_ret</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">data_array2_ret</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+This time series object has length [100, 24]
+This time series object has dimensions 2
+This time series object has variables with names [&#39;A&#39;, &#39;B&#39;]
+
+Retrieving data array from the data object and making sure they are exactly the same:
+(100, 2) (24, 2)
+(100, 2) (24, 2)
+</pre></div></div>
+</div>
+<p>It should now be apparent that the data object length is returned as a list so that one can retrieve the individual time series length.</p>
+<p>As side notes, note that all arrays must have the same number of dimensions, otherwise the object constructor will throw an error.</p>
+</section>
+<section id="Data-object-Methods">
+<h3>Data object Methods<a class="headerlink" href="#Data-object-Methods" title="Permalink to this heading"></a></h3>
+<p>We list 2 data object methods that may be useful for users. They are: 1. var_name2index: This method takes as input variable name, and returns the index of that variable. 2. extract_array: Extract the arrays corresponding to the node names X,Y,Z, which are provided as inputs. X and Y are individual nodes, and Z is the set of nodes to be used as the conditional set. More explanation below.</p>
+<p>First we show below the usage of var_name2index:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The index of variable B is </span><span class="si">{</span><span class="n">data_obj</span><span class="o">.</span><span class="n">var_name2index</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The index of variable B is 1
+</pre></div></div>
+</div>
+<p>To understand the purpose of the extract_array method, note that in causal discovery, a typical operation is to perform conditioal independence (CI) tests, where conditioned on some set of variables Z, we want to perform independence test between two variables X and Y.</p>
+<p>To perform these CI tests, a convenient approach is to list the variables X,Y and the set Z by name and their relative time index, and then define a function which returns all the instances of the corresponding variable values. For instance, in the example below, we are interested in performing a CI test between variables X=(B,t) and Y=(A,t-2) conditioned on the variable set Z=[(A, t-1), (B, t-2)], over all the values of t in the given time series dataset. Note that we follow the naming
+conventions below: 1. X is the variable B at the current time t. Since it is always t, we drop the time index and simply pass the variable name string. 2. Y is the variable A from the time steps t-2 relative to X. We drop the character t, and specify this choice as (A,-2). 3. Each time indexed variable inside the list Z follows the same naming convention as specified above for Y.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">]</span>
+<span class="n">data_obj</span> <span class="o">=</span> <span class="n">TimeSeriesData</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="n">var_names</span><span class="p">)</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="s1">&#39;B&#39;</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)]</span>
+
+<span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">extract_array</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span> <span class="n">max_lag</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<p>To understand the outputs x,y,z above, we print below the time series and these outputs with each element labeled with their respective variable name and time index.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">data_array</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">data_arrays</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">T</span><span class="o">=</span><span class="n">data_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;data_array = [&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[A(t-</span><span class="si">{</span><span class="n">T</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="si">}</span><span class="s1">): </span><span class="si">{</span><span class="n">data_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, B(t-</span><span class="si">{</span><span class="n">T</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="si">}</span><span class="s1">): </span><span class="si">{</span><span class="n">data_array</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">],&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">)</span>
+
+
+
+<span class="n">T</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">X = </span><span class="si">{</span><span class="n">X</span><span class="si">}</span><span class="se">\n</span><span class="s1">x = [&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">X</span><span class="si">}</span><span class="s1">(t-</span><span class="si">{</span><span class="n">T</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="si">}</span><span class="s1">): </span><span class="si">{</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">],&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Y = </span><span class="si">{</span><span class="n">Y</span><span class="si">}</span><span class="se">\n</span><span class="s1">y = [&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">Y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">(t-</span><span class="si">{</span><span class="n">T</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">): </span><span class="si">{</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">],&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Z = </span><span class="si">{</span><span class="n">Z</span><span class="si">}</span><span class="se">\n</span><span class="s1">z = [&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">Z</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">(t-</span><span class="si">{</span><span class="n">T</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">Z</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">): </span><span class="si">{</span><span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">Z</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">(t-</span><span class="si">{</span><span class="n">T</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">Z</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">): </span><span class="si">{</span><span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">],&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+data_array = [
+[A(t-4): 0.08, B(t-4): 0.49],
+[A(t-3): 0.44, B(t-3): 0.08],
+[A(t-2): 0.40, B(t-2): 0.34],
+[A(t-1): 0.76, B(t-1): 0.13],
+[A(t-0): 0.54, B(t-0): 0.62],
+]
+
+X = B
+x = [
+[B(t-1): 0.13],
+[B(t-0): 0.62],
+]
+
+Y = (&#39;A&#39;, -2)
+y = [
+[A(t-3): 0.44],
+[A(t-2): 0.40],
+]
+
+Z = [(&#39;A&#39;, -1), (&#39;B&#39;, -2)]
+z = [
+[A(t-2): 0.40, B(t-3): 0.08],
+[A(t-1): 0.76, B(t-2): 0.34],
+]
+</pre></div></div>
+</div>
+<p>Notice that the number of rows in x,y,z are the same and for any given row index, their values correspond to the variable names and relative time index specified. These arrays can now be use to perform CI tests. Our causal discovery models use this method internally, but they can be used directly if needed as well.</p>
+<p>On a final note, if the specified list Z contains nodes whose relative lag is more than the value of max_lag, they will be ignored. For instance, if Z contains ('A', -4) and max_lag=3, then this node will be removed from Z prior to computing the z array.</p>
+</section>
+</section>
+<section id="Tabular-Data">
+<h2>Tabular Data<a class="headerlink" href="#Tabular-Data" title="Permalink to this heading"></a></h2>
+<p>The tabular data object behaves similarly to the time series object. The modules for the tabular case are as follows:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">causalai.data.tabular</span> <span class="kn">import</span> <span class="n">TabularData</span>
+<span class="kn">from</span> <span class="nn">causalai.data.transforms.tabular</span> <span class="kn">import</span> <span class="n">StandardizeTransform</span><span class="p">,</span> <span class="n">Heterogeneous2DiscreteTransform</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Data-Pre-processing">
+<h2>Data Pre-processing<a class="headerlink" href="#Data-Pre-processing" title="Permalink to this heading"></a></h2>
+<p>The common data pre-processing transforms for both time series and tabular data are StandardizeTransform and Heterogeneous2DiscreteTransform. They can be imported respectively as follows:</p>
+<ol class="arabic simple">
+<li><p>Time series:</p></li>
+</ol>
+<p>from causalai.data.transforms.time_series import StandardizeTransform, Heterogeneous2DiscreteTransform</p>
+<ol class="arabic simple" start="2">
+<li><p>Tabular:</p></li>
+</ol>
+<p>from causalai.data.transforms.tabular import StandardizeTransform, Heterogeneous2DiscreteTransform</p>
+<p>They function identically and may even be used interchangeably, but are supported under tabular and time_series modules for clarity.</p>
+<p><strong>StandardizeTransform</strong>: Transforms each column of the data provided as Numpy arrays to have zero mean and unit variance. Ingores NaNs. Useful for continuous data.</p>
+<p><strong>Heterogeneous2DiscreteTransform</strong>: If the user data is heterogeneous, i.e., some variables are discrete while others are continuous, the supported causal discovery algorithms will not function properly. In order to support heterogeneous data, the Heterogeneous2DiscreteTransform can be used to make all the variables discrete, and then causal discovery algorithms that support discrete data can be used. The number of states to be used for discretization can be specified in the module.</p>
+<p>In addition to the above transforms, for time series data, CausalAI also supports DifferenceTransform, which can be imported as follows:</p>
+<p>from causalai.data.transforms.time_series import DifferenceTransform</p>
+<p><strong>DifferenceTransform</strong>: Transform time series data by taking the difference between two time steps that are a certain interval apart specified by the argument order. May be used for both continuous and discrete time series data, if required.</p>
+<section id="StandardizeTransform">
+<h3>StandardizeTransform<a class="headerlink" href="#StandardizeTransform" title="Permalink to this heading"></a></h3>
+<p>Transforms each column of the data to have zero mean and unit variance.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">causalai.data.transforms.time_series</span> <span class="kn">import</span> <span class="n">StandardizeTransform</span><span class="p">,</span> <span class="n">Heterogeneous2DiscreteTransform</span>
+
+<span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="n">StandardizeTransform_</span> <span class="o">=</span> <span class="n">StandardizeTransform</span><span class="p">()</span>
+<span class="n">StandardizeTransform_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+<span class="n">data_train_trans</span> <span class="o">=</span> <span class="n">StandardizeTransform_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dimension-wise mean of the original data array: </span><span class="si">{</span><span class="n">data_array</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dimension-wise mean of the transformed data array: </span><span class="si">{</span><span class="n">data_train_trans</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s1">.&#39;</span>\
+      <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Notice that this is close to 0.&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Dimension-wise standard deviation of the original data array: </span><span class="si">{</span><span class="n">data_array</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dimension-wise standard deviation of the transformed data array: </span><span class="si">{</span><span class="n">data_train_trans</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s1">.&#39;</span>\
+      <span class="sa">f</span><span class="s1">&#39; </span><span class="se">\n</span><span class="s1">Notice that this is close to 1.&#39;</span><span class="p">)</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Dimension-wise mean of the original data array: [0.47513212 0.48655998]
+Dimension-wise mean of the transformed data array: [4.15223411e-16 2.23154828e-16].
+Notice that this is close to 0.
+
+Dimension-wise standard deviation of the original data array: [0.29770807 0.28400914]
+Dimension-wise standard deviation of the transformed data array: [0.99999944 0.99999938].
+Notice that this is close to 1.
+</pre></div></div>
+</div>
+<p>The standard transform class automatically ignores NaNs in the array:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">data_array</span><span class="p">[:</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span>
+
+<span class="n">StandardizeTransform_</span> <span class="o">=</span> <span class="n">StandardizeTransform</span><span class="p">()</span>
+<span class="n">StandardizeTransform_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+<span class="n">data_train_trans</span> <span class="o">=</span> <span class="n">StandardizeTransform_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Original Array: &#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Transformed Array: &#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_train_trans</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Below we print the mean and standard deviation of the 0th column after ignoring the 1st 2 elements:&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Dimension-wise mean of the original data array: </span><span class="si">{</span><span class="n">data_array</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dimension-wise mean of the transformed data array: </span><span class="si">{</span><span class="n">data_train_trans</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s1">.&#39;</span>\
+      <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Notice that this is close to 0.&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Dimension-wise standard deviation of the original data array: </span><span class="si">{</span><span class="n">data_array</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dimension-wise standard deviation of the transformed data array: </span><span class="si">{</span><span class="n">data_train_trans</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s1">.&#39;</span>\
+      <span class="sa">f</span><span class="s1">&#39; </span><span class="se">\n</span><span class="s1">Notice that this is close to 1.&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Original Array:
+[[       nan 0.80518464]
+ [       nan 0.45221782]
+ [0.24987259 0.61744902]
+ [0.5178477  0.48176765]
+ [0.67053628 0.14881708]
+ [0.40713205 0.33657983]
+ [0.69268823 0.39474171]
+ [0.40225941 0.28154496]
+ [0.79705495 0.89939579]
+ [0.1331715  0.94285576]]
+
+Transformed Array:
+[[        nan  1.04677208]
+ [        nan -0.32608451]
+ [-1.09081273  0.31657859]
+ [ 0.15865713 -0.2111511 ]
+ [ 0.8705881  -1.50615494]
+ [-0.3575694  -0.77585589]
+ [ 0.9738745  -0.54963655]
+ [-0.38028876 -0.9899128 ]
+ [ 1.46049832  1.41320427]
+ [-1.63494715  1.58224086]]
+
+Below we print the mean and standard deviation of the 0th column after ignoring the 1st 2 elements:
+
+Dimension-wise mean of the original data array: 0.4838203392232694
+Dimension-wise mean of the transformed data array: -1.3877787807814457e-16.
+Notice that this is close to 0.
+
+Dimension-wise standard deviation of the original data array: 0.21447081975778504
+Dimension-wise standard deviation of the transformed data array: 0.9999989129916689.
+Notice that this is close to 1.
+</pre></div></div>
+</div>
+<p>On a final note, the causal discovery algorithms automatically handles NaN instances internally as well.</p>
+</section>
+<section id="Heterogeneous2DiscreteTransform">
+<h3>Heterogeneous2DiscreteTransform<a class="headerlink" href="#Heterogeneous2DiscreteTransform" title="Permalink to this heading"></a></h3>
+<p>Transforms an array of mixed continuous and discrete variables to a discrete array. The discrete variable values are not affected by the transformation. The number of states to be used for discretization can be specified in the module.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">causalai.data.transforms.tabular</span> <span class="kn">import</span> <span class="n">Heterogeneous2DiscreteTransform</span>
+
+<span class="n">data_c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">data_d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">data_c</span><span class="p">,</span> <span class="n">data_d</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;c1&#39;</span><span class="p">,</span> <span class="s1">&#39;c2&#39;</span><span class="p">,</span> <span class="s1">&#39;d1&#39;</span><span class="p">,</span> <span class="s1">&#39;d2&#39;</span><span class="p">,</span> <span class="s1">&#39;d3&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;c1&#39;, &#39;c2&#39;, &#39;d1&#39;, &#39;d2&#39;, &#39;d3&#39;]
+[[-0.35585766  0.18792482  0.          1.          1.        ]
+ [ 1.16930377  0.2151256   0.          0.          1.        ]
+ [ 0.32261274  1.2809729   1.          0.          1.        ]
+ [-1.09150846  0.09236801  1.          0.          0.        ]
+ [-0.64023739  0.35585544  1.          1.          1.        ]
+ [-1.10937773  0.97013573  1.          0.          1.        ]
+ [-0.51653727  0.76753388  1.          0.          1.        ]
+ [ 0.71953692 -0.49171197  0.          0.          0.        ]
+ [ 2.02864175 -0.17647864  0.          1.          0.        ]
+ [-0.94696578 -0.39476729  0.          0.          1.        ]]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">discrete</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;c1&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;c2&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;d1&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;d2&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;d3&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+<span class="n">Heterogeneous2DiscreteTransform_</span> <span class="o">=</span> <span class="n">Heterogeneous2DiscreteTransform</span><span class="p">(</span><span class="n">nstates</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="c1"># specify number of states</span>
+<span class="n">Heterogeneous2DiscreteTransform_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="n">var_names</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="n">discrete</span><span class="p">)</span>
+<span class="n">data_transformed</span> <span class="o">=</span> <span class="n">Heterogeneous2DiscreteTransform_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_transformed</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">data_array</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:]</span><span class="o">==</span><span class="n">data_transformed</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:]),</span>\
+            <span class="sa">f</span><span class="s1">&#39;Something went wrong. Discrete data before and after do not match!&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[2. 2. 0. 1. 1.]
+ [4. 2. 0. 0. 1.]
+ [3. 4. 1. 0. 1.]
+ [0. 1. 1. 0. 0.]
+ [1. 3. 1. 1. 1.]
+ [0. 4. 1. 0. 1.]
+ [2. 3. 1. 0. 1.]
+ [3. 0. 0. 0. 0.]
+ [4. 1. 0. 1. 0.]
+ [1. 0. 0. 0. 1.]]
+</pre></div></div>
+</div>
+</section>
+<section id="DifferenceTransform">
+<h3>DifferenceTransform<a class="headerlink" href="#DifferenceTransform" title="Permalink to this heading"></a></h3>
+<p>Transform time series data by taking the difference between two time steps that are a certain interval apart specified by the argument order.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">causalai.data.transforms.time_series</span> <span class="kn">import</span> <span class="n">DifferenceTransform</span>
+
+<span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[ 0.71034335 -0.77817239]
+ [ 0.41208121 -0.44224965]
+ [ 0.16667321  0.42001276]
+ [-0.46039254  0.53315306]
+ [-0.8463023  -1.20623272]
+ [ 1.12214032  0.55983087]
+ [ 0.19491086  1.38217805]
+ [-0.80278812  0.86078342]
+ [-1.24378886  0.19386542]
+ [ 0.26081174 -1.33093553]]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DifferenceTransform_</span> <span class="o">=</span> <span class="n">DifferenceTransform</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># difference b/w consecutive time steps</span>
+<span class="n">DifferenceTransform_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[-0.29826214,  0.33592274],
+       [-0.245408  ,  0.86226242],
+       [-0.62706575,  0.1131403 ],
+       [-0.38590976, -1.73938578],
+       [ 1.96844262,  1.76606359],
+       [-0.92722946,  0.82234718],
+       [-0.99769898, -0.52139463],
+       [-0.44100073, -0.666918  ],
+       [ 1.5046006 , -1.52480095]])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DifferenceTransform_</span> <span class="o">=</span> <span class="n">DifferenceTransform</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># difference b/w every 2 time steps</span>
+<span class="n">DifferenceTransform_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[-0.54367014,  1.19818515],
+       [-0.87247375,  0.97540272],
+       [-1.01297551, -1.62624548],
+       [ 1.58253286,  0.0266778 ],
+       [ 1.04121316,  2.58841077],
+       [-1.92492844,  0.30095255],
+       [-1.43869972, -1.18831263],
+       [ 1.06359986, -2.19171895]])
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Prior%20Knowledge.html" class="btn btn-neutral float-left" title="Prior Knowledge" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Data%20Generator.html" class="btn btn-neutral float-right" title="Data Generator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, salesforce.com, inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

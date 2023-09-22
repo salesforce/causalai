@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to use Salesforce CausalAI Library&#39;s UI &mdash; Salesforce CausalAI Library 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Salesforce CausalAI Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Prior%20Knowledge.html">Prior Knowledge</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20objects.html">Data Object</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20Generator.html">Data Generator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_TimeSeries.html">PC algorithm for time series causal discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/LINGAM_Algorithm_Tabular.html">LINGAM for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GIN_Algorithm_Tabular.html">Generalized Independent Noise (GIN)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrowShrink_Algorithm_Tabular.html">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20TimeSeries.html">Benchmark Time Series Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Tabular%20Data.html">Causal Inference for Tabular Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Salesforce CausalAI Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">How to use Salesforce CausalAI Library's UI</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/ui_tutorial.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="how-to-use-salesforce-causalai-library-s-ui">
+<h1>How to use Salesforce CausalAI Library's UI<a class="headerlink" href="#how-to-use-salesforce-causalai-library-s-ui" title="Permalink to this heading"></a></h1>
+<section id="what-is-the-purpose-of-this-ui">
+<h2>What is the purpose of this UI?<a class="headerlink" href="#what-is-the-purpose-of-this-ui" title="Permalink to this heading"></a></h2>
+<p>The purpose of this user inferface is to allow users to be able to perform causal discovery and causal inference on a dataset without the need for coding. This UI is mainly meant for a quick exploratoration of various algorithms on either synthetic data or user uploaded data.</p>
+</section>
+<section id="data">
+<h2>Data:<a class="headerlink" href="#data" title="Permalink to this heading"></a></h2>
+<p>The UI supports generating synthetic tabular and time series data using a randomly generated causal graph, which are downloadable. The user may also upload their own data. For causal discovery, the user may only upload a data file. But for causal inference, the user must upload both a data file and the causal graph associated with the data. Our UI limits the uploadable data file size to 9MB and a maximum of 40 variables. If the user needs to perform causal analysis on a larger dataset, then they will need to use our library using their own computational resource.</p>
+<p>We provide a README and sample data files for users to understand the format which is acceptable by our UI, in case they want to upload a data file. CSV and JSON formats are supported. We similarly provide sample causal graph files (JSON format supported). The link to these files can be found on the main UI page. Look for &quot;Need an example? Download sample files here&quot;.</p>
+</section>
+<section id="algorithm">
+<h2>Algorithm:<a class="headerlink" href="#algorithm" title="Permalink to this heading"></a></h2>
+<p>We support all the causal discovery and causal inference algorithms in our library , along with prior knowledge in the UI. However, there are some important details and exceptions to this.</p>
+<ul class="simple">
+<li><p>Prior knowledge is not supported for the VARLINGAM algorithm.</p></li>
+<li><p>For time series data, existing links is not supported in prior knowledge.</p></li>
+<li><p>For the PC algorithm, we use the default setting of a maximum condition set size of 4 for conditional independence tests between any two variables.</p></li>
+<li><p>For the tabular PC algorithm, we found that the edge orientation part of the algorithm may perform poorly in some cases. This is not a problem for time series data since the temporal information helps in orienting edges. Therefore, for tabular PC, we provide two download graph buttons on the causal discovery page-- <cite>Download directed graph</cite>, and <cite>Download undirected graph</cite>. The former downloads the final directed graph that the PC algorithm outputs. The latter, on the other hand, downloads the skeleton graph prior to the edge orientation step of the PC algorithm. This is because the edge orientation step may eliminate some connections. In such cases, the undirected (skeleton) graph may be more useful. For all other algorithms, the causal discovery page only shows the <cite>Download directed graph</cite> button.</p></li>
+<li><p>For causal inference on discrete data, we only allow the use of multi-layer perceptron (MLP) as the prediction model, because linear regression performs poorly in this case.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, salesforce.com, inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

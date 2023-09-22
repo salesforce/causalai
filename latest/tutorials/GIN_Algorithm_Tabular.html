@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generalized Independent Noise (GIN) &mdash; Salesforce CausalAI Library 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Grow-Shrink Algorithm for Tabular Markov Blanket Discovery" href="GrowShrink_Algorithm_Tabular.html" />
+    <link rel="prev" title="LINGAM for Tabular Causal Discovery" href="LINGAM_Algorithm_Tabular.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Salesforce CausalAI Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="Prior%20Knowledge.html">Prior Knowledge</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Data%20objects.html">Data Object</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Data%20Generator.html">Data Generator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PC_Algorithm_TimeSeries.html">PC algorithm for time series causal discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="LINGAM_Algorithm_Tabular.html">LINGAM for Tabular Causal Discovery</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Generalized Independent Noise (GIN)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Load-and-Visualize-Data">Load and Visualize Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Example-1">Example 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Example-2">Example 2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GrowShrink_Algorithm_Tabular.html">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking%20TimeSeries.html">Benchmark Time Series Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Causal%20Inference%20Tabular%20Data.html">Causal Inference for Tabular Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Salesforce CausalAI Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Generalized Independent Noise (GIN)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/GIN_Algorithm_Tabular.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Generalized-Independent-Noise-(GIN)">
+<h1>Generalized Independent Noise (GIN)<a class="headerlink" href="#Generalized-Independent-Noise-(GIN)" title="Permalink to this heading"></a></h1>
+<p>Generalized Independent Noise (GIN) is a method for causal discovery for tabular data when there are hidden confounder variables.</p>
+<p>Let X denote the set of all the observed variables and L the set of unknown groud truth hidden variables. Then this algorithm makes the following <strong>assumptions</strong>: 1. There is no observed variable in X, that is an ancestor of any latent variables in L. 2. The noise terms are non-Gaussian. 3. Each latent variable set L' in L, in which every latent variable directly causes the same set of observed variables, has at least 2Dim(L') pure measurement variables as children. 4. There is no direct edge
+between observed variables.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">pickle</span> <span class="k">as</span> <span class="nn">pkl</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">random</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="kn">from</span> <span class="nn">causalai.models.tabular.gin</span> <span class="kn">import</span> <span class="n">GIN</span>
+<span class="kn">from</span> <span class="nn">causalai.models.common.CI_tests.partial_correlation</span> <span class="kn">import</span> <span class="n">PartialCorrelation</span>
+<span class="kn">from</span> <span class="nn">causalai.models.common.CI_tests.discrete_ci_tests</span> <span class="kn">import</span> <span class="n">DiscreteCI_tests</span>
+<span class="kn">from</span> <span class="nn">causalai.models.common.CI_tests.kci</span> <span class="kn">import</span> <span class="n">KCI</span>
+
+
+<span class="c1"># also importing data object, data transform object, and prior knowledge object, and the graph plotting function</span>
+<span class="kn">from</span> <span class="nn">causalai.data.data_generator</span> <span class="kn">import</span> <span class="n">DataGenerator</span><span class="p">,</span> <span class="n">GenerateRandomTabularSEM</span>
+<span class="kn">from</span> <span class="nn">causalai.data.tabular</span> <span class="kn">import</span> <span class="n">TabularData</span>
+<span class="kn">from</span> <span class="nn">causalai.data.transforms.time_series</span> <span class="kn">import</span> <span class="n">StandardizeTransform</span>
+<span class="kn">from</span> <span class="nn">causalai.models.common.prior_knowledge</span> <span class="kn">import</span> <span class="n">PriorKnowledge</span>
+<span class="kn">from</span> <span class="nn">causalai.misc.misc</span> <span class="kn">import</span> <span class="n">plot_graph</span><span class="p">,</span> <span class="n">get_precision_recall</span><span class="p">,</span> <span class="n">get_precision_recall_skeleton</span><span class="p">,</span> <span class="n">make_symmetric</span>
+</pre></div>
+</div>
+</div>
+<section id="Load-and-Visualize-Data">
+<h2>Load and Visualize Data<a class="headerlink" href="#Load-and-Visualize-Data" title="Permalink to this heading"></a></h2>
+<p>Load the dataset and visualize the ground truth causal graph. For the purpose of this example, we will use a synthetic dataset available in our repository.</p>
+<p>Note that the assumption of GIN restricts the way edges are allowed between the nodes. As described above, latent variables cause each other, as well as the observed variables, and there are no edges between the observed variables. Finally, the noise terms must be non-Gaussian. We generate such a graph and data below.</p>
+<section id="Example-1">
+<h3>Example 1<a class="headerlink" href="#Example-1" title="Permalink to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="k">def</span> <span class="nf">noise_fn</span><span class="p">(</span><span class="n">num_samples</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num_samples</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">noise_fn1</span><span class="p">(</span><span class="n">num_samples</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num_samples</span><span class="p">)</span>
+<span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span>
+<span class="n">coef</span> <span class="o">=</span> <span class="mf">1.</span>
+<span class="n">sem</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;L0&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;L1&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;L0&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;L0&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),],</span>
+        <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;L0&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),],</span>
+        <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;L1&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),],</span>
+        <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;L1&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),],</span>
+        <span class="p">}</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">nvars</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sem</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">noise_fn</span> <span class="o">=</span> <span class="p">[</span><span class="n">noise_fn</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span><span class="p">[</span><span class="n">noise_fn1</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">nvars</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">data_array0</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">noise_fn</span><span class="o">=</span><span class="n">noise_fn</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;data_array shape </span><span class="si">{</span><span class="n">data_array0</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">graph_gt</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+data_array shape (500, 6)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;L0&#39;: [], &#39;L1&#39;: [&#39;L0&#39;], &#39;a&#39;: [&#39;L0&#39;], &#39;b&#39;: [&#39;L0&#39;], &#39;c&#39;: [&#39;L1&#39;], &#39;d&#39;: [&#39;L1&#39;]}
+</pre></div></div>
+</div>
+<p>Now we perform the following operations:</p>
+<ol class="arabic simple">
+<li><p>Standardize the data arrays</p></li>
+<li><p>Create the data object</p></li>
+</ol>
+<p><strong>NOTE</strong>: We first remove the variables L0 and L1 from the data to treat them as hidden variables.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">data_array</span> <span class="o">=</span> <span class="n">data_array0</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:]</span> <span class="c1"># remove L0 and L1 and treat them as latent variables</span>
+
+<span class="c1"># 1.</span>
+<span class="n">StandardizeTransform_</span> <span class="o">=</span> <span class="n">StandardizeTransform</span><span class="p">()</span>
+<span class="n">StandardizeTransform_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+<span class="n">data_trans</span> <span class="o">=</span> <span class="n">StandardizeTransform_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+<span class="c1"># 2.</span>
+<span class="n">data_obj</span> <span class="o">=</span> <span class="n">TabularData</span><span class="p">(</span><span class="n">data_trans</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="n">var_names</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
+<br/></pre></div>
+</div>
+</div>
+<p>We visualize the data and graph below:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_graph</span><span class="p">(</span><span class="n">graph_gt</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_GIN_Algorithm_Tabular_11_0.png" src="../_images/tutorials_GIN_Algorithm_Tabular_11_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">pvalue_thres</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">CI_test</span> <span class="o">=</span> <span class="n">KCI</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="c1"># chunk_size refers to the max kernel size used by the KCI module and is meant to control the computational budget</span>
+<span class="c1"># chunk_size does not affect results in this case since the number of samples is 500&lt;1000 in this example</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">GIN</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data_obj</span><span class="p">,</span>
+        <span class="n">prior_knowledge</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="c1">#  prior_knowledge is not supported in GIN</span>
+        <span class="n">CI_test</span><span class="o">=</span><span class="n">CI_test</span><span class="p">,</span>
+        <span class="n">use_multiprocessing</span><span class="o">=</span><span class="kc">True</span> <span class="c1"># use_multiprocessing not supported</span>
+        <span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">pvalue_thres</span><span class="o">=</span><span class="n">pvalue_thres</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">causal_order</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[&#39;a&#39;, &#39;b&#39;], [&#39;c&#39;, &#39;d&#39;]]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Predicted parents:&#39;</span><span class="p">)</span>
+
+<span class="n">graph_est</span><span class="o">=</span><span class="p">{</span><span class="n">n</span><span class="p">:[]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">parents</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;parents&#39;</span><span class="p">]</span>
+    <span class="n">graph_est</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">parents</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">parents</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Ground truth parents:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">graph_gt</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">graph_gt</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">f1_score</span> <span class="o">=</span> <span class="n">get_precision_recall</span><span class="p">(</span><span class="n">graph_est</span><span class="p">,</span> <span class="n">graph_gt</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Precision </span><span class="si">{</span><span class="n">precision</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, Recall: </span><span class="si">{</span><span class="n">recall</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, F1 score: </span><span class="si">{</span><span class="n">f1_score</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Predicted parents:
+L0: []
+a: [&#39;L0&#39;]
+b: [&#39;L0&#39;]
+L1: [&#39;L0&#39;]
+c: [&#39;L1&#39;]
+d: [&#39;L1&#39;]
+
+
+Ground truth parents:
+L0: []
+L1: [&#39;L0&#39;]
+a: [&#39;L0&#39;]
+b: [&#39;L0&#39;]
+c: [&#39;L1&#39;]
+d: [&#39;L1&#39;]
+Precision 1.00, Recall: 1.00, F1 score: 1.00
+</pre></div></div>
+</div>
+<p><strong>Note</strong>: To avoid confusion, we note that we have used L0 and L1 as the names of the latent variables in the ground truth data variable names. The GIN algorithm implementation in the CausalAI library use the naming convention 'Li' to name the latent variables, where i an integer. This is what makes the name of the estimated latent variable names look identical to the ground truth latet variable names. There is no magic happening here.</p>
+</section>
+<section id="Example-2">
+<h3>Example 2<a class="headerlink" href="#Example-2" title="Permalink to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="k">def</span> <span class="nf">noise_fn</span><span class="p">(</span><span class="n">num_samples</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num_samples</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">noise_fn1</span><span class="p">(</span><span class="n">num_samples</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num_samples</span><span class="p">)</span>
+<span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span>
+<span class="n">coef</span> <span class="o">=</span> <span class="mf">1.4</span>
+<span class="n">sem</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;L0&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;L1&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;L0&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;L2&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;L0&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;L1&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">)],</span>
+        <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;L0&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),],</span>
+        <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;L0&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),],</span>
+        <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;L0&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),],</span>
+        <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;L1&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),],</span>
+        <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;L1&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),],</span>
+        <span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;L1&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),],</span>
+        <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;L2&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),],</span>
+        <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;L2&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),],</span>
+        <span class="s1">&#39;i&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;L2&#39;</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fn</span><span class="p">),],</span>
+        <span class="p">}</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">nvars</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sem</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">noise_fn</span> <span class="o">=</span> <span class="p">[</span><span class="n">noise_fn</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span> <span class="o">+</span><span class="p">[</span><span class="n">noise_fn1</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">nvars</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">data_array0</span><span class="p">,</span> <span class="n">var_names</span><span class="p">,</span> <span class="n">graph_gt</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">noise_fn</span><span class="o">=</span><span class="n">noise_fn</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;data_array shape </span><span class="si">{</span><span class="n">data_array0</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="c1"># print(var_names)</span>
+<span class="n">graph_gt</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+data_array shape (500, 12)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;L0&#39;: [],
+ &#39;L1&#39;: [&#39;L0&#39;],
+ &#39;L2&#39;: [&#39;L0&#39;, &#39;L1&#39;],
+ &#39;a&#39;: [&#39;L0&#39;],
+ &#39;b&#39;: [&#39;L0&#39;],
+ &#39;c&#39;: [&#39;L0&#39;],
+ &#39;d&#39;: [&#39;L1&#39;],
+ &#39;e&#39;: [&#39;L1&#39;],
+ &#39;f&#39;: [&#39;L1&#39;],
+ &#39;g&#39;: [&#39;L2&#39;],
+ &#39;h&#39;: [&#39;L2&#39;],
+ &#39;i&#39;: [&#39;L2&#39;]}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">data_array</span> <span class="o">=</span> <span class="n">data_array0</span><span class="p">[:,</span><span class="mi">3</span><span class="p">:]</span> <span class="c1"># remove L0, L1 and L2 and treat them as latent variables</span>
+
+<span class="c1"># # 1.</span>
+<span class="n">StandardizeTransform_</span> <span class="o">=</span> <span class="n">StandardizeTransform</span><span class="p">()</span>
+<span class="n">StandardizeTransform_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+<span class="n">data_trans</span> <span class="o">=</span> <span class="n">StandardizeTransform_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+<span class="c1"># 2.</span>
+<span class="n">data_obj</span> <span class="o">=</span> <span class="n">TabularData</span><span class="p">(</span><span class="n">data_trans</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="n">var_names</span><span class="p">[</span><span class="mi">3</span><span class="p">:])</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">pvalue_thres</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">CI_test</span> <span class="o">=</span> <span class="n">KCI</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">GIN</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data_obj</span><span class="p">,</span>
+        <span class="n">prior_knowledge</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="c1">#  prior_knowledge is not supported in GIN</span>
+        <span class="n">CI_test</span><span class="o">=</span><span class="n">CI_test</span><span class="p">,</span>
+        <span class="n">use_multiprocessing</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">pvalue_thres</span><span class="o">=</span><span class="n">pvalue_thres</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">causal_order</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;], [&#39;d&#39;, &#39;e&#39;, &#39;f&#39;], [&#39;g&#39;, &#39;i&#39;, &#39;h&#39;]]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Predicted parents:&#39;</span><span class="p">)</span>
+
+<span class="n">graph_est</span><span class="o">=</span><span class="p">{</span><span class="n">n</span><span class="p">:[]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">parents</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;parents&#39;</span><span class="p">]</span>
+    <span class="n">graph_est</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">parents</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">parents</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Ground truth parents:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">graph_gt</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">graph_gt</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">f1_score</span> <span class="o">=</span> <span class="n">get_precision_recall</span><span class="p">(</span><span class="n">graph_est</span><span class="p">,</span> <span class="n">graph_gt</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Precision </span><span class="si">{</span><span class="n">precision</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, Recall: </span><span class="si">{</span><span class="n">recall</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, F1 score: </span><span class="si">{</span><span class="n">f1_score</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Predicted parents:
+L0: []
+a: [&#39;L0&#39;]
+b: [&#39;L0&#39;]
+c: [&#39;L0&#39;]
+L1: [&#39;L0&#39;]
+d: [&#39;L1&#39;]
+e: [&#39;L1&#39;]
+f: [&#39;L1&#39;]
+L2: [&#39;L0&#39;, &#39;L1&#39;]
+g: [&#39;L2&#39;]
+i: [&#39;L2&#39;]
+h: [&#39;L2&#39;]
+
+
+Ground truth parents:
+L0: []
+L1: [&#39;L0&#39;]
+L2: [&#39;L0&#39;, &#39;L1&#39;]
+a: [&#39;L0&#39;]
+b: [&#39;L0&#39;]
+c: [&#39;L0&#39;]
+d: [&#39;L1&#39;]
+e: [&#39;L1&#39;]
+f: [&#39;L1&#39;]
+g: [&#39;L2&#39;]
+h: [&#39;L2&#39;]
+i: [&#39;L2&#39;]
+Precision 1.00, Recall: 1.00, F1 score: 1.00
+</pre></div></div>
+</div>
+<p><strong>Note</strong>: To avoid confusion, we note that we have used L0, L1 and L2 as the names of the latent variables in the ground truth data variable names. The GIN algorithm implementation in the CausalAI library use the naming convention 'Li' to name the latent variables, where i an integer. This is what makes the name of the estimated latent variable names look identical to the ground truth latet variable names. There is no magic happening here.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="LINGAM_Algorithm_Tabular.html" class="btn btn-neutral float-left" title="LINGAM for Tabular Causal Discovery" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="GrowShrink_Algorithm_Tabular.html" class="btn btn-neutral float-right" title="Grow-Shrink Algorithm for Tabular Markov Blanket Discovery" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, salesforce.com, inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

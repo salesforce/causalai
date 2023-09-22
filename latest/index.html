@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to Salesforce CausalAI Library&#39;s documentation! &mdash; Salesforce CausalAI Library 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Prior Knowledge" href="tutorials/Prior%20Knowledge.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            Salesforce CausalAI Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Prior%20Knowledge.html">Prior Knowledge</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20objects.html">Data Object</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20Generator.html">Data Generator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_TimeSeries.html">PC algorithm for time series causal discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/LINGAM_Algorithm_Tabular.html">LINGAM for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GIN_Algorithm_Tabular.html">Generalized Independent Noise (GIN)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrowShrink_Algorithm_Tabular.html">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20TimeSeries.html">Benchmark Time Series Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Tabular%20Data.html">Causal Inference for Tabular Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Salesforce CausalAI Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Welcome to Salesforce CausalAI Library's documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="welcome-to-salesforce-causalai-library-s-documentation">
+<h1>Welcome to Salesforce CausalAI Library's documentation!<a class="headerlink" href="#welcome-to-salesforce-causalai-library-s-documentation" title="Permalink to this heading"></a></h1>
+<p>Salesforce CausalAI is an open-source Python library for causal analysis using observational data. It supports causal discovery and causal inference for tabular and time series data, of both discrete and continuous types. This library includes algorithms that handle linear and non-linear causal relationship between variables, and uses multi-processing for speed-up. We also include a data generator capable of generating synthetic data with specified structural equation model for both the aforementioned data formats and types, that helps users control the ground-truth causal process while investigating various algorithms. Finally, we provide a user interface (UI) that allows users to perform causal analysis on data without coding. The goal of this library is to provide a fast and flexible solution for a variety of problems in the domain of causality.</p>
+</section>
+<section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h1>
+<p>Prior to installing the library, create a conda environment with Python 3.9 or a later version. This can be done by executing <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">create</span> <span class="pre">-n</span> <span class="pre">causal_ai_env</span> <span class="pre">python=3.9</span></code>. Activate this environment by executing <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">causal_ai_env</span></code>. To install Salesforce CausalAI, git clone the library, go to the root directory of the repository, and execute <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code>.</p>
+<p>Before importing and calling the library, or launching the UI, remember to first activate the conda environemnt.</p>
+</section>
+<section id="user-inferface-ui">
+<h1>User Inferface (UI)<a class="headerlink" href="#user-inferface-ui" title="Permalink to this heading"></a></h1>
+<p>We provide an online UI for users to directly upload their data and run causal discovery and causal inference algorithms without the need to write any code. An introduction to the UI can be found <a class="reference internal" href="ui_tutorial.html"><span class="doc">here</span></a>.</p>
+<p>In order to launch the UI, go to the root directory of the library and execute <code class="docutils literal notranslate"><span class="pre">./launch_ui.sh</span></code>, and open the url specified in the terminal in a browser. In order to terminate the UI, press Ctrl+c in the terminal where the UI was launched, and then execute <code class="docutils literal notranslate"><span class="pre">./exit_ui.sh</span></code>.</p>
+</section>
+<section id="contents">
+<h1>Contents<a class="headerlink" href="#contents" title="Permalink to this heading"></a></h1>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="models.common.prior_knowledge.html"><span class="doc">Prior Knowledge</span></a></p></li>
+<li><dl class="simple">
+<dt>Data Layer</dt><dd><ul class="simple">
+<li><p><a class="reference internal" href="data.base.html"><span class="doc">Base Data Class</span></a></p></li>
+<li><p><a class="reference internal" href="data.time_series.html"><span class="doc">Time Series Data Class</span></a></p></li>
+<li><p><a class="reference internal" href="data.tabular.html"><span class="doc">Tabular Data Class</span></a></p></li>
+<li><p><a class="reference internal" href="data.data_generator.html"><span class="doc">Data Generator</span></a></p></li>
+<li><dl class="simple">
+<dt>Transform</dt><dd><ul>
+<li><p><a class="reference internal" href="data.transforms.base.html"><span class="doc">Base Transform Class</span></a></p></li>
+<li><p><a class="reference internal" href="data.transforms.tabular.html"><span class="doc">Tabular Transform Class</span></a></p></li>
+<li><p><a class="reference internal" href="data.transforms.time_series.html"><span class="doc">Time Series Transform Class</span></a></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Causal Discovery</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>Time Series</dt><dd><ul>
+<li><p><a class="reference internal" href="models.time_series.base.html"><span class="doc">Base Class</span></a></p></li>
+<li><p><a class="reference internal" href="models.time_series.pc.html"><span class="doc">PC Algorithm</span></a></p></li>
+<li><p><a class="reference internal" href="models.time_series.granger.html"><span class="doc">Granger Causality</span></a></p></li>
+<li><p><a class="reference internal" href="models.time_series.var_lingam.html"><span class="doc">VARLINGAM</span></a></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Tabular</dt><dd><ul>
+<li><p><a class="reference internal" href="models.tabular.base.html"><span class="doc">Base Class</span></a></p></li>
+<li><p><a class="reference internal" href="models.tabular.pc.html"><span class="doc">PC Algorithm</span></a></p></li>
+<li><p><a class="reference internal" href="models.tabular.ges.html"><span class="doc">GES</span></a></p></li>
+<li><p><a class="reference internal" href="models.tabular.lingam.html"><span class="doc">LINGAM</span></a></p></li>
+<li><p><a class="reference internal" href="models.tabular.gin.html"><span class="doc">GIN</span></a></p></li>
+<li><p><a class="reference internal" href="models.tabular.grow_shrink.html"><span class="doc">Grow-Shrink</span></a> (Markov Blanket Discovery)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Causal Inference</dt><dd><ul class="simple">
+<li><p><a class="reference internal" href="models.time_series.causal_inference.html"><span class="doc">Time Series Causal Inference</span></a></p></li>
+<li><p><a class="reference internal" href="models.tabular.causal_inference.html"><span class="doc">Tabular Causal Inference</span></a></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Applications</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>Tabular</dt><dd><ul>
+<li><p><a class="reference internal" href="application.tabular_distribution_shift_detector.html"><span class="doc">Tabular Distribution Shift Detector Class</span></a></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Time Series</dt><dd><ul>
+<li><p><span class="xref std std-doc">Root Cause Detector Class</span></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Benchmarking</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>Tabular</dt><dd><ul>
+<li><p><a class="reference internal" href="benchmark.tabular.base.html"><span class="doc">Base Class</span></a></p></li>
+<li><p><a class="reference internal" href="benchmark.tabular.continuous.html"><span class="doc">Continuous Class</span></a></p></li>
+<li><p><a class="reference internal" href="benchmark.tabular.discrete.html"><span class="doc">Discrete Class</span></a></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Time Series</dt><dd><ul>
+<li><p><a class="reference internal" href="benchmark.time_series.base.html"><span class="doc">Base Class</span></a></p></li>
+<li><p><a class="reference internal" href="benchmark.time_series.continuous.html"><span class="doc">Continuous Class</span></a></p></li>
+<li><p><a class="reference internal" href="benchmark.time_series.discrete.html"><span class="doc">Discrete Class</span></a></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Other</dt><dd><ul class="simple">
+<li><p><a class="reference internal" href="misc.misc.html"><span class="doc">Misc</span></a> (plotting and evaluation)</p></li>
+<li><dl class="simple">
+<dt>CI Tests for PC Algorithm</dt><dd><ul>
+<li><p><a class="reference internal" href="models.common.CI_tests.discrete_ci_tests.html"><span class="doc">Discrete CI Tests</span></a></p></li>
+<li><p><a class="reference internal" href="models.common.CI_tests.kci.html"><span class="doc">KCI Tests</span></a></p></li>
+<li><p><a class="reference internal" href="models.common.CI_tests.partial_correlation.html"><span class="doc">Partial Correlation</span></a></p></li>
+<li><p><a class="reference internal" href="models.common.CI_tests.kernels.html"><span class="doc">Kernels</span></a></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+</section>
+<section id="tutorials">
+<h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this heading"></a></h1>
+<ol class="arabic simple">
+<li><p>Prior Knowledge</p></li>
+</ol>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Prior%20Knowledge.html">Prior Knowledge</a></li>
+</ul>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Data</p></li>
+</ol>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20objects.html">Data Object</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20Generator.html">Data Generator</a></li>
+</ul>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Causal Discovery for Time Series</p></li>
+</ol>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_TimeSeries.html">PC algorithm for time series causal discovery</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Causal Discovery for Tabular Data</p></li>
+</ol>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/LINGAM_Algorithm_Tabular.html">LINGAM for Tabular Causal Discovery</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GIN_Algorithm_Tabular.html">Generalized Independent Noise (GIN)</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrowShrink_Algorithm_Tabular.html">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a></li>
+</ul>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>Benchmarking</p></li>
+</ol>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20TimeSeries.html">Benchmark Time Series Causal Discovery Algorithms</a></li>
+</ul>
+</div>
+<ol class="arabic simple" start="6">
+<li><p>Causal Inference</p></li>
+</ol>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Tabular%20Data.html">Causal Inference for Tabular Data</a></li>
+</ul>
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorials/Prior%20Knowledge.html" class="btn btn-neutral float-right" title="Prior Knowledge" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, salesforce.com, inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

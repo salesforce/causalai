@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prior Knowledge &mdash; Salesforce CausalAI Library 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data Object" href="Data%20objects.html" />
+    <link rel="prev" title="Welcome to Salesforce CausalAI Library&#39;s documentation!" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Salesforce CausalAI Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Prior Knowledge</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Tabular-Data">Tabular Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Time-Series-Data">Time Series Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#PriorKnowledge:-Useful-methods">PriorKnowledge: Useful methods</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Data%20objects.html">Data Object</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Data%20Generator.html">Data Generator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PC_Algorithm_TimeSeries.html">PC algorithm for time series causal discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="LINGAM_Algorithm_Tabular.html">LINGAM for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GIN_Algorithm_Tabular.html">Generalized Independent Noise (GIN)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GrowShrink_Algorithm_Tabular.html">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking%20TimeSeries.html">Benchmark Time Series Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Causal%20Inference%20Tabular%20Data.html">Causal Inference for Tabular Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Salesforce CausalAI Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Prior Knowledge</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/Prior Knowledge.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Prior-Knowledge">
+<h1>Prior Knowledge<a class="headerlink" href="#Prior-Knowledge" title="Permalink to this heading"></a></h1>
+<p>When performing causal discovery, a user may have some domain knowledge which may allow them to specify one or multiple of the following: 1. A directional link between certain pairs of nodes are forbidden. 2. A directional link exists between certain pairs of nodes. 3. Nodes that are root variables, i.e., they have no parents (incoming causal links). 4. Nodes that are leaf variables, i.e., they have no children (no outgoing links). 5. Two nodes are co-parents (used for Markov Blanket discovery
+only).</p>
+<p>To allow such user specifications, we support the <strong>PriorKnowledge</strong> class which can be initialized with the relevant prior knowledge about the graph. If a PriorKnowledge instance is created, it can be passed to the causal discovery algorithm being used, where it will enforce these conditions. Note that specifying the PriorKnowledge object is optional and not needed if the user has no prior knowledge about the variables.</p>
+<p>The reason for supporting this functionality is that it helps improve the accuracy of the discovered causal graph, which may otherwise contain spurious or missing links due to many possible reasons such as insufficient data or data violating the causal model assumption.</p>
+<p>We begin by importing the PriorKnowledge class object.</p>
+<p><strong>Note:</strong> For example usage of prior knowledge in causal discovery algorithms, see the Tabular PC tutorial and the Grow-Shrink tutorial.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">causalai.models.common.prior_knowledge</span> <span class="kn">import</span> <span class="n">PriorKnowledge</span>
+</pre></div>
+</div>
+</div>
+<section id="Tabular-Data">
+<h2>Tabular Data<a class="headerlink" href="#Tabular-Data" title="Permalink to this heading"></a></h2>
+<p>We now show an example of how to specify prior knowledge. For this example, consider a tabular data which has 4 variables named A,B,C, and D. Suppose we want to specify that the links C-&gt;A, C-&gt;B, and D-&gt;C are forbidden (read as: C causes A, C causes B, and D causes C are forbidden). This can be done as follows.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">forbidden_links</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]}</span>
+<span class="n">prior_knowledge</span> <span class="o">=</span> <span class="n">PriorKnowledge</span><span class="p">(</span><span class="n">forbidden_links</span><span class="o">=</span><span class="n">forbidden_links</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Suppose that we additionally wanted to specify that the link A-&gt;B exists. This can be done as follows:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">forbidden_links</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]}</span>
+<span class="n">existing_links</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]}</span>
+<span class="n">prior_knowledge</span> <span class="o">=</span> <span class="n">PriorKnowledge</span><span class="p">(</span><span class="n">forbidden_links</span><span class="o">=</span><span class="n">forbidden_links</span><span class="p">,</span> <span class="n">existing_links</span><span class="o">=</span><span class="n">existing_links</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Notice that: 1. forbidden_links and existing_links are specified as dictionaries. 2. if an argument (E.g. existing_links) is not specified, it is assumed to be empty. This holds true for all the four arguments of PriorKnowledge: root_variables, leaf_variables, forbidden_links, existing_links.</p>
+<p>Below we show how to specify root_variables and leaf_variables. Note that they are specified as lists.</p>
+<p>For this example, suppose we want to specify that D is a leaf variable and A is a root variable.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">root_variables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span>
+<span class="n">leaf_variables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span>
+<span class="n">prior_knowledge</span> <span class="o">=</span> <span class="n">PriorKnowledge</span><span class="p">(</span><span class="n">root_variables</span><span class="o">=</span><span class="n">root_variables</span><span class="p">,</span> <span class="n">leaf_variables</span><span class="o">=</span><span class="n">leaf_variables</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<p>PriorKnowledge also allow specification of existing and forbidden co-parents, which is used only for Markov Blanket discovery. Furthermore, PriorKnowledge attempts to deduce additional information about co-parents from other provided information (unless the user explicitly sets fix_co_parents as False) as follows:</p>
+<ol class="arabic simple">
+<li><p>If existing_links implies some co-parent relationships, those will be added to existing_co_parents</p></li>
+<li><p>If leaf_variables forbids some co-parent relationships, those will be added as forbidden_co_parents for any variable for which this fix is requested by passing it to var_names.</p></li>
+</ol>
+<p>Because co-parenting is a symmetric relationship, information implied by this symmetry is also added. This happens regardless of the value of fix_co_parents.</p>
+<p>Note that the expansion is not guaranteed to include all implications.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">forbidden_links</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]}</span>
+<span class="n">existing_links</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;E&#39;</span><span class="p">]}</span>
+<span class="n">root_variables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span>
+<span class="n">leaf_variables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span>
+<span class="n">existing_co_parents</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;E&#39;</span><span class="p">]}</span>
+<span class="n">forbidden_co_parents</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]}</span>
+<span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;E&#39;</span><span class="p">,</span><span class="s1">&#39;F&#39;</span><span class="p">]</span>
+<span class="c1"># var_names: This is used only to expand forbidden_co_parents using the leaf_variables information in prior knowledge.</span>
+<span class="c1"># var_names: we recommend adding any variable for which you’d like to compute a markov blanket.</span>
+
+<span class="n">prior_knowledge</span> <span class="o">=</span> <span class="n">PriorKnowledge</span><span class="p">(</span><span class="n">root_variables</span><span class="o">=</span><span class="n">root_variables</span><span class="p">,</span> <span class="n">leaf_variables</span><span class="o">=</span><span class="n">leaf_variables</span><span class="p">,</span>
+                                 <span class="n">existing_links</span><span class="o">=</span><span class="n">existing_links</span><span class="p">,</span> <span class="n">forbidden_links</span><span class="o">=</span><span class="n">forbidden_links</span><span class="p">,</span>
+                                 <span class="n">existing_co_parents</span><span class="o">=</span><span class="n">existing_co_parents</span><span class="p">,</span> <span class="n">forbidden_co_parents</span><span class="o">=</span><span class="n">forbidden_co_parents</span><span class="p">,</span>
+                                 <span class="n">var_names</span><span class="o">=</span><span class="n">var_names</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;existing_co_parents: </span><span class="si">{</span><span class="n">prior_knowledge</span><span class="o">.</span><span class="n">existing_co_parents</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;forbidden_co_parents: </span><span class="si">{</span><span class="n">prior_knowledge</span><span class="o">.</span><span class="n">forbidden_co_parents</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+existing_co_parents: {&#39;B&#39;: [&#39;E&#39;], &#39;A&#39;: [&#39;E&#39;], &#39;E&#39;: [&#39;B&#39;, &#39;A&#39;]}
+forbidden_co_parents: {&#39;B&#39;: [&#39;C&#39;], &#39;E&#39;: [&#39;D&#39;], &#39;F&#39;: [&#39;D&#39;], &#39;C&#39;: [&#39;B&#39;], &#39;D&#39;: [&#39;E&#39;, &#39;F&#39;]}
+</pre></div></div>
+</div>
+<p>Since the links A -&gt; B and E -&gt; B exist, PriorKnowledge deduces that A and E are co-parents. Since D is a leaf variable, it cannot be a co-parent, and so it can be added as a forbidden co-parent for any variable we want (which we specified in var_names).</p>
+</section>
+<section id="Time-Series-Data">
+<h2>Time Series Data<a class="headerlink" href="#Time-Series-Data" title="Permalink to this heading"></a></h2>
+<p>For time series data, PriorKnowledge can be specified in the same format as shown above for tabular data. This means that the PriorKnowledge for time series is time index agnostic.</p>
+</section>
+<section id="PriorKnowledge:-Useful-methods">
+<h2>PriorKnowledge: Useful methods<a class="headerlink" href="#PriorKnowledge:-Useful-methods" title="Permalink to this heading"></a></h2>
+<p>Finally, we describe the class method <strong>isValid(parent, child)</strong> of PriorKnowledge, which is used internally by our causal discovery algorithms, but optionally may be of use to users.</p>
+<p>This method essentially takes the name or index of 2 nodes as input, and outputs whether this causal link is allowed by the PriorKnowledge instance or not. If PriorKnowledge does not specify anything about this causal link, or PriorKnowledge is not instantiated using any arguments at all, the output will be always True.</p>
+<p>Let’s use all the conditions specified in the above examples in the example below:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">forbidden_links</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]}</span> <span class="c1"># C cannot be a parent of A and B, and D cannot be a parent of C</span>
+<span class="n">existing_links</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]}</span> <span class="c1"># A is a parent of B</span>
+<span class="n">root_variables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span>
+<span class="n">leaf_variables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span>
+<span class="n">prior_knowledge</span> <span class="o">=</span> <span class="n">PriorKnowledge</span><span class="p">(</span><span class="n">forbidden_links</span><span class="o">=</span><span class="n">forbidden_links</span><span class="p">,</span>
+                                 <span class="n">existing_links</span><span class="o">=</span><span class="n">existing_links</span><span class="p">,</span>
+                                 <span class="n">root_variables</span><span class="o">=</span><span class="n">root_variables</span><span class="p">,</span>
+                                 <span class="n">leaf_variables</span><span class="o">=</span><span class="n">leaf_variables</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is the link C-&gt;A allowed? </span><span class="si">{</span><span class="n">prior_knowledge</span><span class="o">.</span><span class="n">isValid</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;A&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="c1"># specified as forbidden above</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is the link C-&gt;B allowed? </span><span class="si">{</span><span class="n">prior_knowledge</span><span class="o">.</span><span class="n">isValid</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;B&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="c1"># specified as forbidden above</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is the link D-&gt;C allowed? </span><span class="si">{</span><span class="n">prior_knowledge</span><span class="o">.</span><span class="n">isValid</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;C&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="c1"># specified as forbidden above</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Is the link A-&gt;B allowed? </span><span class="si">{</span><span class="n">prior_knowledge</span><span class="o">.</span><span class="n">isValid</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;B&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="c1"># specified as existing above</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Is the link B-&gt;A allowed? </span><span class="si">{</span><span class="n">prior_knowledge</span><span class="o">.</span><span class="n">isValid</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;A&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="c1"># A specified as root, thus cannot be a child</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is the link D-&gt;B allowed? </span><span class="si">{</span><span class="n">prior_knowledge</span><span class="o">.</span><span class="n">isValid</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;B&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="c1"># D specified as leaf, thus cannot be a parent</span>
+
+
+<span class="c1"># nothing specified, hence allowed. Note index of B=1, and index of C=2. Just to show that we can use variable indices</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Is the link B-&gt;C allowed? </span><span class="si">{</span><span class="n">prior_knowledge</span><span class="o">.</span><span class="n">isValid</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Is the link C-&gt;A allowed? False
+Is the link C-&gt;B allowed? False
+Is the link D-&gt;C allowed? False
+
+Is the link A-&gt;B allowed? True
+
+Is the link B-&gt;A allowed? False
+Is the link D-&gt;B allowed? False
+
+Is the link B-&gt;C allowed? True
+</pre></div></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to Salesforce CausalAI Library&#39;s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Data%20objects.html" class="btn btn-neutral float-right" title="Data Object" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, salesforce.com, inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

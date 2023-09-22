@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Base Tabular Benchmarking module &mdash; Salesforce CausalAI Library 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Salesforce CausalAI Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Prior%20Knowledge.html">Prior Knowledge</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20objects.html">Data Object</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data%20Generator.html">Data Generator</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_TimeSeries.html">PC algorithm for time series causal discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrangerAlgorithm_TimeSeries.html">Ganger Causality for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/VARLINGAM_Algorithm_TimeSeries.html">VARLINGAM for Time Series Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/PC_Algorithm_Tabular.html">PC Algorithm for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GES_Algorithm_Tabular.html">GES for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/LINGAM_Algorithm_Tabular.html">LINGAM for Tabular Causal Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GIN_Algorithm_Tabular.html">Generalized Independent Noise (GIN)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/GrowShrink_Algorithm_Tabular.html">Grow-Shrink Algorithm for Tabular Markov Blanket Discovery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20Tabular.html">Benchmark Tabular Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Benchmarking%20TimeSeries.html">Benchmark Time Series Causal Discovery Algorithms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Time%20Series%20Data.html">Causal Inference for Time Series</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Causal%20Inference%20Tabular%20Data.html">Causal Inference for Tabular Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Salesforce CausalAI Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Base Tabular Benchmarking module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/benchmark.tabular.base.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-causalai.benchmark.tabular">
+<span id="base-tabular-benchmarking-module"></span><h1>Base Tabular Benchmarking module<a class="headerlink" href="#module-causalai.benchmark.tabular" title="Permalink to this heading"></a></h1>
+<section id="module-causalai.benchmark.tabular.base">
+<span id="causalai-benchmark-tabular-base"></span><h2>causalai.benchmark.tabular.base<a class="headerlink" href="#module-causalai.benchmark.tabular.base" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="causalai.benchmark.tabular.base.BenchmarkTabularBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">causalai.benchmark.tabular.base.</span></span><span class="sig-name descname"><span class="pre">BenchmarkTabularBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">algo_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kargs_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_exp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metric_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.benchmark.tabular.base.BenchmarkTabularBase" title="Permalink to this definition"></a></dt>
+<dd><p>Base class for the tabular data benchmarking module for both continuous and discrete cases. This class defines 
+methods for aggregating and plotting results, and a method for benchmarking on a user provided list of datasets.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.benchmark.tabular.base.BenchmarkTabularBase.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">algo_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kargs_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_exp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metric_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.benchmark.tabular.base.BenchmarkTabularBase.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Base tabular data benchmarking module</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>algo_dict</strong> (<em>Dict</em>) -- <p>A Python dictionary where keys are names of causal discovery algorithms, and 
+values are the unistantiated class objects for the corresponding algorithm. Note that this class 
+must be inherited from the <cite>BaseTabularAlgoFull</cite> class that can be found in causalai.models.tabular.base.
+Crucially, this class constructor must take a <cite>TabularData</cite> object (found in causalai.data.tabular) as input, 
+and should have a <cite>run</cite> method which performs the causal discovery and returns a Python dictionary. The keys of this 
+dictionary should be of the form:</p>
+<dl class="simple">
+<dt>{</dt><dd><p>var_name1: {'parents': [par(var_name1)]},
+var_name2: {'parents': [par(var_name2)]}</p>
+</dd>
+</dl>
+<p>}</p>
+<p>where par(.) denotes the parent variable name of the argument variable name.</p>
+</p></li>
+<li><p><strong>kargs_dict</strong> (<em>Dict</em>) -- A Python dictionary where keys are names of causal discovery algorithms (same as algo_dict), 
+and the corresponding values contain any arguments to be passed to the <cite>run</cite> method of the class object specified in 
+algo_dict.</p></li>
+<li><p><strong>num_exp</strong> (<em>int</em>) -- The number of independent runs to perform per experiment, each with a different random seed. A different 
+random seed generates a different synthetic graph and data for any given configuration. Note that for use provided data, 
+num_exp is not used.</p></li>
+<li><p><strong>custom_metric_dict</strong> (<em>Dict</em>) -- A Python dictionary for specifying custom metrics in addition to the default evaluation metrics 
+calculated for each experiment (precision, recall, F1 score, and time taken). The keys of this dictionary are the names 
+of the user specified metrics, and the corresponding values are callable functions that take as input (graph_est, graph_gt). 
+Here graph_est and graph_gt are the estimated and ground truth causal graph. These graphs are specified as Python Dictionaries, 
+where keys are the children names, and the corresponding values are lists of parent variable names.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.benchmark.tabular.base.BenchmarkTabularBase.aggregate_results">
+<span class="sig-name descname"><span class="pre">aggregate_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.benchmark.tabular.base.BenchmarkTabularBase.aggregate_results" title="Permalink to this definition"></a></dt>
+<dd><p>This method aggregates the causal discovery results generated by one of the benchmarking methods (which must be run first), 
+and produces a result mean and a result standard deviation array. Both these arrays have shape (num_algorithms x num_variants), 
+where num_algorithms is the number of causal discovery algorithms specified in the benchmarking module, and num_variants is 
+the number of configurations of the argument being varied (e.g. in benchmark_variable_complexity, the number of variables 
+specified). Note that for the bechmark_custom_dataset, num_variants=1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>metric_name</strong> (<em>str</em>) -- String specifying which metric (E.g. Precision) to aggregate from the generated results.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.benchmark.tabular.base.BenchmarkTabularBase.bechmark_custom_dataset">
+<span class="sig-name descname"><span class="pre">bechmark_custom_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.benchmark.tabular.base.BenchmarkTabularBase.bechmark_custom_dataset" title="Permalink to this definition"></a></dt>
+<dd><p>This module helps evaluate the performance of one or more causal discovery algorithms on user provided data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_list</strong> (<em>List</em><em>[</em><em>Tuple</em><em>]</em>) -- The data must be a list of tuples, where each tuple contains the triplet (data_array, var_names, graph_gt), 
+where data_array is a 2D Numpy data array of shape (samples x variables), var_names is a list of variable names, 
+and graph_gt is the ground truth causal graph in the form of a Python dictionary, where keys are the variable names, 
+and the corresponding values are a list of parent names.</p></li>
+<li><p><strong>discrete</strong> -- Specify if all the datasets contain discrete or continuous variables. This information is only used to 
+decide whether to standardize the data arrays or not. If discrete is False, all the data arrays are standardized.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.benchmark.tabular.base.BenchmarkTabularBase.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'f1_score'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xaxis_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.benchmark.tabular.base.BenchmarkTabularBase.plot" title="Permalink to this definition"></a></dt>
+<dd><p>This method plots the aggregated results for <cite>metric_name</cite>. Y-axis is the metric_name, and x-axis can be one of two 
+things-- algorithm names, or the variant values, depending on the specified value of xaxis_mode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metric_name</strong> (<em>str</em>) -- String specifying which metric (E.g. Precision) to aggregate from the generated results.</p></li>
+<li><p><strong>xaxis_mode</strong> (<em>int</em>) -- Integer (0 or 1) specifying what to plot on the x-axis. When 0, x-axis is algorithm names,
+and when 1, x-axis is the values of the variant. Variant denotes the configurations of the argument being 
+varied (e.g. in benchmark_variable_complexity, the number of variables).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-0"></span><dl class="py class">
+<dt class="sig sig-object py" id="causalai.benchmark.tabular.base.BenchmarkContinuousTabularBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">causalai.benchmark.tabular.base.</span></span><span class="sig-name descname"><span class="pre">BenchmarkContinuousTabularBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">algo_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kargs_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_exp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metric_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.benchmark.tabular.base.BenchmarkContinuousTabularBase" title="Permalink to this definition"></a></dt>
+<dd><p>Base class for the tabular data benchmarking module for the continuous case. This class inherits the methods and 
+variables from BenchmarkTabularBase, and defines 
+the dictionaries of default causal discovery algorithms and their default respective arguments.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.benchmark.tabular.base.BenchmarkContinuousTabularBase.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">algo_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kargs_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_exp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metric_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.benchmark.tabular.base.BenchmarkContinuousTabularBase.__init__" title="Permalink to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Benchmarking module for continuous tabular data.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>algo_dict</strong> (<em>Dict</em>) -- <p>A Python dictionary where keys are names of causal discovery algorithms, and 
+values are the unistantiated class objects for the corresponding algorithm. Note that this class 
+must be inherited from the <cite>BaseTabularAlgoFull</cite> class that can be found in causalai.models.tabular.base.
+Crucially, this class constructor must take a <cite>TabularData</cite> object (found in causalai.data.tabular) as input, 
+and should have a <cite>run</cite> method which performs the causal discovery and returns a Python dictionary. The keys of this 
+dictionary should be of the form:</p>
+<dl class="simple">
+<dt>{</dt><dd><p>var_name1: {'parents': [par(var_name1)]},
+var_name2: {'parents': [par(var_name2)]}</p>
+</dd>
+</dl>
+<p>}</p>
+<p>where par(.) denotes the parent variable name of the argument variable name.</p>
+</p></li>
+<li><p><strong>kargs_dict</strong> (<em>Dict</em>) -- A Python dictionary where keys are names of causal discovery algorithms (same as algo_dict), 
+and the corresponding values contain any arguments to be passed to the <cite>run</cite> method of the class object specified in 
+algo_dict.</p></li>
+<li><p><strong>num_exp</strong> (<em>int</em>) -- The number of independent runs to perform per experiment, each with a different random seed. A different 
+random seed generates a different synthetic graph and data for any given configuration. Note that for use provided data, 
+num_exp is not used.</p></li>
+<li><p><strong>custom_metric_dict</strong> (<em>Dict</em>) -- A Python dictionary for specifying custom metrics in addition to the default evaluation metrics 
+calculated for each experiment (precision, recall, F1 score, and time taken). The keys of this dictionary are the names 
+of the user specified metrics, and the corresponding values are callable functions that take as input (graph_est, graph_gt). 
+Here graph_est and graph_gt are the estimated and ground truth causal graph. These graphs are specified as Python Dictionaries, 
+where keys are the children names, and the corresponding values are lists of parent variable names.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-1"></span><dl class="py class">
+<dt class="sig sig-object py" id="causalai.benchmark.tabular.base.BenchmarkDiscreteTabularBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">causalai.benchmark.tabular.base.</span></span><span class="sig-name descname"><span class="pre">BenchmarkDiscreteTabularBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">algo_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kargs_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_exp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metric_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.benchmark.tabular.base.BenchmarkDiscreteTabularBase" title="Permalink to this definition"></a></dt>
+<dd><p>Base class for the tabular data benchmarking module for the discrete case. This class inherits the methods and 
+variables from BenchmarkTabularBase, and defines 
+the dictionaries of default causal discovery algorithms and their default respective arguments.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="causalai.benchmark.tabular.base.BenchmarkDiscreteTabularBase.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">algo_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kargs_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_exp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metric_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#causalai.benchmark.tabular.base.BenchmarkDiscreteTabularBase.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Benchmarking module for discrete tabular data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>algo_dict</strong> (<em>Dict</em>) -- <p>A Python dictionary where keys are names of causal discovery algorithms, and 
+values are the unistantiated class objects for the corresponding algorithm. Note that this class 
+must be inherited from the <cite>BaseTabularAlgoFull</cite> class that can be found in causalai.models.tabular.base.
+Crucially, this class constructor must take a <cite>TabularData</cite> object (found in causalai.data.tabular) as input, 
+and should have a <cite>run</cite> method which performs the causal discovery and returns a Python dictionary. The keys of this 
+dictionary should be of the form:</p>
+<dl class="simple">
+<dt>{</dt><dd><p>var_name1: {'parents': [par(var_name1)]},
+var_name2: {'parents': [par(var_name2)]}</p>
+</dd>
+</dl>
+<p>}</p>
+<p>where par(.) denotes the parent variable name of the argument variable name.</p>
+</p></li>
+<li><p><strong>kargs_dict</strong> (<em>Dict</em>) -- A Python dictionary where keys are names of causal discovery algorithms (same as algo_dict), 
+and the corresponding values contain any arguments to be passed to the <cite>run</cite> method of the class object specified in 
+algo_dict.</p></li>
+<li><p><strong>num_exp</strong> (<em>int</em>) -- The number of independent runs to perform per experiment, each with a different random seed. A different 
+random seed generates a different synthetic graph and data for any given configuration. Note that for use provided data, 
+num_exp is not used.</p></li>
+<li><p><strong>custom_metric_dict</strong> (<em>Dict</em>) -- A Python dictionary for specifying custom metrics in addition to the default evaluation metrics 
+calculated for each experiment (precision, recall, F1 score, and time taken). The keys of this dictionary are the names 
+of the user specified metrics, and the corresponding values are callable functions that take as input (graph_est, graph_gt). 
+Here graph_est and graph_gt are the estimated and ground truth causal graph. These graphs are specified as Python Dictionaries, 
+where keys are the children names, and the corresponding values are lists of parent variable names.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, salesforce.com, inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
