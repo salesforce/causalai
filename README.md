@@ -10,6 +10,9 @@
 
 ## Table of Contents
 1. [Introduction](#introduction)
+1. [Comparison with Related Libraries](#comparison-with-related-libraries)
+1. [Causal Discovery](#causal-discovery)
+1. [Causal Inference](#causal-inference)
 1. [Installation](#installation)
 1. [Quick Tutorial](#quick-tutorial)
 1. [User Inferface](#user-inferface)
